@@ -1,0 +1,12 @@
+{
+  "departments": [
+    {
+      "id": "eecs",
+      "university": "university_06",
+      "name": "Electrical Engineering and Computer Sciences",
+      "website_url": "https://eecs.berkeley.edu/",
+      "description": "Official EECS graduate admissions pages describe M.S., M.S./Ph.D., and Ph.D. programs in Electrical Engineering (EECS) and Computer Science (CS). Official faculty directory lists research interests including Artificial Intelligence, Control, Intelligent Systems, and Robotics, and computer vision.",
+      "source_url": "https://eecs.berkeley.edu/academics/graduate/research-programs/admissions/"
+    }
+  ]
+}

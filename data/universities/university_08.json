@@ -1,0 +1,10 @@
+{
+  "id": "university_08",
+  "name": "ETH Zurich",
+  "country": "Switzerland",
+  "city": "Zurich",
+  "website_url": "https://ethz.ch/en.html",
+  "description": "Official ETH Zurich Department of Computer Science (D-INFK) faculty listings include professors whose published research keywords cover machine learning, natural language processing, computer vision, trustworthy machine learning, medical data science, and related areas. Official D-INFK doctoral admissions materials state that application and admission are possible at any time with no deadlines.",
+  "is_active": true,
+  "source_url": "https://inf.ethz.ch/people/faculty/faculty.html"
+}

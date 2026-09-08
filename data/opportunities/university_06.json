@@ -1,0 +1,26 @@
+{
+  "opportunities": [
+    {
+      "id": "eecs-phd",
+      "university": "university_06",
+      "professor": null,
+      "lab": null,
+      "title": "Ph.D. in Electrical Engineering and Computer Sciences / Computer Science",
+      "opportunity_type": "phd",
+      "description": "Official Berkeley EECS graduate admissions page states that the Fall 2026 admission application is closed and the next cycle is Fall 2027, with the application reopening in September 2026. Official Graduate Division listing gives application deadline 1 December 2026. Official timeline: admissions decisions late February and early March; SIR deadline 15 April. GRE scores are not required or accepted.",
+      "eligibility": "Official minimum requirements: a bachelor's degree or recognized equivalent (final-year students who will earn the degree by mid-August of the following year may apply); minimum GPA 3.0 on a 4.0 scale where applicable; three letters of recommendation. International applicants must meet English proficiency requirements when the prior degree is from a non-English-speaking country.",
+      "international_eligible": true,
+      "undergraduate_eligible": true,
+      "funding_type": null,
+      "stipend_amount": null,
+      "tuition_coverage": null,
+      "accommodation_coverage": null,
+      "travel_coverage": null,
+      "application_deadline": "2026-12-01",
+      "start_date": null,
+      "official_url": "https://eecs.berkeley.edu/academics/graduate/research-programs/admissions/",
+      "status": "open",
+      "source_url": "https://grad.berkeley.edu/program/eecs-electrical-engineering-and-computer-sciences-phd/"
+    }
+  ]
+}

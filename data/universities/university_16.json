@@ -1,0 +1,10 @@
+{
+  "id": "university_16",
+  "name": "Cornell University",
+  "country": "United States",
+  "city": "Ithaca",
+  "website_url": "https://www.cornell.edu/",
+  "description": "Official Cornell Bowers CS machine-learning and artificial-intelligence research pages list faculty across CS, Information Science, Statistics and Data Science, and Cornell Tech working in ML, NLP, vision, robotics, and computational sustainability. Official materials describe the Cornell AI Initiative as a university-wide effort.",
+  "is_active": true,
+  "source_url": "https://www.cs.cornell.edu/research/artificial-intelligence"
+}

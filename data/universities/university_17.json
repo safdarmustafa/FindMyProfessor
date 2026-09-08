@@ -1,0 +1,10 @@
+{
+  "id": "university_17",
+  "name": "University of California, Los Angeles",
+  "country": "United States",
+  "city": "Los Angeles",
+  "website_url": "https://www.ucla.edu/",
+  "description": "Official UCLA CS Research Labs page lists AI, ML, NLP, computer vision, robotics, health-intelligence, and trustworthy-AI laboratories. Official Samueli School pages describe Big Data, Artificial Intelligence and Machine Learning research.",
+  "is_active": true,
+  "source_url": "https://www.cs.ucla.edu/research-labs/"
+}

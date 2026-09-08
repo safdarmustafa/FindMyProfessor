@@ -1,0 +1,27 @@
+{
+  "_comment": "Copy to {university_id}.json as a JSON array. Fill ONLY verified official-source values. Leave email, recruiting, and availability null unless verified. This template is never seeded. Do not copy data from LinkedIn.",
+  "professors": [
+    {
+      "id": "professor-slug",
+      "university": "university_01",
+      "department": "department-slug",
+      "lab": "lab-slug",
+      "name": null,
+      "title": null,
+      "email": null,
+      "website_url": null,
+      "linkedin_url": null,
+      "biography": null,
+      "research_summary": null,
+      "recent_work_summary": null,
+      "recruiting_status": null,
+      "internship_available": null,
+      "ra_available": null,
+      "masters_available": null,
+      "phd_available": null,
+      "is_active": true,
+      "source_url": null,
+      "research_areas": []
+    }
+  ]
+}

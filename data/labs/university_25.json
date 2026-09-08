@@ -1,0 +1,24 @@
+{
+  "labs": [
+    {
+      "id": "cri",
+      "university": "university_25",
+      "department": "cse",
+      "name": "Contextual Robotics Institute",
+      "website_url": "https://cri.ucsd.edu/",
+      "description": "Official campus AI Experts page lists Henrik Christensen as Director, Contextual Robotics Institute.",
+      "research_summary": "Official listing describes robotics and AI systems research.",
+      "source_url": "https://ucsd.edu/research-innovation/our-experts/ai-experts/"
+    },
+    {
+      "id": "viscomp",
+      "university": "university_25",
+      "department": "cse",
+      "name": "Center for Visual Computing",
+      "website_url": "https://cseweb.ucsd.edu/~ravir/",
+      "description": "Official CSE AI news and faculty pages associate Ravi Ramamoorthi with the Center for Visual Computing.",
+      "research_summary": "Official campus materials describe visual computing and neural rendering research.",
+      "source_url": "https://ai.ucsd.edu/faculty"
+    }
+  ]
+}

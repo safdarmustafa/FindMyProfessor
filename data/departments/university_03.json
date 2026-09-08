@@ -1,0 +1,12 @@
+{
+  "departments": [
+    {
+      "id": "computer-science",
+      "university": "university_03",
+      "name": "Computer Science",
+      "website_url": "https://www.cs.stanford.edu/",
+      "description": "Official Stanford CS materials state that the department produces leaders who shape the future of computing, with research spanning all areas of computer science and collaborations across Stanford. The department is consistently ranked among the top computer science departments and is the home of several Turing Award winners.",
+      "source_url": "https://cs.stanford.edu/about"
+    }
+  ]
+}

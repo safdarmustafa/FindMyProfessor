@@ -1,0 +1,14 @@
+{
+  "labs": [
+    {
+      "id": "csail",
+      "university": "university_04",
+      "department": "eecs",
+      "name": "Computer Science and Artificial Intelligence Laboratory",
+      "website_url": "https://www.csail.mit.edu/",
+      "description": "Official MIT EECS faculty listings identify multiple AI+D professors as CSAIL principal investigators and list Daniela Rus as Director, CSAIL. CSAIL is MIT's Computer Science and Artificial Intelligence Laboratory.",
+      "research_summary": "Computer science and artificial intelligence research spanning machine learning, computer vision, robotics, NLP, and computing systems.",
+      "source_url": "https://www.eecs.mit.edu/role/faculty-aid/"
+    }
+  ]
+}

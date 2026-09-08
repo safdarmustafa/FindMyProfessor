@@ -1,0 +1,12 @@
+{
+  "departments": [
+    {
+      "id": "allen-school",
+      "university": "university_13",
+      "name": "Paul G. Allen School of Computer Science & Engineering",
+      "website_url": "https://www.cs.washington.edu/",
+      "description": "Official AI faculty-members page lists tenure-track faculty working in machine learning, computer vision, NLP, robotics, and related areas.",
+      "source_url": "https://www.cs.washington.edu/research/artificial-intelligence/ai-faculty-members/"
+    }
+  ]
+}

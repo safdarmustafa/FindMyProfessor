@@ -1,0 +1,24 @@
+{
+  "labs": [
+    {
+      "id": "nusail",
+      "university": "university_29",
+      "department": "computer-science",
+      "name": "NUS AI Lab",
+      "website_url": "https://nusail.comp.nus.edu.sg/",
+      "description": "Official NUS AI Lab people page lists faculty members from the School of Computing working in AI, computer vision, and robotics.",
+      "research_summary": "Official lab page states faculty are experts in AI, computer vision, and robotics.",
+      "source_url": "https://nusail.comp.nus.edu.sg/people/"
+    },
+    {
+      "id": "naii",
+      "university": "university_29",
+      "department": "computer-science",
+      "name": "NUS Artificial Intelligence Institute",
+      "website_url": "https://www.comp.nus.edu.sg/cs/people/mohan/",
+      "description": "Official Mohan Kankanhalli Computing page lists Director, NUS Artificial Intelligence Institute (NAII).",
+      "research_summary": "Official faculty page describes multimodal computing, computer vision, and trustworthy AI.",
+      "source_url": "https://www.comp.nus.edu.sg/cs/people/mohan/"
+    }
+  ]
+}

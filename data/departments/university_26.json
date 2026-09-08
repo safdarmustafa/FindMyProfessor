@@ -1,0 +1,20 @@
+{
+  "departments": [
+    {
+      "id": "cs",
+      "university": "university_26",
+      "name": "Department of Computer Science",
+      "website_url": "https://www.cs.utexas.edu/",
+      "description": "Official CS AI research page covering computer vision, evolutionary computation, machine learning, multimodality, NLP, neural networks, reinforcement learning, and robotics.",
+      "source_url": "https://www.cs.utexas.edu/research/artificial-intelligence"
+    },
+    {
+      "id": "ece",
+      "university": "university_26",
+      "name": "Department of Electrical and Computer Engineering",
+      "website_url": "https://www.ece.utexas.edu/",
+      "description": "Official CS AI research page lists affiliated Electrical and Computer Engineering faculty in machine learning.",
+      "source_url": "https://www.cs.utexas.edu/research/artificial-intelligence"
+    }
+  ]
+}

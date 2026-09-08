@@ -1,0 +1,26 @@
+{
+  "opportunities": [
+    {
+      "professor": null,
+      "lab": null,
+      "eligibility": "Official page is directed at ML Ph.D. students seeking advisors. Degree-entry requirements are on official GT graduate admissions pages.",
+      "international_eligible": true,
+      "undergraduate_eligible": false,
+      "funding_type": null,
+      "stipend_amount": null,
+      "tuition_coverage": null,
+      "accommodation_coverage": null,
+      "travel_coverage": null,
+      "application_deadline": null,
+      "start_date": null,
+      "id": "ml-phd",
+      "university": "university_15",
+      "title": "Ph.D. in Machine Learning",
+      "opportunity_type": "phd",
+      "description": "Official ML@GT Ph.D. Program Faculty page states listed faculty can advise students in the ML Ph.D. program regardless of homeschool affiliation. A numeric application deadline was not published on this faculty table page.",
+      "official_url": "https://prod-ml.cc.gatech.edu/ml-phd-program-faculty",
+      "status": null,
+      "source_url": "https://prod-ml.cc.gatech.edu/ml-phd-program-faculty"
+    }
+  ]
+}

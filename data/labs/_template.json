@@ -1,0 +1,15 @@
+{
+  "_comment": "Copy to {university_id}.json as a JSON array. Fill ONLY verified official-source values. This template is never seeded.",
+  "labs": [
+    {
+      "id": "lab-slug",
+      "university": "university_01",
+      "department": "department-slug",
+      "name": null,
+      "website_url": null,
+      "description": null,
+      "research_summary": null,
+      "source_url": null
+    }
+  ]
+}

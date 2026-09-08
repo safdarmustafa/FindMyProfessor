@@ -1,0 +1,84 @@
+{
+  "labs": [
+    {
+      "id": "rse-lab",
+      "university": "university_13",
+      "department": "allen-school",
+      "name": "Robotics and State Estimation Lab",
+      "website_url": "https://rse-lab.cs.washington.edu/",
+      "description": "Official Dieter Fox Allen School faculty page states he is head of the UW Robotics and State Estimation Lab (RSE-Lab).",
+      "research_summary": "Official biography: robotics, AI, and state estimation; perception connected to control.",
+      "source_url": "https://www.cs.washington.edu/people/faculty/fox/"
+    },
+    {
+      "id": "uw-nlp",
+      "university": "university_13",
+      "department": "allen-school",
+      "name": "UW NLP Group",
+      "website_url": "https://nlp.washington.edu/",
+      "description": "Official Luke Zettlemoyer, Noah Smith, Hannaneh Hajishirzi, and Ranjay Krishna Allen School pages link the UW NLP Group.",
+      "research_summary": "Official faculty pages describe NLP, large language models, and related language AI research.",
+      "source_url": "https://nlp.washington.edu/"
+    },
+    {
+      "id": "h2-lab",
+      "university": "university_13",
+      "department": "allen-school",
+      "name": "H2 Lab",
+      "website_url": "https://h2lab.cs.washington.edu/",
+      "description": "Official Hannaneh Hajishirzi faculty page states she leads the H2Lab.",
+      "research_summary": "Official expertise includes generative AI, machine learning, and natural language processing, with a focus on large language models.",
+      "source_url": "https://www.cs.washington.edu/people/faculty/hannaneh/"
+    },
+    {
+      "id": "raivn",
+      "university": "university_13",
+      "department": "allen-school",
+      "name": "Reasoning, AI, and VisioN Lab",
+      "website_url": "https://raivn.cs.washington.edu/",
+      "description": "Official Ali Farhadi and Ranjay Krishna faculty pages link the Reasoning, AI, and VisioN (RAIVN) Lab.",
+      "research_summary": "Official pages describe computer vision, machine learning, and vision-language research.",
+      "source_url": "https://www.cs.washington.edu/people/faculty/ali/"
+    },
+    {
+      "id": "personal-robotics",
+      "university": "university_13",
+      "department": "allen-school",
+      "name": "Personal Robotics Lab",
+      "website_url": "https://personalrobotics.cs.washington.edu/",
+      "description": "Official Siddhartha Srinivasa faculty page states he founded the Personal Robotics Lab.",
+      "research_summary": "Official biography: robots performing complex manipulation under uncertainty and clutter, with and around people.",
+      "source_url": "https://www.cs.washington.edu/people/faculty/siddh/"
+    },
+    {
+      "id": "hcr-lab",
+      "university": "university_13",
+      "department": "allen-school",
+      "name": "Human-Centered Robotics Lab",
+      "website_url": "https://hcrlab.cs.washington.edu/",
+      "description": "Official Maya Cakmak faculty page states she directs the Human-Centered Robotics Lab.",
+      "research_summary": "Official research interests: human-robot interaction, end-user programming, and assistive robotics.",
+      "source_url": "https://www.cs.washington.edu/people/faculty/maya/"
+    },
+    {
+      "id": "aims",
+      "university": "university_13",
+      "department": "allen-school",
+      "name": "AI for bioMedical Sciences Lab",
+      "website_url": "https://aims.cs.washington.edu/",
+      "description": "Official Su-In Lee faculty page links the AI for bioMedical Sciences (AIMS) Lab.",
+      "research_summary": "Official expertise: computational biology, explainable AI, and machine learning.",
+      "source_url": "https://www.cs.washington.edu/people/faculty/suinlee/"
+    },
+    {
+      "id": "mobile-intelligence",
+      "university": "university_13",
+      "department": "allen-school",
+      "name": "Mobile Intelligence Lab",
+      "website_url": "https://www.cs.washington.edu/research/artificial-intelligence/ai-faculty-members/",
+      "description": "Official Allen School news on the AI faculty page states Ph.D. student Malek Itani works with Allen School professor Shyam Gollakota in the Mobile Intelligence Lab.",
+      "research_summary": "Official highlight describes AI systems for hearing, including semantic hearing.",
+      "source_url": "https://www.cs.washington.edu/research/artificial-intelligence/ai-faculty-members/"
+    }
+  ]
+}

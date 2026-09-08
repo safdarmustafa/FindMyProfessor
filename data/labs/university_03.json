@@ -1,0 +1,34 @@
+{
+  "labs": [
+    {
+      "id": "svl",
+      "university": "university_03",
+      "department": "computer-science",
+      "name": "Stanford Vision and Learning Lab",
+      "website_url": "https://svl.stanford.edu/",
+      "description": "Official Stanford CS profile for Fei-Fei Li links the Stanford Vision and Learning Lab as her lab website. Official biography describes research in computer vision, deep learning, robotic learning and spatial intelligence.",
+      "research_summary": "Computer vision, deep learning, robotic learning, and spatial intelligence.",
+      "source_url": "https://www.cs.stanford.edu/people/fei-fei-li"
+    },
+    {
+      "id": "crfm",
+      "university": "university_03",
+      "department": "computer-science",
+      "name": "Center for Research on Foundation Models",
+      "website_url": "https://crfm.stanford.edu/",
+      "description": "Official Stanford CS profile for Percy Liang states that he is director of the Center for Research on Foundation Models (CRFM) and is focused on making foundation models, in particular language models, more accessible through open-source and understandable through rigorous benchmarking.",
+      "research_summary": "Foundation models and language models, including open-source access and rigorous benchmarking.",
+      "source_url": "https://www.cs.stanford.edu/people/percy-liang"
+    },
+    {
+      "id": "hai",
+      "university": "university_03",
+      "department": "computer-science",
+      "name": "Stanford Institute for Human-Centered Artificial Intelligence",
+      "website_url": "https://hai.stanford.edu/",
+      "description": "Official Stanford CS materials identify the Human-Centered Artificial Intelligence Institute (HAI) as housed in the Gates Computer Science Building. Official faculty titles list multiple CS professors as Senior Fellows at HAI, and Fei-Fei Li as a Founding Co-Director.",
+      "research_summary": "Human-centered AI research spanning computer science and interdisciplinary Stanford collaborations.",
+      "source_url": "https://cs.stanford.edu/about"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "opportunities": [
+    {
+      "professor": null,
+      "lab": null,
+      "eligibility": null,
+      "international_eligible": true,
+      "undergraduate_eligible": false,
+      "funding_type": null,
+      "stipend_amount": null,
+      "tuition_coverage": null,
+      "accommodation_coverage": null,
+      "travel_coverage": null,
+      "application_deadline": null,
+      "start_date": null,
+      "status": null,
+      "id": "phd-computer-science",
+      "university": "university_19",
+      "title": "Ph.D. in Computer Science",
+      "opportunity_type": "phd",
+      "description": "Official Columbia CS faculty and AI area pages describe doctoral research in AI, ML, NLP, vision, and robotics. Richard Zemel's official page states prospective PhD students should apply to the PhD program. A numeric school-wide deadline was not taken from individual recruiting notes.",
+      "official_url": "https://www.cs.columbia.edu/education/phd/",
+      "source_url": "https://www.cs.columbia.edu/areas/ai/"
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "departments": [
+    {
+      "id": "cse",
+      "university": "university_25",
+      "name": "Computer Science and Engineering",
+      "website_url": "https://cse.ucsd.edu/",
+      "description": "Official CSE AI group faculty listing for machine learning, NLP, vision, robotics, and related AI research.",
+      "source_url": "https://ai.ucsd.edu/faculty"
+    },
+    {
+      "id": "ece",
+      "university": "university_25",
+      "name": "Electrical and Computer Engineering",
+      "website_url": "https://ece.ucsd.edu/",
+      "description": "Official campus AI Experts directory lists ECE faculty using AI for communications, health, and scientific discovery.",
+      "source_url": "https://ucsd.edu/research-innovation/our-experts/ai-experts/"
+    },
+    {
+      "id": "hdsi",
+      "university": "university_25",
+      "name": "Halıcıoğlu Data Science Institute",
+      "website_url": "https://datascience.ucsd.edu/",
+      "description": "Official campus AI Experts directory lists HDSI faculty in machine learning theory, data science, and responsible AI.",
+      "source_url": "https://ucsd.edu/research-innovation/our-experts/ai-experts/"
+    },
+    {
+      "id": "be",
+      "university": "university_25",
+      "name": "Bioengineering",
+      "website_url": "https://be.ucsd.edu/",
+      "description": "Official campus AI Experts directory lists Bioengineering faculty using AI in genomics and cancer research.",
+      "source_url": "https://ucsd.edu/research-innovation/our-experts/ai-experts/"
+    },
+    {
+      "id": "medicine",
+      "university": "university_25",
+      "name": "School of Medicine",
+      "website_url": "https://medschool.ucsd.edu/",
+      "description": "Official campus AI Experts directory lists School of Medicine and UC San Diego Health faculty in healthcare AI.",
+      "source_url": "https://ucsd.edu/research-innovation/our-experts/ai-experts/"
+    },
+    {
+      "id": "scripps",
+      "university": "university_25",
+      "name": "Scripps Institution of Oceanography",
+      "website_url": "https://scripps.ucsd.edu/",
+      "description": "Official campus AI Experts directory lists Scripps faculty applying machine learning to climate, ocean, and earth science.",
+      "source_url": "https://ucsd.edu/research-innovation/our-experts/ai-experts/"
+    },
+    {
+      "id": "cogsci",
+      "university": "university_25",
+      "name": "Cognitive Science",
+      "website_url": "https://cogsci.ucsd.edu/",
+      "description": "Official campus AI Experts directory lists Cognitive Science faculty in machine learning, vision, and human-centered AI.",
+      "source_url": "https://ucsd.edu/research-innovation/our-experts/ai-experts/"
+    },
+    {
+      "id": "biology",
+      "university": "university_25",
+      "name": "School of Biological Sciences",
+      "website_url": "https://biology.ucsd.edu/",
+      "description": "Official campus AI Experts directory lists Biological Sciences faculty using AI-enhanced simulation and computational biology.",
+      "source_url": "https://ucsd.edu/research-innovation/our-experts/ai-experts/"
+    }
+  ]
+}

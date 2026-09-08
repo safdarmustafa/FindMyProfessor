@@ -1,0 +1,14 @@
+{
+  "labs": [
+    {
+      "id": "ml-gt",
+      "university": "university_15",
+      "department": "college-of-computing",
+      "name": "Machine Learning Center at Georgia Tech",
+      "website_url": "https://prod-ml.cc.gatech.edu/",
+      "description": "Official ML Ph.D. Program Faculty page is published by ML (Machine Learning) at Georgia Tech and defines faculty who can advise ML Ph.D. students.",
+      "research_summary": "Machine learning research spanning theory, deep learning, computer vision, NLP, robotics, and systems.",
+      "source_url": "https://prod-ml.cc.gatech.edu/ml-phd-program-faculty"
+    }
+  ]
+}

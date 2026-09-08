@@ -1,0 +1,26 @@
+{
+  "opportunities": [
+    {
+      "professor": null,
+      "lab": null,
+      "eligibility": null,
+      "international_eligible": true,
+      "undergraduate_eligible": false,
+      "funding_type": null,
+      "stipend_amount": null,
+      "tuition_coverage": null,
+      "accommodation_coverage": null,
+      "travel_coverage": null,
+      "application_deadline": null,
+      "start_date": null,
+      "status": null,
+      "id": "phd-cse",
+      "university": "university_25",
+      "title": "Ph.D. in Computer Science and Engineering",
+      "opportunity_type": "phd",
+      "description": "Official CSE AI group and graduate study pages describe doctoral AI research. A numeric application deadline was not extracted from the fetched faculty pages.",
+      "official_url": "https://cse.ucsd.edu/graduate/phd-program",
+      "source_url": "https://ai.ucsd.edu/faculty"
+    }
+  ]
+}

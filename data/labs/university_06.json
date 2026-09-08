@@ -1,0 +1,14 @@
+{
+  "labs": [
+    {
+      "id": "bair",
+      "university": "university_06",
+      "department": "eecs",
+      "name": "Berkeley Artificial Intelligence Research Lab",
+      "website_url": "https://bair.berkeley.edu/",
+      "description": "Official CHAI/BAIR-related Berkeley materials and widespread official faculty affiliations identify BAIR as UC Berkeley's Artificial Intelligence Research Lab. Official EECS faculty with AI research interests are commonly affiliated with BAIR; this record is included because BAIR is the official campus AI research organization used on Berkeley AI faculty pages. Individual professor-lab links are set only where an official page states the affiliation.",
+      "research_summary": "Artificial intelligence, machine learning, computer vision, robotics, and natural language processing research at UC Berkeley.",
+      "source_url": "https://bair.berkeley.edu/"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "id": "university_13",
+  "name": "University of Washington",
+  "country": "United States",
+  "city": "Seattle",
+  "website_url": "https://www.washington.edu/",
+  "description": "Official Paul G. Allen School Artificial Intelligence page states researchers work across machine learning, computer vision, NLP, and robotics, including large language models and generative AI. Official faculty-members listing names Allen School AI faculty.",
+  "is_active": true,
+  "source_url": "https://www.cs.washington.edu/research/artificial-intelligence/ai-faculty-members/"
+}

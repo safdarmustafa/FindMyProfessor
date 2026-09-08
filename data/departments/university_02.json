@@ -1,0 +1,20 @@
+{
+  "departments": [
+    {
+      "id": "computer-science",
+      "university": "university_02",
+      "name": "Computer Science",
+      "website_url": "https://cs.kaust.edu.sa/",
+      "description": "The Computer Science Program at KAUST prepares students to lead and innovate in industry, academia and government by developing computational infrastructure, applying computational methods across disciplines and advancing research in computer science. Official program research areas include artificial intelligence and machine learning, resilient computing and cybersecurity, computational biosciences and bioinformatics, visual computing and computational imaging, high-performance computing and big data, and computing systems and databases.",
+      "source_url": "https://cs.kaust.edu.sa/"
+    },
+    {
+      "id": "electrical-and-computer-engineering",
+      "university": "university_02",
+      "name": "Electrical and Computer Engineering",
+      "website_url": "https://ece.kaust.edu.sa/",
+      "description": "The Electrical and Computer Engineering (ECE) program at KAUST prepares students for professional paths in engineering, applied physics and computational sciences and advances research-based education through interdisciplinary partnering. Official program research areas include robotics, smart health, advanced wireless communications, photonics, and internet of things and cyber-physical systems. Official catalog materials also list computer vision among ECE technical areas.",
+      "source_url": "https://ece.kaust.edu.sa/"
+    }
+  ]
+}

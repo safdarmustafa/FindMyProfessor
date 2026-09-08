@@ -1,0 +1,10 @@
+{
+  "id": "university_27",
+  "name": "University of Edinburgh",
+  "country": "United Kingdom",
+  "city": "Edinburgh",
+  "website_url": "https://www.ed.ac.uk/",
+  "description": "Official School of Informatics pages cover IML machine learning faculty, ILCC NLP faculty, IPAB vision and robotics academic staff, and ELIAI directors.",
+  "is_active": true,
+  "source_url": "https://informatics.ed.ac.uk/iml/research/machine-learning"
+}

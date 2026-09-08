@@ -1,0 +1,12 @@
+{
+  "departments": [
+    {
+      "id": "computer-science",
+      "university": "university_08",
+      "name": "Department of Computer Science",
+      "website_url": "https://inf.ethz.ch/",
+      "description": "Official D-INFK faculty page lists professors and research keywords including machine learning, NLP, computer vision, trustworthy machine learning, reinforcement learning, and medical data science. Official doctoral application pages invite applicants with a Master's degree in computer science or a related field.",
+      "source_url": "https://inf.ethz.ch/people/faculty/faculty.html"
+    }
+  ]
+}

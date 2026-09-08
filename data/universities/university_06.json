@@ -1,0 +1,10 @@
+{
+  "id": "university_06",
+  "name": "University of California, Berkeley",
+  "country": "United States",
+  "city": "Berkeley",
+  "website_url": "https://www.berkeley.edu/",
+  "description": "Official Berkeley EECS graduate admissions materials describe the Department of Electrical Engineering and Computer Sciences as offering M.S. and Ph.D. research programs. Official CS faculty listings include numerous faculty with published research interests in Artificial Intelligence, computer vision, robotics, and machine learning.",
+  "is_active": true,
+  "source_url": "https://eecs.berkeley.edu/academics/graduate/research-programs/admissions/"
+}

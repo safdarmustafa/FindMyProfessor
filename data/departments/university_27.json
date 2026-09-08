@@ -1,0 +1,12 @@
+{
+  "departments": [
+    {
+      "id": "informatics",
+      "university": "university_27",
+      "name": "School of Informatics",
+      "website_url": "https://informatics.ed.ac.uk/",
+      "description": "Official Informatics institutes IML, ILCC, and IPAB publish AI, ML, NLP, computer vision, and robotics faculty.",
+      "source_url": "https://informatics.ed.ac.uk/iml/research/machine-learning"
+    }
+  ]
+}

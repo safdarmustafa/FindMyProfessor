@@ -1,0 +1,10 @@
+{
+  "id": "university_21",
+  "name": "Harvard University",
+  "country": "United States",
+  "city": "Cambridge",
+  "website_url": "https://www.harvard.edu/",
+  "description": "Official Harvard SEAS faculty and Computer Science faculty-research pages list faculty in Artificial Intelligence, Machine Learning, Computational Linguistics, Robotics, and related areas. Official Kempner Institute pages describe faculty roles in the study of natural and artificial intelligence.",
+  "is_active": true,
+  "source_url": "https://seas.harvard.edu/computer-science/faculty-research"
+}

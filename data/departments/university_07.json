@@ -1,0 +1,12 @@
+{
+  "departments": [
+    {
+      "id": "computer-science",
+      "university": "university_07",
+      "name": "Department of Computer Science",
+      "website_url": "https://www.cs.ox.ac.uk/",
+      "description": "Official Oxford Computer Science faculty directory lists academic staff across themes including Artificial Intelligence and Machine Learning. Official graduate course pages describe the DPhil in Computer Science and the MSc in Advanced Computer Science, the latter including machine learning among taught topics.",
+      "source_url": "https://www.cs.ox.ac.uk/people/faculty.html"
+    }
+  ]
+}

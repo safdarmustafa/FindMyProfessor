@@ -1,0 +1,10 @@
+{
+  "id": "university_10",
+  "name": "Princeton University",
+  "country": "United States",
+  "city": "Princeton",
+  "website_url": "https://www.princeton.edu/",
+  "description": "Official Princeton Graduate School deadlines list Computer Science among fields with a 15 December application deadline. Official CS faculty pages list research areas including Machine Learning, Natural Language Processing, Vision & Graphics, and Robotics.",
+  "is_active": true,
+  "source_url": "https://www.cs.princeton.edu/people/faculty"
+}

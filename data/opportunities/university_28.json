@@ -1,0 +1,26 @@
+{
+  "opportunities": [
+    {
+      "professor": null,
+      "lab": null,
+      "eligibility": null,
+      "international_eligible": true,
+      "undergraduate_eligible": false,
+      "funding_type": null,
+      "stipend_amount": null,
+      "tuition_coverage": null,
+      "accommodation_coverage": null,
+      "travel_coverage": null,
+      "application_deadline": null,
+      "start_date": null,
+      "status": null,
+      "id": "phd-cs",
+      "university": "university_28",
+      "title": "Ph.D. in Computer Science",
+      "opportunity_type": "phd",
+      "description": "Official UCL Centre for Artificial Intelligence and Computer Science pages describe doctoral AI research. A numeric application deadline was not extracted from the fetched people table.",
+      "official_url": "https://www.ucl.ac.uk/computer-science/study/mphilphd-computer-science",
+      "source_url": "https://www.ucl.ac.uk/engineering/research/centres-institutes-and-labs/ucl-centre-artificial-intelligence/people"
+    }
+  ]
+}

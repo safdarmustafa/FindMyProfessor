@@ -1,0 +1,27 @@
+{
+  "_comment": "Copy to {university_id}.json as a JSON array. Fill ONLY verified official-source values. Do not invent funding, deadlines, or eligibility. This template is never seeded. Use professor: null and lab: null for university-wide opportunities. Never attach a university-wide opportunity to an arbitrary professor or lab.",
+  "opportunities": [
+    {
+      "id": "opportunity-slug",
+      "university": "university_01",
+      "professor": null,
+      "lab": null,
+      "title": null,
+      "opportunity_type": "phd",
+      "description": null,
+      "eligibility": null,
+      "international_eligible": null,
+      "undergraduate_eligible": null,
+      "funding_type": null,
+      "stipend_amount": null,
+      "tuition_coverage": null,
+      "accommodation_coverage": null,
+      "travel_coverage": null,
+      "application_deadline": null,
+      "start_date": null,
+      "official_url": null,
+      "status": null,
+      "source_url": null
+    }
+  ]
+}

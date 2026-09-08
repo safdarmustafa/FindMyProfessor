@@ -1,0 +1,26 @@
+{
+  "opportunities": [
+    {
+      "professor": null,
+      "lab": null,
+      "eligibility": "Official EDIC materials describe a PhD program affiliated with IC laboratories. Specific degree requirements are on the live EDIC admissions pages.",
+      "international_eligible": true,
+      "undergraduate_eligible": false,
+      "funding_type": null,
+      "stipend_amount": null,
+      "tuition_coverage": null,
+      "accommodation_coverage": null,
+      "travel_coverage": null,
+      "application_deadline": null,
+      "start_date": null,
+      "id": "edic-phd",
+      "university": "university_12",
+      "title": "Doctoral Program in Computer and Communication Sciences (EDIC)",
+      "opportunity_type": "phd",
+      "description": "Official EDIC affiliated-labs page documents IC faculty and AIML research expertise for the doctoral program in computer and communication sciences. A numeric application deadline was not extracted from the fetched EDIC page in this pass.",
+      "official_url": "https://www.epfl.ch/education/phd/edic-computer-and-communication-sciences/edic-computer-and-communication-sciences/edic-affiliated-labs-research-expertise/",
+      "status": null,
+      "source_url": "https://www.epfl.ch/education/phd/edic-computer-and-communication-sciences/edic-computer-and-communication-sciences/edic-affiliated-labs-research-expertise/"
+    }
+  ]
+}

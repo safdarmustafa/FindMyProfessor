@@ -1,0 +1,24 @@
+{
+  "labs": [
+    {
+      "id": "lips",
+      "university": "university_10",
+      "department": "computer-science",
+      "name": "Laboratory for Intelligent Probabilistic Systems",
+      "website_url": "https://www.cs.princeton.edu/people/profile/rpa",
+      "description": "Official Ryan Adams CS profile states he calls his group the Laboratory for Intelligent Probabilistic Systems (LIPS).",
+      "research_summary": "Official bio: machine learning, artificial intelligence, and computational statistics, often probabilistic methods and approximate Bayesian inference.",
+      "source_url": "https://www.cs.princeton.edu/people/profile/rpa"
+    },
+    {
+      "id": "princeton-nlp",
+      "university": "university_10",
+      "department": "computer-science",
+      "name": "Princeton NLP Group",
+      "website_url": "https://www.cs.princeton.edu/people/profile/danqic",
+      "description": "Official Danqi Chen CS profile states she co-leads the Princeton NLP Group and is an associate director of Princeton Language and Intelligence. The profile notes she is on leave.",
+      "research_summary": "Official research: deep learning for NLP, text understanding, knowledge representation and reasoning, question answering, information extraction, conversational systems.",
+      "source_url": "https://www.cs.princeton.edu/people/profile/danqic"
+    }
+  ]
+}

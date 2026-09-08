@@ -1,0 +1,14 @@
+{
+  "labs": [
+    {
+      "id": "centre-ai",
+      "university": "university_28",
+      "department": "computer-science",
+      "name": "UCL Centre for Artificial Intelligence",
+      "website_url": "https://www.ucl.ac.uk/engineering/research/centres-institutes-and-labs/ucl-centre-artificial-intelligence",
+      "description": "Official Centre for AI pages describe foundational research in machine vision, machine learning, NLP, machine action, interpretation and knowledge representation.",
+      "research_summary": "Official centre overview unites researchers in machine vision, machine learning, NLP, and knowledge representation.",
+      "source_url": "https://www.ucl.ac.uk/engineering/research/centres-institutes-and-labs/ucl-centre-artificial-intelligence/people"
+    }
+  ]
+}

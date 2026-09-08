@@ -1,0 +1,10 @@
+{
+  "id": "university_01",
+  "name": "MBZUAI (Mohamed bin Zayed University of Artificial Intelligence)",
+  "country": "United Arab Emirates",
+  "city": "Abu Dhabi",
+  "website_url": "https://mbzuai.ac.ae/",
+  "description": "Mohamed bin Zayed University of Artificial Intelligence (MBZUAI) is the first university dedicated entirely to the advancement of science through AI. Located in Masdar City, Abu Dhabi, it is licensed by the UAE Commission for Academic Accreditation to award accredited higher education degrees and focuses on graduate AI education and research.",
+  "is_active": true,
+  "source_url": "https://mbzuai.ac.ae/about/"
+}

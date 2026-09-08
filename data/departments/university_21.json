@@ -1,0 +1,12 @@
+{
+  "departments": [
+    {
+      "id": "computer-science",
+      "university": "university_21",
+      "name": "Computer Science, Harvard John A. Paulson School of Engineering and Applied Sciences",
+      "website_url": "https://seas.harvard.edu/computer-science",
+      "description": "Official SEAS Computer Science faculty-research page lists research areas including Artificial Intelligence, Machine Learning, Computational Linguistics and NLP, Computational Neuroscience, Graphics/Vision, HCI, and Robotics and Control.",
+      "source_url": "https://seas.harvard.edu/computer-science/faculty-research"
+    }
+  ]
+}

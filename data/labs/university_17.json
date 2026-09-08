@@ -1,0 +1,194 @@
+{
+  "labs": [
+    {
+      "id": "agi-lab",
+      "university": "university_17",
+      "department": "computer-science",
+      "name": "Artificial General Intelligence Lab",
+      "website_url": "https://www.cs.ucla.edu/research-labs/",
+      "description": "Official UCLA CS Research Labs page lists Artificial General Intelligence Lab (Quanquan Gu).",
+      "research_summary": "Listed on the official UCLA CS research-labs directory among AI, ML, NLP, vision, robotics, and health-intelligence groups.",
+      "source_url": "https://www.cs.ucla.edu/research-labs/"
+    },
+    {
+      "id": "automated-reasoning",
+      "university": "university_17",
+      "department": "computer-science",
+      "name": "Automated Reasoning Group",
+      "website_url": "https://www.cs.ucla.edu/research-labs/",
+      "description": "Official UCLA CS Research Labs page lists Automated Reasoning Group (Adnan Darwiche).",
+      "research_summary": "Listed on the official UCLA CS research-labs directory among AI, ML, NLP, vision, robotics, and health-intelligence groups.",
+      "source_url": "https://www.cs.ucla.edu/research-labs/"
+    },
+    {
+      "id": "cognitive-systems",
+      "university": "university_17",
+      "department": "computer-science",
+      "name": "Cognitive Systems Laboratory",
+      "website_url": "https://www.cs.ucla.edu/research-labs/",
+      "description": "Official UCLA CS Research Labs page lists Cognitive Systems Laboratory (Judea Pearl).",
+      "research_summary": "Listed on the official UCLA CS research-labs directory among AI, ML, NLP, vision, robotics, and health-intelligence groups.",
+      "source_url": "https://www.cs.ucla.edu/research-labs/"
+    },
+    {
+      "id": "cmlg",
+      "university": "university_17",
+      "department": "computer-science",
+      "name": "Computational Machine Learning Group",
+      "website_url": "https://www.cs.ucla.edu/research-labs/",
+      "description": "Official UCLA CS Research Labs page lists Computational Machine Learning Group (Cho-Jui Hsieh).",
+      "research_summary": "Listed on the official UCLA CS research-labs directory among AI, ML, NLP, vision, robotics, and health-intelligence groups.",
+      "source_url": "https://www.cs.ucla.edu/research-labs/"
+    },
+    {
+      "id": "plus-lab",
+      "university": "university_17",
+      "department": "computer-science",
+      "name": "Language Understanding & Synthesis Lab",
+      "website_url": "https://www.cs.ucla.edu/research-labs/",
+      "description": "Official UCLA CS Research Labs page lists Language Understanding & Synthesis Lab (Nanyun Peng).",
+      "research_summary": "Listed on the official UCLA CS research-labs directory among AI, ML, NLP, vision, robotics, and health-intelligence groups.",
+      "source_url": "https://www.cs.ucla.edu/research-labs/"
+    },
+    {
+      "id": "bigml",
+      "university": "university_17",
+      "department": "computer-science",
+      "name": "Large-scale Machine Learning Group",
+      "website_url": "https://www.cs.ucla.edu/research-labs/",
+      "description": "Official UCLA CS Research Labs page lists Large-scale Machine Learning Group (Baharan Mirzasoleiman).",
+      "research_summary": "Listed on the official UCLA CS research-labs directory among AI, ML, NLP, vision, robotics, and health-intelligence groups.",
+      "source_url": "https://www.cs.ucla.edu/research-labs/"
+    },
+    {
+      "id": "mint",
+      "university": "university_17",
+      "department": "computer-science",
+      "name": "Machine Intelligence Lab",
+      "website_url": "https://www.cs.ucla.edu/research-labs/",
+      "description": "Official UCLA CS Research Labs page lists Machine Intelligence Lab (Aditya Grover).",
+      "research_summary": "Listed on the official UCLA CS research-labs directory among AI, ML, NLP, vision, robotics, and health-intelligence groups.",
+      "source_url": "https://www.cs.ucla.edu/research-labs/"
+    },
+    {
+      "id": "ml-genomics",
+      "university": "university_17",
+      "department": "computer-science",
+      "name": "Machine Learning and Genomics Lab",
+      "website_url": "https://www.cs.ucla.edu/research-labs/",
+      "description": "Official UCLA CS Research Labs page lists Machine Learning and Genomics Lab (Sriram Sankararaman).",
+      "research_summary": "Listed on the official UCLA CS research-labs directory among AI, ML, NLP, vision, robotics, and health-intelligence groups.",
+      "source_url": "https://www.cs.ucla.edu/research-labs/"
+    },
+    {
+      "id": "mars",
+      "university": "university_17",
+      "department": "computer-science",
+      "name": "Misinformation, AI & Responsible Society Lab",
+      "website_url": "https://www.cs.ucla.edu/research-labs/",
+      "description": "Official UCLA CS Research Labs page lists Misinformation, AI & Responsible Society Lab (Saadia Gabriel).",
+      "research_summary": "Listed on the official UCLA CS research-labs directory among AI, ML, NLP, vision, robotics, and health-intelligence groups.",
+      "source_url": "https://www.cs.ucla.edu/research-labs/"
+    },
+    {
+      "id": "ucla-nlp",
+      "university": "university_17",
+      "department": "computer-science",
+      "name": "Natural Language Processing Group",
+      "website_url": "https://www.cs.ucla.edu/research-labs/",
+      "description": "Official UCLA CS Research Labs page lists Natural Language Processing Group (Kai-Wei Chang).",
+      "research_summary": "Listed on the official UCLA CS research-labs directory among AI, ML, NLP, vision, robotics, and health-intelligence groups.",
+      "source_url": "https://www.cs.ucla.edu/research-labs/"
+    },
+    {
+      "id": "robot-intelligence",
+      "university": "university_17",
+      "department": "computer-science",
+      "name": "Robot Intelligence Lab",
+      "website_url": "https://www.cs.ucla.edu/research-labs/",
+      "description": "Official UCLA CS Research Labs page lists Robot Intelligence Lab (Yuchen Cui).",
+      "research_summary": "Listed on the official UCLA CS research-labs directory among AI, ML, NLP, vision, robotics, and health-intelligence groups.",
+      "source_url": "https://www.cs.ucla.edu/research-labs/"
+    },
+    {
+      "id": "scai",
+      "university": "university_17",
+      "department": "computer-science",
+      "name": "Scalable Analytics Institute",
+      "website_url": "https://www.cs.ucla.edu/research-labs/",
+      "description": "Official UCLA CS Research Labs page lists Scalable Analytics Institute (Wei Wang).",
+      "research_summary": "Listed on the official UCLA CS research-labs directory among AI, ML, NLP, vision, robotics, and health-intelligence groups.",
+      "source_url": "https://www.cs.ucla.edu/research-labs/"
+    },
+    {
+      "id": "secai",
+      "university": "university_17",
+      "department": "computer-science",
+      "name": "Security+AI Lab",
+      "website_url": "https://www.cs.ucla.edu/research-labs/",
+      "description": "Official UCLA CS Research Labs page lists Security+AI Lab (Yuan Tian).",
+      "research_summary": "Listed on the official UCLA CS research-labs directory among AI, ML, NLP, vision, robotics, and health-intelligence groups.",
+      "source_url": "https://www.cs.ucla.edu/research-labs/"
+    },
+    {
+      "id": "solar",
+      "university": "university_17",
+      "department": "computer-science",
+      "name": "Software Systems Laboratory for Data Analytics and Machine Learning",
+      "website_url": "https://www.cs.ucla.edu/research-labs/",
+      "description": "Official UCLA CS Research Labs page lists Software Systems Laboratory for Data Analytics and Machine Learning (Harry Xu).",
+      "research_summary": "Listed on the official UCLA CS research-labs directory among AI, ML, NLP, vision, robotics, and health-intelligence groups.",
+      "source_url": "https://www.cs.ucla.edu/research-labs/"
+    },
+    {
+      "id": "starai",
+      "university": "university_17",
+      "department": "computer-science",
+      "name": "Statistical and Relational Artificial Intelligence Laboratory",
+      "website_url": "https://www.cs.ucla.edu/research-labs/",
+      "description": "Official UCLA CS Research Labs page lists Statistical and Relational Artificial Intelligence Laboratory (Guy Van den Broeck).",
+      "research_summary": "Listed on the official UCLA CS research-labs directory among AI, ML, NLP, vision, robotics, and health-intelligence groups.",
+      "source_url": "https://www.cs.ucla.edu/research-labs/"
+    },
+    {
+      "id": "vail",
+      "university": "university_17",
+      "department": "computer-science",
+      "name": "Vision and Autonomy Intelligence Lab",
+      "website_url": "https://www.cs.ucla.edu/research-labs/",
+      "description": "Official UCLA CS Research Labs page lists Vision and Autonomy Intelligence Lab (Bolei Zhou).",
+      "research_summary": "Listed on the official UCLA CS research-labs directory among AI, ML, NLP, vision, robotics, and health-intelligence groups.",
+      "source_url": "https://www.cs.ucla.edu/research-labs/"
+    },
+    {
+      "id": "vision-lab",
+      "university": "university_17",
+      "department": "computer-science",
+      "name": "Vision Laboratory",
+      "website_url": "https://www.cs.ucla.edu/research-labs/",
+      "description": "Official UCLA CS Research Labs page lists Vision Laboratory (Stefano Soatto).",
+      "research_summary": "Listed on the official UCLA CS research-labs directory among AI, ML, NLP, vision, robotics, and health-intelligence groups.",
+      "source_url": "https://www.cs.ucla.edu/research-labs/"
+    },
+    {
+      "id": "health-intelligence",
+      "university": "university_17",
+      "department": "computer-science",
+      "name": "Health Intelligence Lab",
+      "website_url": "https://www.cs.ucla.edu/research-labs/",
+      "description": "Official UCLA CS Research Labs page lists Health Intelligence Lab (Yuzhe Yang).",
+      "research_summary": "Listed on the official UCLA CS research-labs directory among AI, ML, NLP, vision, robotics, and health-intelligence groups.",
+      "source_url": "https://www.cs.ucla.edu/research-labs/"
+    },
+    {
+      "id": "graphics-vision",
+      "university": "university_17",
+      "department": "computer-science",
+      "name": "Computer Graphics & Vision Laboratory",
+      "website_url": "https://www.cs.ucla.edu/research-labs/",
+      "description": "Official UCLA CS Research Labs page lists Computer Graphics & Vision Laboratory (Demetri Terzopoulos).",
+      "research_summary": "Listed on the official UCLA CS research-labs directory among AI, ML, NLP, vision, robotics, and health-intelligence groups.",
+      "source_url": "https://www.cs.ucla.edu/research-labs/"
+    }
+  ]
+}

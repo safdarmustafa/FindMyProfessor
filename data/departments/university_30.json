@@ -1,0 +1,12 @@
+{
+  "departments": [
+    {
+      "id": "computer-sciences",
+      "university": "university_30",
+      "name": "Department of Computer Sciences",
+      "website_url": "https://www.cs.wisc.edu/",
+      "description": "Official CS faculty homepages and departmental news cover machine learning, computer vision, NLP, reinforcement learning, and trustworthy ML.",
+      "source_url": "https://www.cs.wisc.edu/"
+    }
+  ]
+}

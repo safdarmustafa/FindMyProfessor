@@ -1,0 +1,24 @@
+{
+  "labs": [
+    {
+      "id": "relax-ml",
+      "university": "university_16",
+      "department": "computer-science",
+      "name": "Relax ML Lab",
+      "website_url": "https://relax-ml.cs.cornell.edu/team/",
+      "description": "Official Cornell directory biography for Christopher De Sa states he is a member of the Cornell Machine Learning Group where he leads the Relax ML Lab.",
+      "research_summary": "Official bio: high-performance machine learning, including asynchronous and low-precision SGD and MCMC.",
+      "source_url": "https://www.cs.cornell.edu/research/machine-learning"
+    },
+    {
+      "id": "cornell-ml-group",
+      "university": "university_16",
+      "department": "computer-science",
+      "name": "Cornell Machine Learning Group",
+      "website_url": "https://machinelearning.cis.cornell.edu/",
+      "description": "Official Cornell ML research page links the Cornell Machine Learning Research Group as an interdisciplinary faculty and student community.",
+      "research_summary": "Official page: machine learning spanning pattern recognition, neural networks, and learning theory.",
+      "source_url": "https://www.cs.cornell.edu/research/machine-learning"
+    }
+  ]
+}

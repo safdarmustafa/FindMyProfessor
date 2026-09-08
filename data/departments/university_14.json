@@ -1,0 +1,12 @@
+{
+  "departments": [
+    {
+      "id": "computer-science",
+      "university": "university_14",
+      "name": "Siebel School of Computing and Data Science",
+      "website_url": "https://siebelschool.illinois.edu/",
+      "description": "Official AI research-area page and all-faculty directory cover CS and affiliated faculty working in AI, ML, vision, NLP, and robotics.",
+      "source_url": "https://siebelschool.illinois.edu/research/areas/artificial-intelligence"
+    }
+  ]
+}

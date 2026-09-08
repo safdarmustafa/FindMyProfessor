@@ -1,0 +1,12 @@
+{
+  "departments": [
+    {
+      "id": "computer-science",
+      "university": "university_28",
+      "name": "Department of Computer Science",
+      "website_url": "https://www.ucl.ac.uk/computer-science/",
+      "description": "Official UCL Centre for Artificial Intelligence is hosted in Computer Science and publishes a people table with emails.",
+      "source_url": "https://www.ucl.ac.uk/engineering/research/centres-institutes-and-labs/ucl-centre-artificial-intelligence/people"
+    }
+  ]
+}

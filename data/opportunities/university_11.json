@@ -1,0 +1,26 @@
+{
+  "opportunities": [
+    {
+      "professor": null,
+      "lab": null,
+      "eligibility": "Official page describes MSc and PhD research programs. Specific degree prerequisites are on the live admissions pages.",
+      "international_eligible": true,
+      "undergraduate_eligible": false,
+      "funding_type": null,
+      "stipend_amount": null,
+      "tuition_coverage": null,
+      "accommodation_coverage": null,
+      "travel_coverage": null,
+      "application_deadline": null,
+      "start_date": null,
+      "id": "phd-computer-science",
+      "university": "university_11",
+      "title": "Ph.D. in Computer Science",
+      "opportunity_type": "phd",
+      "description": "Official UofT CS prospective graduate page states applications for Fall 2026 are closed and applications for Fall 2027 will open in October 2026. The PhD program is described as preparing students for research careers in academia or industry. A numeric Fall 2027 deadline was not published on the fetched page.",
+      "official_url": "https://web.cs.toronto.edu/graduate/prospective",
+      "status": "upcoming",
+      "source_url": "https://web.cs.toronto.edu/graduate/prospective"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "id": "university_23",
+  "name": "California Institute of Technology",
+  "country": "United States",
+  "city": "Pasadena",
+  "website_url": "https://www.caltech.edu/",
+  "description": "Official CMS Artificial Intelligence and Machine Learning research page names Caltech AI faculty covering foundations of ML, computational imaging, machine perception, learning in games, vision, generative modeling, online learning, and autonomous decision making.",
+  "is_active": true,
+  "source_url": "https://www.cms.caltech.edu/research/artificial-intelligence-and-machine-learning"
+}

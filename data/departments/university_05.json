@@ -1,0 +1,28 @@
+{
+  "departments": [
+    {
+      "id": "machine-learning",
+      "university": "university_05",
+      "name": "Machine Learning Department",
+      "website_url": "https://ml.cmu.edu/",
+      "description": "Official MLD materials state that the department leads development of the machine learning discipline through research, curriculum, and societal benefit from ML knowledge. Official CSD faculty pages list several MLD professors with joint Computer Science Department appointments.",
+      "source_url": "https://ml.cmu.edu/"
+    },
+    {
+      "id": "computer-science",
+      "university": "university_05",
+      "name": "Computer Science Department",
+      "website_url": "https://csd.cmu.edu/",
+      "description": "Official CSD doctoral admissions materials describe the Ph.D. in Computer Science as an in-person Pittsburgh program. The department is one of seven departments in the School of Computer Science. Official pages state that all admitted Ph.D. students receive comprehensive financial support while in good academic standing.",
+      "source_url": "https://csd.cmu.edu/academics/doctoral/admissions"
+    },
+    {
+      "id": "language-technologies",
+      "university": "university_05",
+      "name": "Language Technologies Institute",
+      "website_url": "https://www.lti.cs.cmu.edu/",
+      "description": "Official CSD doctoral admissions overview lists the Language Technologies Institute among SCS doctoral program homes. Official MSAII faculty directory lists LTI faculty working in speech, language, and natural language processing.",
+      "source_url": "https://csd.cmu.edu/academics/doctoral/admissions"
+    }
+  ]
+}

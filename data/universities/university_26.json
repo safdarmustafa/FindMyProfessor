@@ -1,0 +1,10 @@
+{
+  "id": "university_26",
+  "name": "The University of Texas at Austin",
+  "country": "United States",
+  "city": "Austin",
+  "website_url": "https://www.utexas.edu/",
+  "description": "Official CS Artificial Intelligence research page lists faculty in computer vision, ML, NLP, robotics, and reinforcement learning, and names centers including IFML and the Learning Agents Research Group. Official AI Lab people page publishes faculty emails in obfuscated form.",
+  "is_active": true,
+  "source_url": "https://www.cs.utexas.edu/research/artificial-intelligence"
+}

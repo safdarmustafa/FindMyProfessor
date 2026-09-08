@@ -1,0 +1,10 @@
+{
+  "id": "university_18",
+  "name": "University of Michigan",
+  "country": "United States",
+  "city": "Ann Arbor",
+  "website_url": "https://umich.edu/",
+  "description": "Official CSE Core Faculty directory publishes research interests and @umich.edu addresses. Official Michigan AI Lab pages list core and affiliated faculty across CSE, ECE, Robotics, Statistics, Information, and Computational Medicine.",
+  "is_active": true,
+  "source_url": "https://cse.engin.umich.edu/people/faculty/core-cse-faculty/"
+}

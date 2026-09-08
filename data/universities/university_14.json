@@ -1,0 +1,10 @@
+{
+  "id": "university_14",
+  "name": "University of Illinois Urbana-Champaign",
+  "country": "United States",
+  "city": "Urbana",
+  "website_url": "https://illinois.edu/",
+  "description": "Official Siebel School Artificial Intelligence page describes faculty leadership in AI, computer vision, machine listening, NLP, machine learning, and robotics. Official faculty directory publishes institutional emails.",
+  "is_active": true,
+  "source_url": "https://siebelschool.illinois.edu/research/areas/artificial-intelligence"
+}

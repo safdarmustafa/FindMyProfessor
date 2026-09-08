@@ -1,0 +1,12 @@
+{
+  "departments": [
+    {
+      "id": "computing",
+      "university": "university_22",
+      "name": "Department of Computing",
+      "website_url": "https://www.imperial.ac.uk/computing/",
+      "description": "Official academic staff directory and AI research pages cover machine learning, NLP, computer vision, robotics, safe AI, and AI in medicine.",
+      "source_url": "https://www.imperial.ac.uk/computing/people/academic-staff/"
+    }
+  ]
+}

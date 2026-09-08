@@ -1,0 +1,24 @@
+{
+  "labs": [
+    {
+      "id": "kempner",
+      "university": "university_21",
+      "department": "computer-science",
+      "name": "Kempner Institute for the Study of Natural and Artificial Intelligence",
+      "website_url": "https://kempnerinstitute.harvard.edu/",
+      "description": "Official Sham Kakade SEAS page lists him as Co-director of the Kempner Institute. Official Nada Amin page lists Kempner Institute Affiliate Faculty.",
+      "research_summary": "Official Kempner pages describe research in natural and artificial intelligence.",
+      "source_url": "https://kempnerinstitute.harvard.edu/people/faculty/"
+    },
+    {
+      "id": "econcs",
+      "university": "university_21",
+      "department": "computer-science",
+      "name": "EconCS",
+      "website_url": "https://seas.harvard.edu/person/david-parkes",
+      "description": "Official David Parkes SEAS page lists Lab: EconCS.",
+      "research_summary": "Official research areas include Economics and Computation and Machine Learning / Artificial Intelligence.",
+      "source_url": "https://seas.harvard.edu/person/david-parkes"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "opportunities": [
+    {
+      "professor": null,
+      "lab": null,
+      "eligibility": null,
+      "international_eligible": true,
+      "undergraduate_eligible": false,
+      "funding_type": null,
+      "stipend_amount": null,
+      "tuition_coverage": null,
+      "accommodation_coverage": null,
+      "travel_coverage": null,
+      "application_deadline": null,
+      "start_date": null,
+      "status": null,
+      "id": "phd-computer-science",
+      "university": "university_17",
+      "title": "Ph.D. in Computer Science",
+      "opportunity_type": "phd",
+      "description": "Official UCLA CS pages describe doctoral study in computer science including AI and machine learning laboratories. A numeric application deadline was not extracted from the fetched research-labs page.",
+      "official_url": "https://www.cs.ucla.edu/graduate/",
+      "source_url": "https://www.cs.ucla.edu/research-labs/"
+    }
+  ]
+}

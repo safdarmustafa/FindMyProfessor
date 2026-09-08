@@ -1,0 +1,48 @@
+{
+  "opportunities": [
+    {
+      "id": "dphil-computer-science",
+      "university": "university_07",
+      "professor": null,
+      "lab": null,
+      "title": "DPhil in Computer Science",
+      "opportunity_type": "phd",
+      "description": "Official University of Oxford graduate admissions page describes the DPhil in Computer Science as a research-based course focused on original contributions in areas including algorithms, AI, quantum computing, cybersecurity, and software engineering. As of the official page check, the full-time course is Closed to applications for entry in 2026-27; the page instructs applicants to register to receive an email when applications open for entry in 2027-28. Expected length 3-4 years. Expected start date listed as October 2026 (for the 2026-27 entry information on the page). No application deadline date for 2027-28 was published on the page.",
+      "eligibility": "Official page includes an Entry requirements section for entry in 2026-27 (details expanded on the live page). English language level stated as Standard level required. Do not assume undergraduate eligibility; the DPhil is a graduate research degree.",
+      "international_eligible": true,
+      "undergraduate_eligible": false,
+      "funding_type": null,
+      "stipend_amount": null,
+      "tuition_coverage": null,
+      "accommodation_coverage": null,
+      "travel_coverage": null,
+      "application_deadline": null,
+      "start_date": null,
+      "official_url": "https://www.ox.ac.uk/admissions/graduate/courses/dphil-computer-science",
+      "status": "closed",
+      "source_url": "https://www.ox.ac.uk/admissions/graduate/courses/dphil-computer-science"
+    },
+    {
+      "id": "msc-advanced-computer-science",
+      "university": "university_07",
+      "professor": null,
+      "lab": null,
+      "title": "MSc in Advanced Computer Science",
+      "opportunity_type": "masters",
+      "description": "Official University of Oxford graduate admissions page describes this as a full-time twelve-month taught MSc covering advanced topics including machine learning, computer security, quantum information, and formal verification. Students complete option modules and a dissertation; a specialist stream in Artificial Intelligence may be available subject to requirements. As of the official page check, the course is Closed to applications for entry in 2026-27; register for email when applications open for entry in 2027-28. Expected start date listed as October 2026. No 2027-28 deadline date was published.",
+      "eligibility": "Official materials state entrants come from a computer science or mathematical background. English language level stated as Higher level required. Entry requirements for 2026-27 are on the official page.",
+      "international_eligible": true,
+      "undergraduate_eligible": false,
+      "funding_type": null,
+      "stipend_amount": null,
+      "tuition_coverage": null,
+      "accommodation_coverage": null,
+      "travel_coverage": null,
+      "application_deadline": null,
+      "start_date": null,
+      "official_url": "https://www.ox.ac.uk/admissions/graduate/courses/msc-advanced-computer-science",
+      "status": "closed",
+      "source_url": "https://www.ox.ac.uk/admissions/graduate/courses/msc-advanced-computer-science"
+    }
+  ]
+}

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FindMyProfessor — CV profile</title>
+  <link rel="stylesheet" href="/static/css/fmp.css">
+</head>
+<body>
+  <nav>
+    <a href="/onboarding" aria-current="page">CV profile</a>
+    <a href="/matches">Research Matches</a>
+  </nav>
+  <main>
+    <h1>CV-first student profile</h1>
+    <p class="lead">Upload a CV, review what we extracted, edit if needed, then confirm. We do not invent missing facts.</p>
+
+    <section>
+      <h2>1. Upload CV</h2>
+      <p><small>PDF, Word (.doc/.docx), text, RTF, or OpenDocument (.odt). Max 10 MB.</small></p>
+      <input id="file" type="file" accept=".pdf,.doc,.docx,.txt,.rtf,.odt">
+      <button type="button" id="upload">Upload and extract</button>
+      <p class="status" id="upload-status"></p>
+    </section>
+
+    <section id="result" class="hidden">
+      <h2>2. CV analysis</h2>
+      <p id="parse-banner"></p>
+      <p><small>Profile ID: <span id="profile-id"></span></small></p>
+
+      <h3>Identity</h3>
+      <label>Name <input id="name"></label>
+      <label>Email <input id="email"></label>
+      <label>Phone <input id="phone"></label>
+
+      <h3>Education</h3>
+      <label>Degree <input id="degree"></label>
+      <label>Field of study <input id="field"></label>
+      <label>Institution <input id="institution"></label>
+      <label>Country <input id="country"></label>
+      <label>Graduation year <input id="grad-year"></label>
+      <label>Current semester <input id="semester"></label>
+
+      <h3>Research interests</h3>
+      <label>One per line <textarea id="interests"></textarea></label>
+      <h3>Research signals</h3>
+      <label>Inferred from projects, publications, or research roles — one per line <textarea id="signals"></textarea></label>
+
+      <h3>Skills</h3>
+      <label>One per line (optional category after a pipe, e.g. Python | language) <textarea id="skills"></textarea></label>
+
+      <h3>Projects</h3>
+      <label>JSON array <textarea id="projects" class="json"></textarea></label>
+      <h3>Publications</h3>
+      <label>JSON array <textarea id="publications" class="json"></textarea></label>
+      <h3>Experience</h3>
+      <label>JSON array <textarea id="experience" class="json"></textarea></label>
+      <h3>Certifications</h3>
+      <label>JSON array <textarea id="certs" class="json"></textarea></label>
+
+      <button type="button" id="save-edits">Save edits</button>
+      <button type="button" class="secondary" id="confirm">Confirm profile</button>
+      <p class="status" id="save-status"></p>
+    </section>
+  </main>
+  <script>
+    const state = { profileId: localStorage.getItem("fmp_profile_id") || null };
+
+    function lines(value) {
+      return value.split("\n").map(s => s.trim()).filter(Boolean);
+    }
+    function fillLines(el, items) {
+      el.value = (items || []).join("\n");
+    }
+    function fillJson(el, items) {
+      el.value = JSON.stringify(items || [], null, 2);
+    }
+    function parseJson(el, fallback) {
+      const raw = el.value.trim();
+      if (!raw) return fallback;
+      return JSON.parse(raw);
+    }
+
+    function showProfile(data) {
+      document.getElementById("result").classList.remove("hidden");
+      state.profileId = data.profile_id || data.profileId || state.profileId;
+      if (state.profileId) localStorage.setItem("fmp_profile_id", state.profileId);
+      document.getElementById("profile-id").textContent = state.profileId || "";
+      const status = data.parsing_status;
+      const banner = document.getElementById("parse-banner");
+      if (status === "failed" || data.parsing_error) {
+        banner.className = "error";
+        banner.textContent = data.parsing_error || "Your CV was uploaded successfully, but we couldn't extract its text. Please upload another version.";
+      } else {
+        banner.className = "ok";
+        banner.textContent = "CV analysis complete. Review the extracted profile, then confirm.";
+      }
+      const extracted = data.extracted_profile || {};
+      const identity = extracted.identity || {};
+      const education = (extracted.education || [])[0] || {};
+      document.getElementById("name").value = identity.name || "";
+      document.getElementById("email").value = identity.email || "";
+      document.getElementById("phone").value = identity.phone || "";
+      document.getElementById("degree").value = education.degree || "";
+      document.getElementById("field").value = education.field_of_study || "";
+      document.getElementById("institution").value = education.institution || "";
+      document.getElementById("country").value = education.country || "";
+      document.getElementById("grad-year").value = education.graduation_year || "";
+      document.getElementById("semester").value = education.current_semester || "";
+      fillLines(document.getElementById("interests"), extracted.research_interests);
+      fillLines(document.getElementById("signals"), extracted.research_signals);
+      fillLines(document.getElementById("skills"), (extracted.skills || []).map(s => s.category ? `${s.name} | ${s.category}` : s.name));
+      fillJson(document.getElementById("projects"), extracted.projects);
+      fillJson(document.getElementById("publications"), extracted.publications);
+      fillJson(document.getElementById("experience"), extracted.experience);
+      fillJson(document.getElementById("certs"), extracted.certifications);
+    }
+
+    function collectedProfile() {
+      const skills = lines(document.getElementById("skills").value).map(line => {
+        const [name, category] = line.split("|").map(s => s.trim());
+        return { name, category: category || "other" };
+      });
+      const year = document.getElementById("grad-year").value.trim();
+      return {
+        identity: {
+          name: document.getElementById("name").value.trim() || null,
+          email: document.getElementById("email").value.trim() || null,
+          phone: document.getElementById("phone").value.trim() || null
+        },
+        education: [{
+          degree: document.getElementById("degree").value.trim() || null,
+          field_of_study: document.getElementById("field").value.trim() || null,
+          institution: document.getElementById("institution").value.trim() || null,
+          country: document.getElementById("country").value.trim() || null,
+          graduation_year: year ? Number(year) : null,
+          current_semester: document.getElementById("semester").value.trim() || null
+        }],
+        research_interests: lines(document.getElementById("interests").value),
+        research_signals: lines(document.getElementById("signals").value),
+        skills,
+        experience: parseJson(document.getElementById("experience"), []),
+        projects: parseJson(document.getElementById("projects"), []),
+        publications: parseJson(document.getElementById("publications"), []),
+        certifications: parseJson(document.getElementById("certs"), [])
+      };
+    }
+
+    async function headers() {
+      const h = {};
+      if (state.profileId) h["X-Profile-Id"] = state.profileId;
+      return h;
+    }
+
+    document.getElementById("upload").onclick = async () => {
+      const file = document.getElementById("file").files[0];
+      const status = document.getElementById("upload-status");
+      status.className = "status";
+      if (!file) {
+        status.textContent = "Choose a CV file first.";
+        return;
+      }
+      status.textContent = "Uploading and extracting…";
+      const body = new FormData();
+      body.append("file", file);
+      const response = await fetch("/cv/upload", { method: "POST", headers: await headers(), body });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        status.className = "status error";
+        status.textContent = data.detail || "Upload failed.";
+        return;
+      }
+      status.className = "status ok";
+      status.textContent = data.parsing_status === "parsed" ? "Extracted. Review below." : (data.parsing_error || "Uploaded.");
+      showProfile({
+        profile_id: data.profile_id,
+        parsing_status: data.parsing_status,
+        parsing_error: data.parsing_error,
+        extracted_profile: data.extracted_profile
+      });
+    };
+
+    document.getElementById("save-edits").onclick = async () => {
+      const status = document.getElementById("save-status");
+      try {
+        const response = await fetch("/profile", {
+          method: "PUT",
+          headers: { "Content-Type": "application/json", ...(await headers()) },
+          body: JSON.stringify({ extracted_profile: collectedProfile() })
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(data.detail || "Could not save edits.");
+        status.className = "status ok";
+        status.textContent = "Edits saved. Confirm when ready.";
+        showProfile(data);
+      } catch (err) {
+        status.className = "status error";
+        status.textContent = err.message;
+      }
+    };
+
+    document.getElementById("confirm").onclick = async () => {
+      const status = document.getElementById("save-status");
+      const response = await fetch("/profile/confirm", { method: "POST", headers: await headers() });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        status.className = "status error";
+        status.textContent = data.detail || "Confirm failed.";
+        return;
+      }
+      status.className = "status ok";
+      status.innerHTML = (data.message || "Profile saved.") +
+        ' <a href="/matches">View research matches</a>';
+    };
+
+    (async () => {
+      if (!state.profileId) return;
+      const response = await fetch("/profile", { headers: await headers() });
+      if (!response.ok) return;
+      showProfile(await response.json());
+    })();
+  </script>
+</body>
+</html>

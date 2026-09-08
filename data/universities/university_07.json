@@ -1,0 +1,10 @@
+{
+  "id": "university_07",
+  "name": "University of Oxford",
+  "country": "United Kingdom",
+  "city": "Oxford",
+  "website_url": "https://www.ox.ac.uk/",
+  "description": "Official University of Oxford graduate admissions pages list research degrees including the DPhil in Computer Science. Official Department of Computer Science faculty listings include professors whose titles and themes cover Artificial Intelligence, Machine Learning, verification and control, and related computing research.",
+  "is_active": true,
+  "source_url": "https://www.cs.ox.ac.uk/people/faculty.html"
+}

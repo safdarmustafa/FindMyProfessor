@@ -1,0 +1,10 @@
+{
+  "id": "university_24",
+  "name": "University of Pennsylvania",
+  "country": "United States",
+  "city": "Philadelphia",
+  "website_url": "https://www.upenn.edu/",
+  "description": "Official CIS faculty directory lists tenure-track and research faculty in AI, ML, NLP, vision, robotics, trustworthy ML, and medical/health informatics, with cross-listed Electrical and Systems Engineering, Bioengineering, and Mechanical Engineering faculty.",
+  "is_active": true,
+  "source_url": "https://www.cis.upenn.edu/people/faculty/"
+}

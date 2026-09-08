@@ -1,0 +1,14 @@
+{
+  "labs": [
+    {
+      "id": "ai-lab",
+      "university": "university_18",
+      "department": "cse",
+      "name": "Artificial Intelligence Lab",
+      "website_url": "https://ai.engin.umich.edu/",
+      "description": "Official CSE directory lists Rada Mihalcea as Director of the Artificial Intelligence Lab and Jenna Wiens as Associate Director.",
+      "research_summary": "Official AI Lab pages cover core and affiliated faculty in ML, NLP, vision, robotics, and healthcare AI.",
+      "source_url": "https://ai.engin.umich.edu/people/"
+    }
+  ]
+}

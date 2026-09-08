@@ -1,0 +1,14 @@
+{
+  "labs": [
+    {
+      "id": "cilvr",
+      "university": "university_20",
+      "department": "computer-science",
+      "name": "CILVR Lab",
+      "website_url": "https://cims.nyu.edu/ai/areas/machine-learning/",
+      "description": "Official AI@NYU Machine Learning area page describes the CILVR Lab (Computational Intelligence, Learning, Vision, and Robotics).",
+      "research_summary": "Official page: machine learning with applications including vision and related CILVR work.",
+      "source_url": "https://cims.nyu.edu/ai/areas/machine-learning/"
+    }
+  ]
+}

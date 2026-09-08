@@ -1,0 +1,14 @@
+{
+  "labs": [
+    {
+      "id": "delphi",
+      "university": "university_05",
+      "department": "machine-learning",
+      "name": "Delphi research group",
+      "website_url": "https://www.cs.cmu.edu/~roni/",
+      "description": "Official CMU profile for Roni Rosenfeld states that he co-founded and co-leads the Delphi research group since 2012, which has been named a National Center for Epidemic Forecasting by the U.S. CDC. Official research focus is tracking and forecasting epidemics.",
+      "research_summary": "Epidemiological forecasting methods, metrics, and data sources, including influenza and dengue forecasting.",
+      "source_url": "https://www.cs.cmu.edu/~roni/"
+    }
+  ]
+}

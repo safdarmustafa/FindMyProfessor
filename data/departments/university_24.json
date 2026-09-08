@@ -1,0 +1,36 @@
+{
+  "departments": [
+    {
+      "id": "cis",
+      "university": "university_24",
+      "name": "Computer and Information Science",
+      "website_url": "https://www.cis.upenn.edu/",
+      "description": "Official CIS faculty directory covering AI, ML, NLP, vision, robotics, and data science.",
+      "source_url": "https://www.cis.upenn.edu/people/faculty/"
+    },
+    {
+      "id": "ese",
+      "university": "university_24",
+      "name": "Electrical and Systems Engineering",
+      "website_url": "https://www.ese.upenn.edu/",
+      "description": "Official CIS faculty directory lists ESE faculty in machine learning, computer vision, robotics, and data engineering.",
+      "source_url": "https://www.cis.upenn.edu/people/faculty/"
+    },
+    {
+      "id": "meam",
+      "university": "university_24",
+      "name": "Mechanical Engineering and Applied Mechanics",
+      "website_url": "https://www.me.upenn.edu/",
+      "description": "Official CIS faculty directory lists MEAM faculty affiliated with GRASP robotics research.",
+      "source_url": "https://www.cis.upenn.edu/people/faculty/"
+    },
+    {
+      "id": "be",
+      "university": "university_24",
+      "name": "Bioengineering",
+      "website_url": "https://be.seas.upenn.edu/",
+      "description": "Official CIS faculty directory lists Bioengineering faculty in biomedical AI, neural engineering, and computational biology.",
+      "source_url": "https://www.cis.upenn.edu/people/faculty/"
+    }
+  ]
+}

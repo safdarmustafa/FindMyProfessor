@@ -1,0 +1,74 @@
+{
+  "labs": [
+    {
+      "id": "genai-coe",
+      "university": "university_02",
+      "department": "electrical-and-computer-engineering",
+      "name": "Center of Excellence for Generative AI",
+      "website_url": "https://www.kaust.edu.sa/en/study/faculty/bernard-ghanem",
+      "description": "Official KAUST faculty materials identify the Center of Excellence for Generative AI (GenAI) as a university center chaired by Professor Bernard Ghanem, with Professor Jürgen Schmidhuber as co-chair. Official descriptions state the center aims to establish world-leading excellence in generative AI research by developing the next generation of models that are efficient, trustworthy and tailored for widespread deployment.",
+      "research_summary": "Generative AI models that are efficient, trustworthy and suited for deployment, including applications aligned with Saudi RDI priorities.",
+      "source_url": "https://www.kaust.edu.sa/en/study/faculty/bernard-ghanem"
+    },
+    {
+      "id": "ivul",
+      "university": "university_02",
+      "department": "electrical-and-computer-engineering",
+      "name": "Image and Video Understanding Lab",
+      "website_url": "https://www.kaust.edu.sa/en/study/faculty/bernard-ghanem",
+      "description": "Official KAUST profile for Professor Bernard Ghanem identifies him as principal investigator of the Image and Video Understanding Lab (IVUL). The lab's published research focus includes large-scale video understanding, 3D scene comprehension and foundational tools in computer vision and machine learning.",
+      "research_summary": "Large-scale video understanding, 3D scene comprehension, and foundational computer vision and machine learning methods.",
+      "source_url": "https://www.kaust.edu.sa/en/study/faculty/bernard-ghanem"
+    },
+    {
+      "id": "vision-cair",
+      "university": "university_02",
+      "department": "computer-science",
+      "name": "Vision-CAIR Research Group",
+      "website_url": "https://www.kaust.edu.sa/en/study/faculty/mohamed-elhoseiny",
+      "description": "Official KAUST profile for Associate Professor Mohamed Elhoseiny identifies him as principal investigator of the KAUST Vision-CAIR Research Group. Official research interests include computer vision, vision-language, computational creativity and efficient multimodal learning with limited data.",
+      "research_summary": "Computer vision, vision-language models, computational creativity, and efficient multimodal learning.",
+      "source_url": "https://www.kaust.edu.sa/en/study/faculty/mohamed-elhoseiny"
+    },
+    {
+      "id": "borg",
+      "university": "university_02",
+      "department": "computer-science",
+      "name": "Bio-Ontology Research Group",
+      "website_url": "https://www.kaust.edu.sa/en/study/faculty/robert-hoehndorf",
+      "description": "Official KAUST profile for Associate Professor Robert Hoehndorf identifies him as principal investigator of the Bio-Ontology Research Group (BORG). Official interests include knowledge representation, neuro-symbolic methods and their application in the life sciences.",
+      "research_summary": "Knowledge representation, neuro-symbolic AI, and knowledge-based analysis of biological datasets.",
+      "source_url": "https://www.kaust.edu.sa/en/study/faculty/robert-hoehndorf"
+    },
+    {
+      "id": "computational-sciences-group",
+      "university": "university_02",
+      "department": "computer-science",
+      "name": "Computational Sciences Group",
+      "website_url": "https://www.kaust.edu.sa/en/study/faculty/dominik-michels",
+      "description": "Official KAUST profile for Associate Professor Dominik L. Michels identifies him as founder and head of the Computational Sciences Group (CSG). Official materials describe research on efficient algorithms for simulation of natural phenomena and technical procedures in scientific and visual computing, including machine learning and artificial intelligence methods.",
+      "research_summary": "Algorithmics, machine learning, physics-based modeling, and scientific and visual computing.",
+      "source_url": "https://www.kaust.edu.sa/en/study/faculty/dominik-michels"
+    },
+    {
+      "id": "computational-imaging-group",
+      "university": "university_02",
+      "department": "computer-science",
+      "name": "Computational Imaging Group",
+      "website_url": "https://www.kaust.edu.sa/en/study/faculty/wolfgang-heidrich",
+      "description": "Official KAUST profile for Professor Wolfgang Heidrich states that he and colleagues in the Computational Imaging Group develop end-to-end learned imaging systems. Heidrich is also identified as a member of the KAUST Visual Computing Center and served as its director from 2014 to 2021.",
+      "research_summary": "Computational imaging and display, hardware-software co-design of imaging devices, and learned imaging systems.",
+      "source_url": "https://www.kaust.edu.sa/en/study/faculty/wolfgang-heidrich"
+    },
+    {
+      "id": "sands",
+      "university": "university_02",
+      "department": "computer-science",
+      "name": "Software-Defined Advanced Networked and Distributed Systems",
+      "website_url": "https://sands.kaust.edu.sa/",
+      "description": "Official KAUST faculty profile for Marco Canini describes development of Software-Defined Advanced Networked and Distributed Systems (SANDS). Official SANDS lab site identifies Canini as Principal Investigator and Professor of Computer Science at KAUST.",
+      "research_summary": "Official faculty keywords include machine learning, artificial intelligence, distributed systems, large-scale computing, and cloud computing.",
+      "source_url": "https://www.kaust.edu.sa/en/study/faculty/marcocanini"
+    }
+  ]
+}

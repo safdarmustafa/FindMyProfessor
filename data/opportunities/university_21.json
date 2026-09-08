@@ -1,0 +1,26 @@
+{
+  "opportunities": [
+    {
+      "professor": null,
+      "lab": null,
+      "eligibility": null,
+      "international_eligible": true,
+      "undergraduate_eligible": false,
+      "funding_type": null,
+      "stipend_amount": null,
+      "tuition_coverage": null,
+      "accommodation_coverage": null,
+      "travel_coverage": null,
+      "application_deadline": null,
+      "start_date": null,
+      "status": null,
+      "id": "phd-computer-science",
+      "university": "university_21",
+      "title": "Ph.D. in Computer Science",
+      "opportunity_type": "phd",
+      "description": "Official SEAS Computer Science faculty-research page states prospective Ph.D. students looking for a primary research advisor should consider Assistant, Associate, and full Professors listed there; affiliates cannot serve as primary Ph.D. advisors. A numeric application deadline was not extracted from the fetched faculty pages.",
+      "official_url": "https://seas.harvard.edu/computer-science/graduate-admissions",
+      "source_url": "https://seas.harvard.edu/computer-science/faculty-research"
+    }
+  ]
+}

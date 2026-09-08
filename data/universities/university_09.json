@@ -1,0 +1,10 @@
+{
+  "id": "university_09",
+  "name": "University of Cambridge",
+  "country": "United Kingdom",
+  "city": "Cambridge",
+  "website_url": "https://www.cam.ac.uk/",
+  "description": "Official Department of Computer Science and Technology materials describe a PhD as a three-to-four year full-time research degree. Official faculty pages list professors whose themes include Machine Learning and Artificial Intelligence, Natural Language Processing, and robotics.",
+  "is_active": true,
+  "source_url": "https://www.cst.cam.ac.uk/admissions/phd"
+}

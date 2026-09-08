@@ -1,0 +1,34 @@
+{
+  "labs": [
+    {
+      "id": "causal-ai",
+      "university": "university_19",
+      "department": "computer-science",
+      "name": "Causal Artificial Intelligence Lab",
+      "website_url": "https://www.cs.columbia.edu/areas/machine/",
+      "description": "Official Columbia Machine Learning area page lists Causal Artificial Intelligence Lab among research labs.",
+      "research_summary": "Official Bareinboim directory interests: Causal Inference, Artificial Intelligence, and Machine Learning.",
+      "source_url": "https://www.cs.columbia.edu/areas/machine/"
+    },
+    {
+      "id": "zgroup",
+      "university": "university_19",
+      "department": "computer-science",
+      "name": "Zgroup",
+      "website_url": "https://www.cs.columbia.edu/~zemel/",
+      "description": "Official Richard Zemel faculty page refers to Zgroup PhD students and postdocs.",
+      "research_summary": "Official page: reliable, controllable, trustworthy ML; multimodal adaptation; fairness and interpretability.",
+      "source_url": "https://www.cs.columbia.edu/~zemel/"
+    },
+    {
+      "id": "cail",
+      "university": "university_19",
+      "department": "computer-science",
+      "name": "Columbia Core AI Lab",
+      "website_url": "https://cail.columbia.edu/people",
+      "description": "Official CAIL people page lists steering-committee and affiliate faculty in CS, EE, Statistics, and related units.",
+      "research_summary": "Official CAIL research tags include causality, deep learning, NLP, vision, robotics, agents, and explainable AI.",
+      "source_url": "https://cail.columbia.edu/people"
+    }
+  ]
+}

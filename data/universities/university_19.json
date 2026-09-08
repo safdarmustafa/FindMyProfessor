@@ -1,0 +1,10 @@
+{
+  "id": "university_19",
+  "name": "Columbia University",
+  "country": "United States",
+  "city": "New York",
+  "website_url": "https://www.columbia.edu/",
+  "description": "Official Columbia CS faculty directory publishes emails and research interests. Official AI and Machine Learning area pages list faculty in ML, NLP, vision, robotics, and causal inference. Official CAIL pages list a Core AI Lab spanning CS, EE, Statistics, and IEOR.",
+  "is_active": true,
+  "source_url": "https://www.cs.columbia.edu/people/faculty/"
+}

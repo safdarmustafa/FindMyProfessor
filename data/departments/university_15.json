@@ -1,0 +1,92 @@
+{
+  "departments": [
+    {
+      "id": "college-of-computing",
+      "university": "university_15",
+      "name": "College of Computing",
+      "website_url": "https://www.cc.gatech.edu/",
+      "description": "Official ML Ph.D. faculty table includes College of Computing schools (SCS, IC, CSE) among primary affiliations.",
+      "source_url": "https://prod-ml.cc.gatech.edu/ml-phd-program-faculty"
+    },
+    {
+      "id": "computer-science",
+      "university": "university_15",
+      "name": "School of Computer Science",
+      "website_url": "https://scs.gatech.edu/",
+      "description": "Official ML Ph.D. faculty table lists SCS as a primary affiliation for multiple AI/ML faculty.",
+      "source_url": "https://prod-ml.cc.gatech.edu/ml-phd-program-faculty"
+    },
+    {
+      "id": "interactive-computing",
+      "university": "university_15",
+      "name": "School of Interactive Computing",
+      "website_url": "https://ic.gatech.edu/",
+      "description": "Official ML Ph.D. faculty table lists IC as a primary affiliation for computer vision, robotics, and NLP faculty.",
+      "source_url": "https://prod-ml.cc.gatech.edu/ml-phd-program-faculty"
+    },
+    {
+      "id": "computational-science-engineering",
+      "university": "university_15",
+      "name": "School of Computational Science and Engineering",
+      "website_url": "https://cse.gatech.edu/",
+      "description": "Official ML Ph.D. faculty table lists CSE as a primary affiliation for ML systems and data-science faculty.",
+      "source_url": "https://prod-ml.cc.gatech.edu/ml-phd-program-faculty"
+    },
+    {
+      "id": "electrical-and-computer-engineering",
+      "university": "university_15",
+      "name": "School of Electrical and Computer Engineering",
+      "website_url": "https://ece.gatech.edu/",
+      "description": "Official ML Ph.D. faculty table lists ECE as a primary affiliation for computer vision, robotics, and deep-learning faculty.",
+      "source_url": "https://prod-ml.cc.gatech.edu/ml-phd-program-faculty"
+    },
+    {
+      "id": "biomedical-engineering",
+      "university": "university_15",
+      "name": "Wallace H. Coulter Department of Biomedical Engineering",
+      "website_url": "https://bme.gatech.edu/",
+      "description": "Official ML Ph.D. faculty table lists BME as a primary affiliation for medical AI, computer vision, and bioinformatics faculty.",
+      "source_url": "https://prod-ml.cc.gatech.edu/ml-phd-program-faculty"
+    },
+    {
+      "id": "aerospace-engineering",
+      "university": "university_15",
+      "name": "Daniel Guggenheim School of Aerospace Engineering",
+      "website_url": "https://ae.gatech.edu/",
+      "description": "Official ML Ph.D. faculty table lists Aerospace as a primary affiliation for robotics and AI faculty.",
+      "source_url": "https://prod-ml.cc.gatech.edu/ml-phd-program-faculty"
+    },
+    {
+      "id": "industrial-and-systems-engineering",
+      "university": "university_15",
+      "name": "H. Milton Stewart School of Industrial and Systems Engineering",
+      "website_url": "https://isye.gatech.edu/",
+      "description": "Official ML Ph.D. faculty table lists ISyE as a primary affiliation for machine learning and AI faculty.",
+      "source_url": "https://prod-ml.cc.gatech.edu/ml-phd-program-faculty"
+    },
+    {
+      "id": "mathematics",
+      "university": "university_15",
+      "name": "School of Mathematics",
+      "website_url": "https://math.gatech.edu/",
+      "description": "Official ML Ph.D. faculty table lists the School of Math as a primary affiliation for ML theory and vision faculty.",
+      "source_url": "https://prod-ml.cc.gatech.edu/ml-phd-program-faculty"
+    },
+    {
+      "id": "scheller",
+      "university": "university_15",
+      "name": "Scheller College of Business",
+      "website_url": "https://www.scheller.gatech.edu/",
+      "description": "Official ML Ph.D. faculty table lists Scheller as a primary affiliation for NLP and AI faculty.",
+      "source_url": "https://prod-ml.cc.gatech.edu/ml-phd-program-faculty"
+    },
+    {
+      "id": "chemical-and-biomolecular-engineering",
+      "university": "university_15",
+      "name": "School of Chemical and Biomolecular Engineering",
+      "website_url": "https://chbe.gatech.edu/",
+      "description": "Official ML Ph.D. faculty table lists ChBE as a primary affiliation for deep learning and AI faculty.",
+      "source_url": "https://prod-ml.cc.gatech.edu/ml-phd-program-faculty"
+    }
+  ]
+}

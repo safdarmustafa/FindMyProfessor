@@ -1,0 +1,10 @@
+{
+  "id": "university_30",
+  "name": "University of Wisconsin–Madison",
+  "country": "United States",
+  "city": "Madison",
+  "website_url": "https://www.wisc.edu/",
+  "description": "Official Computer Sciences faculty homepages and departmental news identify AI, machine learning, computer vision, NLP, reinforcement learning, and ML systems faculty. The department people/faculty index returned 404 at collection time, so coverage is based on official personal pages and departmental news rather than a single complete roster.",
+  "is_active": true,
+  "source_url": "https://pages.cs.wisc.edu/~sharonli/index.html"
+}

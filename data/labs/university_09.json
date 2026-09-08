@@ -1,0 +1,44 @@
+{
+  "labs": [
+    {
+      "id": "camrals",
+      "university": "university_09",
+      "department": "computer-science",
+      "name": "Cambridge Resilient Autonomous Learning Lab",
+      "website_url": "https://www.cst.cam.ac.uk/people/ra702",
+      "description": "Official Cambridge CST profile for Rika Antonova states she leads the Cambridge Resilient Autonomous Learning (CamRAL) Lab and links camral.github.io.",
+      "research_summary": "Official themes: Machine Learning and Artificial Intelligence; Mobile Systems, Robotics and Automation. Official teaching includes Reinforcement Learning.",
+      "source_url": "https://www.cst.cam.ac.uk/people/ra702"
+    },
+    {
+      "id": "camlsys",
+      "university": "university_09",
+      "department": "computer-science",
+      "name": "Cambridge Machine Learning Systems Lab",
+      "website_url": "http://mlsys.cst.cam.ac.uk/",
+      "description": "Official Nic Lane faculty page directs readers to the lab website http://mlsys.cst.cam.ac.uk/ for complete information.",
+      "research_summary": "Official teaching includes Deep Neural Networks, Federated Learning, and Principles of Machine Learning Systems. Official themes include Machine Learning and Artificial Intelligence.",
+      "source_url": "https://www.cst.cam.ac.uk/people/ndl32"
+    },
+    {
+      "id": "afar",
+      "university": "university_09",
+      "department": "computer-science",
+      "name": "Affective Intelligence and Robotics Lab",
+      "website_url": "https://www.cst.cam.ac.uk/people/hg410",
+      "description": "Official Hatice Gunes CST profile lists her as Director of AFAR Lab and links Affective Intelligence and Robotics (AFAR) Lab.",
+      "research_summary": "Official biography: multimodal, social, and affective intelligence for AI systems, particularly embodied agents and robots, combining machine learning, affective computing, and social signal processing.",
+      "source_url": "https://www.cst.cam.ac.uk/people/hg410"
+    },
+    {
+      "id": "prorok-lab",
+      "university": "university_09",
+      "department": "computer-science",
+      "name": "Prorok Lab",
+      "website_url": "https://www.cst.cam.ac.uk/people/asp45",
+      "description": "Official Amanda Prorok CST profile describes the Prorok Lab as working on multi-agent systems and algorithmic coordination of robot collectives.",
+      "research_summary": "Official page: multi-agent systems, differentiable communication, multi-robot perception and control, robotic fleet coordination.",
+      "source_url": "https://www.cst.cam.ac.uk/people/asp45"
+    }
+  ]
+}

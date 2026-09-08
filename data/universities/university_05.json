@@ -1,0 +1,10 @@
+{
+  "id": "university_05",
+  "name": "Carnegie Mellon University",
+  "country": "United States",
+  "city": "Pittsburgh",
+  "website_url": "https://www.cmu.edu/",
+  "description": "Official Machine Learning Department materials state that Carnegie Mellon University's Machine Learning Department was founded in 2006 as the world's first academic department of its kind. Official SCS materials describe the School of Computer Science as comprising multiple departments including Computer Science, Machine Learning, Language Technologies, and Robotics.",
+  "is_active": true,
+  "source_url": "https://ml.cmu.edu/"
+}

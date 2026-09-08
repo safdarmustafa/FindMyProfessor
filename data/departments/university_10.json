@@ -1,0 +1,12 @@
+{
+  "departments": [
+    {
+      "id": "computer-science",
+      "university": "university_10",
+      "name": "Department of Computer Science",
+      "website_url": "https://www.cs.princeton.edu/",
+      "description": "Official faculty directory lists research areas including Machine Learning, Natural Language Processing, Vision & Graphics, Robotics, and Computational Biology.",
+      "source_url": "https://www.cs.princeton.edu/people/faculty"
+    }
+  ]
+}

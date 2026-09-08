@@ -1,0 +1,26 @@
+{
+  "opportunities": [
+    {
+      "id": "scs-phd",
+      "university": "university_05",
+      "professor": null,
+      "lab": null,
+      "title": "School of Computer Science Ph.D. Programs (including Computer Science and Machine Learning)",
+      "opportunity_type": "phd",
+      "description": "Official CSD doctoral admissions materials state that the SCS Graduate Programs Application opens 9 September 2026. Early application deadline 18 November 2026 (3 p.m. EST); final deadline 9 December 2026 (3 p.m. EST). Applicants are admitted to start the following fall semester. Official CSD statement: the Computer Science Department offers all admitted Ph.D. students comprehensive financial support (stipend, tuition, university student fees, university student health insurance) while they are in good academic standing. Basic funding is the same for domestic and international students. A master's degree is not required to apply.",
+      "eligibility": "Official materials: a master's degree is not required to apply to the Ph.D. in Computer Science. All doctoral programs offered by CSD require in-person attendance on the Pittsburgh campus. International students must submit language test scores as specified. Unofficial transcripts are accepted for application; official transcripts are required if admitted.",
+      "international_eligible": true,
+      "undergraduate_eligible": true,
+      "funding_type": "full scholarship",
+      "stipend_amount": null,
+      "tuition_coverage": true,
+      "accommodation_coverage": null,
+      "travel_coverage": null,
+      "application_deadline": "2026-12-09",
+      "start_date": null,
+      "official_url": "https://csd.cmu.edu/academics/doctoral/admissions",
+      "status": "open",
+      "source_url": "https://csd.cmu.edu/academics/doctoral/admissions"
+    }
+  ]
+}

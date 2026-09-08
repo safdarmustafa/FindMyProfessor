@@ -1,0 +1,26 @@
+{
+  "opportunities": [
+    {
+      "id": "dinfk-doctorate",
+      "university": "university_08",
+      "professor": null,
+      "lab": null,
+      "title": "Doctoral studies in Computer Science",
+      "opportunity_type": "phd",
+      "description": "Official D-INFK application and admission page states that students holding a Master's degree in computer science or a related field are invited to apply for doctoral studies in Computer Science. Application and admission are possible at any time; there are no deadlines. Applications may be made by contacting a professor then submitting via eApply, or via the central online application system reviewed by the entire faculty. Once submitted, an application remains active for four months. Doctoral students are employees and students and generally receive an employment contract. Official text states that at D-INFK the salary rates for doctoral students are Rate 4 or Rate 5. GRE tests are not mandatory. Language tests are not required. Exact stipend amounts are not stated as currency figures on this page.",
+      "eligibility": "Official requirements: Master's degree with a strong background in computer science or a closely related field; proficiency in written and spoken English. Typically personal interviews are conducted with candidates considered for admission.",
+      "international_eligible": true,
+      "undergraduate_eligible": false,
+      "funding_type": "employment contract",
+      "stipend_amount": null,
+      "tuition_coverage": null,
+      "accommodation_coverage": null,
+      "travel_coverage": null,
+      "application_deadline": null,
+      "start_date": null,
+      "official_url": "https://inf.ethz.ch/doctorate/doctoral-study-program/application-and-admission.html",
+      "status": "open",
+      "source_url": "https://inf.ethz.ch/doctorate/doctoral-study-program/application-and-admission.html"
+    }
+  ]
+}

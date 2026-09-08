@@ -1,0 +1,44 @@
+{
+  "labs": [
+    {
+      "id": "iml",
+      "university": "university_27",
+      "department": "informatics",
+      "name": "Institute for Adaptive and Neural Computation (machine learning group)",
+      "website_url": "https://informatics.ed.ac.uk/iml/research/machine-learning",
+      "description": "Official IML machine learning page lists faculty and research interests.",
+      "research_summary": "Official IML page describes theoretical and applied machine learning including deep learning, probabilistic modelling, vision, and AI for science.",
+      "source_url": "https://informatics.ed.ac.uk/iml/research/machine-learning"
+    },
+    {
+      "id": "ilcc",
+      "university": "university_27",
+      "department": "informatics",
+      "name": "Institute for Language, Cognition and Computation",
+      "website_url": "https://informatics.ed.ac.uk/ilcc",
+      "description": "Official ILCC NLP research page lists faculty by NLP topic.",
+      "research_summary": "Official ILCC page describes NLP, computational linguistics, generation, parsing, and machine translation.",
+      "source_url": "https://informatics.ed.ac.uk/ilcc/research/natural-language-processing-and-computational-linguistics"
+    },
+    {
+      "id": "ipab",
+      "university": "university_27",
+      "department": "informatics",
+      "name": "Institute of Perception, Action and Behaviour",
+      "website_url": "https://informatics.ed.ac.uk/ipab",
+      "description": "Official IPAB people page lists academic staff in computer vision, robotics, and robot learning.",
+      "research_summary": "Official IPAB page describes vision, robotics, robot learning, and medical image analysis.",
+      "source_url": "https://informatics.ed.ac.uk/ipab/people2"
+    },
+    {
+      "id": "eliai",
+      "university": "university_27",
+      "department": "informatics",
+      "name": "Edinburgh Laboratory for Integrated Artificial Intelligence",
+      "website_url": "https://informatics.ed.ac.uk/eliai",
+      "description": "Official ELIAI directors page lists Mirella Lapata and Chris Williams as directors and publishes emails.",
+      "research_summary": "Official ELIAI page describes enhancing neural network models with reasoning capabilities.",
+      "source_url": "https://informatics.ed.ac.uk/eliai/people/directors"
+    }
+  ]
+}

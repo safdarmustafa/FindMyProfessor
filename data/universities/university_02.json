@@ -1,0 +1,10 @@
+{
+  "id": "university_02",
+  "name": "King Abdullah University of Science and Technology (KAUST)",
+  "country": "Saudi Arabia",
+  "city": "Thuwal",
+  "website_url": "https://www.kaust.edu.sa/",
+  "description": "Established in 2009, King Abdullah University of Science and Technology (KAUST) is a graduate research university devoted to finding solutions for pressing scientific and technological challenges in food and health, water, energy, environment and the digital domain. Official materials describe a curiosity-driven, interdisciplinary environment with state-of-the-art labs, distinguished faculty and students from more than 120 nationalities.",
+  "is_active": true,
+  "source_url": "https://www.kaust.edu.sa/en/about"
+}

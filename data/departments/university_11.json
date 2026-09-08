@@ -1,0 +1,12 @@
+{
+  "departments": [
+    {
+      "id": "computer-science",
+      "university": "university_11",
+      "name": "Department of Computer Science",
+      "website_url": "https://web.cs.toronto.edu/",
+      "description": "Official faculty directory publishes research-stream faculty with emails and research areas including machine learning, computer vision, NLP, robotics, and computational medicine.",
+      "source_url": "https://web.cs.toronto.edu/people/faculty-directory"
+    }
+  ]
+}

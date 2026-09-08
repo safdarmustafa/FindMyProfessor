@@ -1,0 +1,26 @@
+{
+  "opportunities": [
+    {
+      "professor": null,
+      "lab": null,
+      "eligibility": null,
+      "international_eligible": true,
+      "undergraduate_eligible": false,
+      "funding_type": null,
+      "stipend_amount": null,
+      "tuition_coverage": null,
+      "accommodation_coverage": null,
+      "travel_coverage": null,
+      "application_deadline": null,
+      "start_date": null,
+      "status": null,
+      "id": "phd-comp",
+      "university": "university_29",
+      "title": "Ph.D. in Computer Science",
+      "opportunity_type": "phd",
+      "description": "Official NUS School of Computing and NUS AI Lab pages describe doctoral AI research. A numeric application deadline was not extracted from the fetched lab people page.",
+      "official_url": "https://www.comp.nus.edu.sg/programmes/pg/phdcs/",
+      "source_url": "https://nusail.comp.nus.edu.sg/people/"
+    }
+  ]
+}

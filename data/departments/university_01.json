@@ -1,0 +1,36 @@
+{
+  "departments": [
+    {
+      "id": "computer-vision",
+      "university": "university_01",
+      "name": "Computer Vision",
+      "website_url": "https://mbzuai.ac.ae/research-department/computer-vision-department/",
+      "description": "The Computer Vision department focuses on teaching computers to interpret and understand visual information, including image recognition, object detection, and video analysis. Official department materials also describe work on visual and vision-language AI models, robotic vision, generative media, multi-sensor fusion, and trustworthy AI. The department offers M.Sc. and Ph.D. programs in computer vision.",
+      "source_url": "https://mbzuai.ac.ae/research-department/computer-vision-department/"
+    },
+    {
+      "id": "machine-learning",
+      "university": "university_01",
+      "name": "Machine Learning",
+      "website_url": "https://mbzuai.ac.ae/research-department/machine-learning-department/",
+      "description": "The Machine Learning department studies algorithms and models that enable systems to learn from data, recognize patterns, and make predictions or decisions with minimal human intervention. Official department materials describe a focus on adaptable, explainable AI models for challenges in healthcare, energy, and smart cities. The department offers M.Sc. and Ph.D. programs in machine learning.",
+      "source_url": "https://mbzuai.ac.ae/research-department/machine-learning-department/"
+    },
+    {
+      "id": "natural-language-processing",
+      "university": "university_01",
+      "name": "Natural Language Processing",
+      "website_url": "https://mbzuai.ac.ae/research-department/natural-language-processing-department/",
+      "description": "The Natural Language Processing department centers on computational techniques to analyze, understand, and generate human language. Official department materials describe LLM research with emphasis on Arabic and underserved languages, as well as applications across healthcare, finance, and education. The department offers M.Sc. and Ph.D. programs in natural language processing.",
+      "source_url": "https://mbzuai.ac.ae/research-department/natural-language-processing-department/"
+    },
+    {
+      "id": "computer-science",
+      "university": "university_01",
+      "name": "Computer Science",
+      "website_url": "https://mbzuai.ac.ae/research-department/computer-science-department/",
+      "description": "The Computer Science department focuses on building efficient, scalable, sustainable, and trustworthy computing technologies for the age of AI, spanning algorithms, systems, and infrastructure that support large-scale model training and deployment. The department offers graduate programs in computer science.",
+      "source_url": "https://mbzuai.ac.ae/research-department/computer-science-department/"
+    }
+  ]
+}

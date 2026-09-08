@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FindMyProfessor — Professor match</title>
+  <link rel="stylesheet" href="/static/css/fmp.css">
+</head>
+<body>
+  <nav>
+    <a href="/onboarding">CV profile</a>
+    <a href="/matches">Research Matches</a>
+  </nav>
+  <main>
+    <p><a href="/matches">Back to research matches</a></p>
+    <h1>Professor</h1>
+    <p id="page-status" class="status" aria-live="polite">Loading…</p>
+    <div id="detail"></div>
+  </main>
+  <script src="/static/js/matching_api.js"></script>
+  <script src="/static/js/matching_ui.js"></script>
+  <script>
+    const api = window.FMPMatchingApi;
+    const ui = window.FMPMatchingUi;
+    const profileId = api.getProfileId();
+    const professorId = window.location.pathname.split("/").filter(Boolean).pop();
+    const statusEl = document.getElementById("page-status");
+    const detailEl = document.getElementById("detail");
+
+    function websiteBlock(professor) {
+      if (!professor || !professor.website_url) return "";
+      return '<p><a href="' + ui.escapeHtml(professor.website_url) + '">Website</a></p>';
+    }
+
+    (async function start() {
+      if (!profileId) {
+        statusEl.textContent = "";
+        detailEl.innerHTML = '<section><p>Confirm your CV to discover research matches.</p><p><a href="/onboarding">Review my CV</a></p></section>';
+        return;
+      }
+      try {
+        const profile = await api.fetchProfile(profileId);
+        if (!profile.confirmed) {
+          statusEl.textContent = "";
+          detailEl.innerHTML = '<section><p>Confirm your CV to discover research matches.</p><p><a href="/onboarding">Review my CV</a></p></section>';
+          return;
+        }
+        const [matchData, directory] = await Promise.all([
+          api.fetchMatches(profileId, { mode: "research", limit: 100 }),
+          api.fetchProfessor(professorId)
+        ]);
+        const match = (matchData.matches || []).find(function (item) {
+          return item.professor && String(item.professor.id) === String(professorId);
+        });
+        if (!match && !directory) {
+          statusEl.textContent = "";
+          detailEl.innerHTML = "<section><p>Professor not found.</p></section>";
+          return;
+        }
+        statusEl.textContent = "Based on your confirmed CV";
+        statusEl.className = "status ok";
+        let html = "";
+        if (match) {
+          html += ui.renderProfessorCard(match, { showWhy: true });
+        } else {
+          html += "<section><p>No research match is available for this professor with the current confirmed CV.</p></section>";
+        }
+        if (directory) {
+          html += "<section><h2>Directory</h2>";
+          html += "<p>" + ui.escapeHtml(directory.name || "") + "</p>";
+          if (directory.title) html += "<p class=\"meta\">" + ui.escapeHtml(directory.title) + "</p>";
+          html += websiteBlock(directory);
+          if (!directory.lab) html += "<p class=\"meta\">Lab: not available</p>";
+          html += "</section>";
+        }
+        detailEl.innerHTML = html;
+      } catch (err) {
+        statusEl.className = "status error";
+        statusEl.textContent = "Unable to load research matches.";
+        detailEl.innerHTML = '<section><p><a href="/matches">Return to matches</a></p></section>';
+      }
+    })();
+  </script>
+</body>
+</html>

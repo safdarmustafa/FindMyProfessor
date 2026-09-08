@@ -1,0 +1,34 @@
+{
+  "labs": [
+    {
+      "id": "oatml",
+      "university": "university_07",
+      "department": "computer-science",
+      "name": "Oxford Applied and Theoretical Machine Learning Group",
+      "website_url": "https://oatml.cs.ox.ac.uk/",
+      "description": "Official OATML site and Yarin Gal's official Oxford Computer Science profile identify OATML as the Oxford Applied and Theoretical Machine Learning Group. Gal's official profile lists him as Head of OATML. The official group site describes research in theoretical machine learning and applications including medical, astronomy, and autonomous driving domains.",
+      "research_summary": "Official group materials describe theoretical and applied machine learning, including work on large language model safety, uncertainty, and related topics listed on the group site.",
+      "source_url": "https://oatml.cs.ox.ac.uk/"
+    },
+    {
+      "id": "omni",
+      "university": "university_07",
+      "department": "computer-science",
+      "name": "Oxford Machine Learning in NeuroImaging Lab",
+      "website_url": "https://oxford-omni-lab.github.io/",
+      "description": "Ana Namburete's official Oxford Computer Science profile lists Oxford Machine Learning in NeuroImaging (OMNI) Lab under See Also and states she leads a group on machine learning for fetal and neonatal neuroimaging. The OMNI lab site identifies the group as based in the Department of Computer Science, University of Oxford. Manual review: the public lab site is hosted on GitHub Pages rather than a cs.ox.ac.uk hostname.",
+      "research_summary": "Official profile and OMNI lab materials describe deep learning and computer vision for medical image analysis, especially fetal and neonatal neuroimaging from ultrasound.",
+      "source_url": "https://www.cs.ox.ac.uk/people/ana.namburete/"
+    },
+    {
+      "id": "cps",
+      "university": "university_07",
+      "department": "computer-science",
+      "name": "Cyber Physical Systems Group",
+      "website_url": "https://www.cs.ox.ac.uk/people/niki.trigoni/",
+      "description": "Niki Trigoni's official Oxford Computer Science profile states that she leads the Cyber Physical Systems Group, focusing on intelligent and autonomous sensor systems. A separate group homepage URL was not independently confirmed, so this lab record uses the official faculty profile as source.",
+      "research_summary": "Official profile: intelligent and autonomous sensor systems with applications in positioning, healthcare, environmental monitoring and smart cities, ranging from novel sensor modalities to high-level inference and learning.",
+      "source_url": "https://www.cs.ox.ac.uk/people/niki.trigoni/"
+    }
+  ]
+}

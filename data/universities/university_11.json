@@ -1,0 +1,10 @@
+{
+  "id": "university_11",
+  "name": "University of Toronto",
+  "country": "Canada",
+  "city": "Toronto",
+  "website_url": "https://www.utoronto.ca/",
+  "description": "Official Department of Computer Science graduate pages state that applications for Fall 2026 are closed and applications for Fall 2027 will open in October 2026. Official faculty directory lists extensive machine learning, computer vision, NLP, and robotics research-stream faculty.",
+  "is_active": true,
+  "source_url": "https://web.cs.toronto.edu/people/faculty-directory"
+}

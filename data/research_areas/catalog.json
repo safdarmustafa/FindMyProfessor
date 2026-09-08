@@ -1,0 +1,145 @@
+{
+  "_comment": "Canonical research-area vocabulary taken only from labels already used on professor records. Do not invent areas. Related labels are listed separately on purpose (e.g. Medical AI vs Healthcare AI vs Biomedical AI; Foundation Models vs Large Language Models; Multimodal AI vs Multimodal Learning). Computer Science is retained because it appears on professor records; it is too generic for matching and is flagged for a later taxonomy pass. source_url is omitted unless a catalog-level official definition URL exists.",
+  "research_areas": [
+    {
+      "name": "Machine Learning",
+      "description": "Algorithms and theory for learning patterns from data, including supervised, unsupervised, and statistical learning."
+    },
+    {
+      "name": "Artificial Intelligence",
+      "description": "Broad intelligent-systems research spanning reasoning, learning, perception, and decision-making when a more specific label was not used."
+    },
+    {
+      "name": "Computer Vision",
+      "description": "Machine interpretation of images and video, including recognition, reconstruction, and visual understanding."
+    },
+    {
+      "name": "Natural Language Processing",
+      "description": "Computational processing and understanding of human language, including text analysis, generation, and linguistics-informed models."
+    },
+    {
+      "name": "Robotics",
+      "description": "Embodied systems for perception, planning, control, and physical interaction with the world."
+    },
+    {
+      "name": "Deep Learning",
+      "description": "Neural-network methods, architectures, and training for representation learning and prediction."
+    },
+    {
+      "name": "Trustworthy AI",
+      "description": "Reliability, robustness, privacy, security, fairness, and related properties of AI systems."
+    },
+    {
+      "name": "Medical AI",
+      "description": "AI methods applied to medical imaging, clinical diagnosis, and medicine-centered modeling. Kept distinct from Healthcare AI and Biomedical AI."
+    },
+    {
+      "name": "AI for Science",
+      "description": "Machine learning and AI used to accelerate scientific discovery in the natural and physical sciences."
+    },
+    {
+      "name": "Efficient AI",
+      "description": "Reducing compute, memory, energy, or data cost of training and deploying AI models."
+    },
+    {
+      "name": "Data Science",
+      "description": "Large-scale data analysis, mining, and statistical methods that overlap with but are not limited to core ML."
+    },
+    {
+      "name": "Large Language Models",
+      "description": "Large-scale language models and their training, adaptation, evaluation, and use. Kept distinct from Foundation Models."
+    },
+    {
+      "name": "Reinforcement Learning",
+      "description": "Learning sequential decision policies from interaction, reward, or demonstration."
+    },
+    {
+      "name": "Foundation Models",
+      "description": "General-purpose pretrained models across modalities or tasks, not limited to language. Kept distinct from Large Language Models."
+    },
+    {
+      "name": "Multimodal Learning",
+      "description": "Learning from combined modalities such as vision and language. Kept distinct from Multimodal AI."
+    },
+    {
+      "name": "AI Agents",
+      "description": "Autonomous or semi-autonomous agents that plan, act, and interact over time. No Agentic AI label exists in the current professor files."
+    },
+    {
+      "name": "AI Systems",
+      "description": "Systems, infrastructure, and runtime support for training and serving AI workloads."
+    },
+    {
+      "name": "Human-Centered AI",
+      "description": "AI designed around human interaction, collaboration, HCI, and human-AI teaming."
+    },
+    {
+      "name": "Computer Science",
+      "description": "Generic departmental label present on some professor records. Too broad for research matching; retain mappings and review later. Do not treat as an AI topic."
+    },
+    {
+      "name": "Healthcare AI",
+      "description": "AI for health-system delivery, clinical operations, and patient-care workflows. Kept distinct from Medical AI and Biomedical AI."
+    },
+    {
+      "name": "Biomedical AI",
+      "description": "AI for biological and biomedical science, including genomics and molecular systems. Kept distinct from Medical AI and Healthcare AI."
+    },
+    {
+      "name": "Computational Biology",
+      "description": "Computational methods for biological data and systems, including genomics and biomolecular modeling."
+    },
+    {
+      "name": "Information Retrieval",
+      "description": "Search, ranking, and retrieval of documents or other items from large collections."
+    },
+    {
+      "name": "Responsible AI",
+      "description": "Ethics, governance, accountability, and societal responsibility of AI systems. Related to but not merged with Trustworthy AI."
+    },
+    {
+      "name": "Generative AI",
+      "description": "Models that generate text, images, or other media. Kept distinct from Foundation Models and Large Language Models."
+    },
+    {
+      "name": "Multimodal AI",
+      "description": "AI systems that jointly handle multiple modalities. Kept distinct from Multimodal Learning."
+    },
+    {
+      "name": "Edge AI",
+      "description": "AI models and inference on resource-constrained or on-device platforms."
+    },
+    {
+      "name": "Explainable AI",
+      "description": "Methods that make model predictions interpretable or attributable to humans."
+    },
+    {
+      "name": "Recommender Systems",
+      "description": "Personalized ranking and recommendation of items to users."
+    },
+    {
+      "name": "AI Media Synthesis",
+      "description": "Synthesis of media content with AI; rare label retained as used on professor records."
+    },
+    {
+      "name": "Embodied AI",
+      "description": "Learning and intelligence in physically or virtually embodied agents. Related to Robotics; kept separate."
+    },
+    {
+      "name": "Multi-Agent Systems",
+      "description": "Interaction among multiple agents. Related to AI Agents; kept separate."
+    },
+    {
+      "name": "Object Recognition",
+      "description": "Visual recognition of objects. Subsumable under Computer Vision in a later pass; retained as used."
+    },
+    {
+      "name": "Spatial AI",
+      "description": "AI for spatial understanding, mapping, or spatially grounded perception."
+    },
+    {
+      "name": "Speech / Language AI",
+      "description": "Speech and spoken-language AI. Possible future fold into Natural Language Processing; retained as used."
+    }
+  ]
+}

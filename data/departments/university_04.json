@@ -1,0 +1,12 @@
+{
+  "departments": [
+    {
+      "id": "eecs",
+      "university": "university_04",
+      "name": "Electrical Engineering and Computer Science",
+      "website_url": "https://www.eecs.mit.edu/",
+      "description": "Official MIT EECS directory lists faculty in Computer Science, Electrical Engineering, and Artificial Intelligence + Decision-making (AI+D). Official graduate admissions materials describe Ph.D. and Sc.D. study in EECS, with applications opening 15 September and a deadline of 1 December.",
+      "source_url": "https://www.eecs.mit.edu/"
+    }
+  ]
+}

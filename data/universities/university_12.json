@@ -1,0 +1,10 @@
+{
+  "id": "university_12",
+  "name": "EPFL",
+  "country": "Switzerland",
+  "city": "Lausanne",
+  "website_url": "https://www.epfl.ch/",
+  "description": "Official EPFL School of Computer and Communication Sciences (IC) Artificial Intelligence & Machine Learning page lists affiliated faculty with institutional emails. Official EDIC pages describe doctoral study in computer and communication sciences with affiliated AIML labs.",
+  "is_active": true,
+  "source_url": "https://www.epfl.ch/schools/ic/research/artificial-intelligence-machine-learning/"
+}

@@ -1,0 +1,52 @@
+{
+  "departments": [
+    {
+      "id": "cse",
+      "university": "university_18",
+      "name": "Computer Science and Engineering",
+      "website_url": "https://cse.engin.umich.edu/",
+      "description": "Official CSE core faculty directory includes AI, ML, NLP, vision, robotics, and healthcare-AI faculty with published emails.",
+      "source_url": "https://cse.engin.umich.edu/people/faculty/core-cse-faculty/"
+    },
+    {
+      "id": "ece",
+      "university": "university_18",
+      "name": "Electrical and Computer Engineering",
+      "website_url": "https://ece.engin.umich.edu/",
+      "description": "Official Michigan AI Lab affiliated-faculty page lists ECE faculty working in machine learning, biomedical AI, and related areas.",
+      "source_url": "https://ai.engin.umich.edu/people/affiliated-faculty/"
+    },
+    {
+      "id": "robotics",
+      "university": "university_18",
+      "name": "Robotics Department",
+      "website_url": "https://robotics.umich.edu/",
+      "description": "Official Michigan AI Lab affiliated-faculty page lists Robotics faculty in computer vision, robot learning, and AI.",
+      "source_url": "https://ai.engin.umich.edu/people/affiliated-faculty/"
+    },
+    {
+      "id": "statistics",
+      "university": "university_18",
+      "name": "Department of Statistics",
+      "website_url": "https://lsa.umich.edu/stats",
+      "description": "Official Michigan AI Lab affiliated-faculty page lists Statistics faculty in machine learning and computer vision.",
+      "source_url": "https://ai.engin.umich.edu/people/affiliated-faculty/"
+    },
+    {
+      "id": "information",
+      "university": "university_18",
+      "name": "School of Information",
+      "website_url": "https://www.si.umich.edu/",
+      "description": "Official Michigan AI Lab affiliated-faculty page lists Information faculty in IR, ML, and health informatics.",
+      "source_url": "https://ai.engin.umich.edu/people/affiliated-faculty/"
+    },
+    {
+      "id": "computational-medicine",
+      "university": "university_18",
+      "name": "Computational Medicine and Bioinformatics",
+      "website_url": "https://medicine.umich.edu/dept/dcmb",
+      "description": "Official Michigan AI Lab affiliated-faculty page lists DCMB faculty in biomedical AI and machine learning.",
+      "source_url": "https://ai.engin.umich.edu/people/affiliated-faculty/"
+    }
+  ]
+}

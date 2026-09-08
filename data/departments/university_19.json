@@ -1,0 +1,12 @@
+{
+  "departments": [
+    {
+      "id": "computer-science",
+      "university": "university_19",
+      "name": "Department of Computer Science",
+      "website_url": "https://www.cs.columbia.edu/",
+      "description": "Official faculty directory and AI/ML area pages list CS and joint faculty in artificial intelligence, machine learning, NLP, vision, and robotics.",
+      "source_url": "https://www.cs.columbia.edu/people/faculty/"
+    }
+  ]
+}

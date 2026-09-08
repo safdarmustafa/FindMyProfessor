@@ -1,0 +1,12 @@
+{
+  "departments": [
+    {
+      "id": "computer-science",
+      "university": "university_09",
+      "name": "Department of Computer Science and Technology",
+      "website_url": "https://www.cst.cam.ac.uk/",
+      "description": "Official faculty classification pages and individual profiles list academic staff working in Machine Learning and Artificial Intelligence, NLP, and related systems research.",
+      "source_url": "https://www.cst.cam.ac.uk/sd-classification/faculty"
+    }
+  ]
+}

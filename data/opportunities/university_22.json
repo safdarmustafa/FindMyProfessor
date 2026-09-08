@@ -1,0 +1,26 @@
+{
+  "opportunities": [
+    {
+      "professor": null,
+      "lab": null,
+      "eligibility": null,
+      "international_eligible": true,
+      "undergraduate_eligible": false,
+      "funding_type": null,
+      "stipend_amount": null,
+      "tuition_coverage": null,
+      "accommodation_coverage": null,
+      "travel_coverage": null,
+      "application_deadline": null,
+      "start_date": null,
+      "status": null,
+      "id": "phd-computing",
+      "university": "university_22",
+      "title": "Ph.D. in Computing",
+      "opportunity_type": "phd",
+      "description": "Official Imperial Computing academic staff and AI research pages describe doctoral-level AI research. A numeric application deadline was not extracted from the fetched staff directory.",
+      "official_url": "https://www.imperial.ac.uk/computing/prospective-students/phd/",
+      "source_url": "https://www.imperial.ac.uk/computing/people/academic-staff/"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "id": "university_15",
+  "name": "Georgia Institute of Technology",
+  "country": "United States",
+  "city": "Atlanta",
+  "website_url": "https://www.gatech.edu/",
+  "description": "Official ML@GT Ph.D. Program Faculty table lists faculty who can advise ML Ph.D. students, with institutional emails and research areas including deep learning, computer vision, NLP, robotics, and machine learning theory.",
+  "is_active": true,
+  "source_url": "https://prod-ml.cc.gatech.edu/ml-phd-program-faculty"
+}

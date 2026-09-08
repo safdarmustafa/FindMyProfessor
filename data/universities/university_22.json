@@ -1,0 +1,10 @@
+{
+  "id": "university_22",
+  "name": "Imperial College London",
+  "country": "United Kingdom",
+  "city": "London",
+  "website_url": "https://www.imperial.ac.uk/",
+  "description": "Official Department of Computing academic staff pages list faculty with research interests and, where published, institutional emails. Official Computing Artificial Intelligence research pages describe ML, NLP, vision, robotics, safe AI, and medical imaging.",
+  "is_active": true,
+  "source_url": "https://www.imperial.ac.uk/computing/people/academic-staff/"
+}

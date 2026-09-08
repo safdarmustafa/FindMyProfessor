@@ -1,0 +1,24 @@
+{
+  "labs": [
+    {
+      "id": "waiv",
+      "university": "university_30",
+      "department": "computer-sciences",
+      "name": "Wisconsin AI and Vision Lab (WAIV)",
+      "website_url": "https://pages.cs.wisc.edu/~yongjaelee/",
+      "description": "Official Yong Jae Lee homepage states he leads the Wisconsin AI and Vision Lab (WAIV).",
+      "research_summary": "Official homepage describes computer vision, machine learning, and robotics with a focus on multimodal understanding with minimal human supervision.",
+      "source_url": "https://pages.cs.wisc.edu/~yongjaelee/"
+    },
+    {
+      "id": "pal",
+      "university": "university_30",
+      "department": "computer-sciences",
+      "name": "Prediction and Action Lab (PAL)",
+      "website_url": "https://pages.cs.wisc.edu/~jphanna/",
+      "description": "Official Josiah Hanna homepage states he leads the Prediction and Action Lab (PAL).",
+      "research_summary": "Official homepage describes reinforcement learning and robotics, including data-efficient RL and confident deployment of autonomous agents.",
+      "source_url": "https://pages.cs.wisc.edu/~jphanna/"
+    }
+  ]
+}

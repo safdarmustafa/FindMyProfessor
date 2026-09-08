@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FindMyProfessor — Research Matches</title>
+  <link rel="stylesheet" href="/static/css/fmp.css">
+</head>
+<body>
+  <nav>
+    <a href="/onboarding">CV profile</a>
+    <a href="/matches" aria-current="page">Research Matches</a>
+  </nav>
+  <main>
+    <h1>Research Matches</h1>
+    <p class="lead">Find professors whose research aligns with your background.</p>
+
+    <section id="cv-status"></section>
+
+    <section id="filters" class="hidden">
+      <h2>Filters</h2>
+      <div class="filters">
+        <div>
+          <label for="university">University</label>
+          <select id="university"><option value="">All universities</option></select>
+        </div>
+        <div>
+          <label for="min-score">Minimum match score</label>
+          <input id="min-score" type="number" min="0" max="100" value="0">
+        </div>
+        <div>
+          <label for="email-only">
+            <input id="email-only" type="checkbox"> Email available
+          </label>
+        </div>
+      </div>
+      <button type="button" id="apply-filters">Apply filters</button>
+    </section>
+
+    <p id="page-status" class="status" aria-live="polite"></p>
+    <div id="results"></div>
+  </main>
+  <script src="/static/js/matching_api.js"></script>
+  <script src="/static/js/matching_ui.js"></script>
+  <script>
+    const api = window.FMPMatchingApi;
+    const ui = window.FMPMatchingUi;
+    const profileId = api.getProfileId();
+    const statusEl = document.getElementById("page-status");
+    const resultsEl = document.getElementById("results");
+    const cvStatusEl = document.getElementById("cv-status");
+    const filtersEl = document.getElementById("filters");
+
+    function showStatus(text, kind) {
+      statusEl.className = "status" + (kind ? " " + kind : "");
+      statusEl.textContent = text || "";
+    }
+
+    function emptyState(message, actionLabel, href) {
+      resultsEl.innerHTML =
+        '<section><p>' + ui.escapeHtml(message) + '</p>' +
+        (href ? '<p><a href="' + ui.escapeHtml(href) + '">' + ui.escapeHtml(actionLabel) + "</a></p>" : "") +
+        "</section>";
+    }
+
+    function loadingState() {
+      resultsEl.innerHTML =
+        '<div class="skeleton card" aria-hidden="true"></div>' +
+        '<div class="skeleton card" aria-hidden="true"></div>' +
+        '<div class="skeleton card" aria-hidden="true"></div>';
+      showStatus("Loading research matches…");
+    }
+
+    function currentFilters() {
+      return {
+        mode: "research",
+        limit: 25,
+        universityId: document.getElementById("university").value || undefined,
+        minScore: document.getElementById("min-score").value,
+        emailOnly: document.getElementById("email-only").checked
+      };
+    }
+
+    async function loadUniversities() {
+      const data = await api.fetchUniversities();
+      const select = document.getElementById("university");
+      (data.universities || []).forEach(function (university) {
+        if (!university || !university.id || !university.name) return;
+        const option = document.createElement("option");
+        option.value = university.id;
+        option.textContent = university.name;
+        select.appendChild(option);
+      });
+    }
+
+    async function loadMatches() {
+      loadingState();
+      try {
+        const data = await api.fetchMatches(profileId, currentFilters());
+        const matches = data.matches || [];
+        if (!matches.length) {
+          emptyState(
+            "No strong research matches found yet. Try broadening your research interests or reviewing your CV.",
+            "Review my CV",
+            "/onboarding"
+          );
+          showStatus("");
+          return;
+        }
+        resultsEl.innerHTML = matches.map(function (match) {
+          const id = match.professor && match.professor.id;
+          return ui.renderProfessorCard(match, {
+            detailHref: id ? "/matches/" + encodeURIComponent(id) : ""
+          });
+        }).join("");
+        showStatus(matches.length + " professor" + (matches.length === 1 ? "" : "s") + " ranked by research match.");
+      } catch (err) {
+        resultsEl.innerHTML =
+          '<section><p>Unable to load research matches.</p>' +
+          '<button type="button" id="retry">Retry</button></section>';
+        document.getElementById("retry").onclick = loadMatches;
+        showStatus(err.message || "Unable to load research matches.", "error");
+      }
+    }
+
+    resultsEl.addEventListener("click", function (event) {
+      const button = event.target.closest(".js-toggle-why");
+      if (!button) return;
+      const panel = document.getElementById(button.getAttribute("data-target"));
+      if (panel) panel.classList.toggle("hidden");
+    });
+
+    document.getElementById("apply-filters").onclick = loadMatches;
+
+    (async function start() {
+      if (!profileId) {
+        cvStatusEl.innerHTML = "<p>No student profile is selected in this browser.</p>";
+        emptyState("Confirm your CV to discover research matches.", "Review my CV", "/onboarding");
+        return;
+      }
+      try {
+        const profile = await api.fetchProfile(profileId);
+        if (!profile.confirmed) {
+          cvStatusEl.innerHTML = "<p>Your CV still needs confirmation.</p>";
+          emptyState("Confirm your CV to discover research matches.", "Review my CV", "/onboarding");
+          return;
+        }
+        cvStatusEl.innerHTML = "<p class=\"ok\">Based on your confirmed CV</p>";
+        filtersEl.classList.remove("hidden");
+        await loadUniversities();
+        await loadMatches();
+      } catch (err) {
+        cvStatusEl.innerHTML = "";
+        emptyState("Confirm your CV to discover research matches.", "Review my CV", "/onboarding");
+        showStatus(err.message || "Unable to load your profile.", "error");
+      }
+    })();
+  </script>
+</body>
+</html>

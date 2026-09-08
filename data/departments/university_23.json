@@ -1,0 +1,12 @@
+{
+  "departments": [
+    {
+      "id": "cms",
+      "university": "university_23",
+      "name": "Computing and Mathematical Sciences",
+      "website_url": "https://www.cms.caltech.edu/",
+      "description": "Official CMS AI/ML research page lists faculty working on machine learning, perception, robotics-related decision making, generative models, and AI for science.",
+      "source_url": "https://www.cms.caltech.edu/research/artificial-intelligence-and-machine-learning"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "opportunities": [
+    {
+      "professor": null,
+      "lab": null,
+      "eligibility": "Official materials state applicants typically hold a first-class honours degree or equivalent in computer science or a numerate discipline with significant relevant preparation. Offers are usually conditional, including funding and English language conditions as applied by Postgraduate Admissions.",
+      "international_eligible": true,
+      "undergraduate_eligible": false,
+      "funding_type": null,
+      "stipend_amount": null,
+      "tuition_coverage": null,
+      "accommodation_coverage": null,
+      "travel_coverage": null,
+      "application_deadline": "2026-12-08",
+      "start_date": "2027-10-01",
+      "id": "phd-computer-science",
+      "university": "university_09",
+      "title": "PhD in Computer Science",
+      "opportunity_type": "phd",
+      "description": "Official CST PhD page states the PhD is a three-to-four year full-time research degree (or five-to-seven year part-time). Applications for the academic term commencing January 2027 are open, with a funding-competition complete-application deadline of 23:59 GMT on 4 October 2026. For academic year 2027-28, applications opened in September 2026; Gates Cambridge US-resident deadline 14 October 2026; Gates Cambridge and other Cambridge Trusts deadline 8 December 2026; department awards for Home fees students 8 December 2026; final deadline 13 May 2027 for students with full overseas-government scholarships; admission 1 October 2027. Applicants should discuss proposed research with a potential supervisor before applying.",
+      "official_url": "https://www.cst.cam.ac.uk/admissions/phd",
+      "status": "open",
+      "source_url": "https://www.cst.cam.ac.uk/admissions/phd"
+    }
+  ]
+}

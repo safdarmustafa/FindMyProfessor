@@ -1,0 +1,10 @@
+{
+  "id": "university_04",
+  "name": "Massachusetts Institute of Technology",
+  "country": "United States",
+  "city": "Cambridge",
+  "website_url": "https://www.mit.edu/",
+  "description": "Official MIT EECS materials identify the Department of Electrical Engineering and Computer Science as offering doctoral study in electrical engineering and computer science, including an Artificial Intelligence + Decision-making (AI+D) faculty group. CSAIL is MIT's Computer Science and Artificial Intelligence Laboratory; official EECS listings identify Daniela Rus as Director of CSAIL.",
+  "is_active": true,
+  "source_url": "https://www.eecs.mit.edu/role/faculty-aid/"
+}

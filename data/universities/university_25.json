@@ -1,0 +1,10 @@
+{
+  "id": "university_25",
+  "name": "University of California, San Diego",
+  "country": "United States",
+  "city": "La Jolla",
+  "website_url": "https://www.ucsd.edu/",
+  "description": "Official CSE AI faculty page lists primary and affiliated AI faculty. Official campus AI Experts directory publishes research descriptions and emails for machine learning, robotics, medical AI, and AI for science.",
+  "is_active": true,
+  "source_url": "https://ai.ucsd.edu/faculty"
+}

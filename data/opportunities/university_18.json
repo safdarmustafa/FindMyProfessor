@@ -1,0 +1,26 @@
+{
+  "opportunities": [
+    {
+      "professor": null,
+      "lab": null,
+      "eligibility": null,
+      "international_eligible": true,
+      "undergraduate_eligible": false,
+      "funding_type": null,
+      "stipend_amount": null,
+      "tuition_coverage": null,
+      "accommodation_coverage": null,
+      "travel_coverage": null,
+      "application_deadline": null,
+      "start_date": null,
+      "status": null,
+      "id": "phd-cse",
+      "university": "university_18",
+      "title": "Ph.D. in Computer Science and Engineering",
+      "opportunity_type": "phd",
+      "description": "Official Michigan CSE faculty and AI Lab pages describe doctoral-level AI research. A numeric application deadline was not extracted from the fetched faculty directories.",
+      "official_url": "https://cse.engin.umich.edu/academics/graduate/phd-in-cse/",
+      "source_url": "https://cse.engin.umich.edu/people/faculty/core-cse-faculty/"
+    }
+  ]
+}

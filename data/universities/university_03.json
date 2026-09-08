@@ -1,0 +1,10 @@
+{
+  "id": "university_03",
+  "name": "Stanford University",
+  "country": "United States",
+  "city": "Stanford",
+  "website_url": "https://www.stanford.edu/",
+  "description": "Official Computer Science Department materials describe Stanford CS as dedicated to field-transforming research and world-class education in computing. Founded in 1965, the department is home to Turing Award winners and members of the U.S. National Academies, with faculty work spanning computing and multidisciplinary collaborations across the university.",
+  "is_active": true,
+  "source_url": "https://cs.stanford.edu/about"
+}

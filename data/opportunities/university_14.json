@@ -1,0 +1,26 @@
+{
+  "opportunities": [
+    {
+      "professor": null,
+      "lab": null,
+      "eligibility": null,
+      "international_eligible": true,
+      "undergraduate_eligible": false,
+      "funding_type": null,
+      "stipend_amount": null,
+      "tuition_coverage": null,
+      "accommodation_coverage": null,
+      "travel_coverage": null,
+      "application_deadline": null,
+      "start_date": null,
+      "id": "phd-computer-science",
+      "university": "university_14",
+      "title": "Ph.D. in Computer Science",
+      "opportunity_type": "phd",
+      "description": "Official Siebel School AI page describes doctoral-level AI research. Arindam Banerjee's official homepage states he is looking for strong MS and PhD students and asks applicants to name him in the graduate application rather than emailing. A school-wide numeric deadline was not taken from that personal recruiting note. Use official Illinois CS graduate admissions pages for current dates.",
+      "official_url": "https://siebelschool.illinois.edu/admissions/graduate/phd-program",
+      "status": null,
+      "source_url": "https://siebelschool.illinois.edu/research/areas/artificial-intelligence"
+    }
+  ]
+}

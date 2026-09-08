@@ -1,0 +1,10 @@
+{
+  "id": "university_29",
+  "name": "National University of Singapore",
+  "country": "Singapore",
+  "city": "Singapore",
+  "website_url": "https://www.nus.edu.sg/",
+  "description": "Official NUS AI Lab people page lists School of Computing faculty with AI, computer vision, and robotics interest areas. Official individual Computing faculty pages provide research descriptions. Emails are recorded only when an official page publishes an address.",
+  "is_active": true,
+  "source_url": "https://nusail.comp.nus.edu.sg/people/"
+}

@@ -1,0 +1,26 @@
+{
+  "opportunities": [
+    {
+      "id": "eecs-phd",
+      "university": "university_04",
+      "professor": null,
+      "lab": null,
+      "title": "Ph.D. in Electrical Engineering and Computer Science",
+      "opportunity_type": "phd",
+      "description": "Official MIT Office of Graduate Education listings for Electrical Engineering and Computer Science state that doctoral applications open 15 September and the deadline is 1 December at 11:59 PM Eastern Time. Degrees listed are Doctor of Philosophy (PhD) and Doctor of Science. Official note: a Master of Science degree is required of students pursuing a doctoral degree; if you do not have a master's when you apply, you receive that degree first before proceeding to the Ph.D. A terminal master's degree is not offered.",
+      "eligibility": "Official OGE materials describe Ph.D. and Sc.D. study in EECS. A master's is required of doctoral students; applicants without a master's receive that degree first. A terminal master's is not offered.",
+      "international_eligible": true,
+      "undergraduate_eligible": null,
+      "funding_type": null,
+      "stipend_amount": null,
+      "tuition_coverage": null,
+      "accommodation_coverage": null,
+      "travel_coverage": null,
+      "application_deadline": "2026-12-01",
+      "start_date": null,
+      "official_url": "https://oge.mit.edu/programs/electrical-engineering-and-computer-science/",
+      "status": "upcoming",
+      "source_url": "https://oge.mit.edu/programs/electrical-engineering-and-computer-science/"
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "departments": [
+    {
+      "id": "computer-science",
+      "university": "university_17",
+      "name": "Department of Computer Science",
+      "website_url": "https://www.cs.ucla.edu/",
+      "description": "Official CS research-labs directory lists faculty-led AI, ML, NLP, vision, robotics, and health-intelligence groups.",
+      "source_url": "https://www.cs.ucla.edu/research-labs/"
+    }
+  ]
+}

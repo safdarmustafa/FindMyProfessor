@@ -1,0 +1,10 @@
+{
+  "id": "university_28",
+  "name": "University College London",
+  "country": "United Kingdom",
+  "city": "London",
+  "website_url": "https://www.ucl.ac.uk/",
+  "description": "Official UCL Centre for Artificial Intelligence people table lists academic staff with positions and institutional emails across machine learning, machine vision, NLP, and foundational AI.",
+  "is_active": true,
+  "source_url": "https://www.ucl.ac.uk/engineering/research/centres-institutes-and-labs/ucl-centre-artificial-intelligence/people"
+}

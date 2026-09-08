@@ -1,0 +1,34 @@
+{
+  "labs": [
+    {
+      "id": "metaverse-center",
+      "university": "university_01",
+      "department": "computer-vision",
+      "name": "Metaverse Center",
+      "website_url": "https://mbzuai.ac.ae/research/research-centers/",
+      "description": "Official MBZUAI research-centers materials describe the Metaverse Center as focusing on next-generation immersive communication, digital content generation, spatial computing, and digital twins.",
+      "research_summary": "Next-generation immersive communication, digital content generation, spatial computing, and digital twins.",
+      "source_url": "https://mbzuai.ac.ae/research/research-centers/"
+    },
+    {
+      "id": "ciai",
+      "university": "university_01",
+      "department": "machine-learning",
+      "name": "Center for Integrative Artificial Intelligence (CIAI)",
+      "website_url": "https://mbzuai.ac.ae/research/research-centers/ciai/",
+      "description": "Official CIAI materials state that the center aims to develop the next-generation OS for composing, experimenting with, and deploying advanced ML pipelines, including GPT-scale language-model workflows and full-stack AI systems for clinical management. The center is led by MBZUAI President Professor Eric Xing and center director Dr. Kun Zhang.",
+      "research_summary": "Modular, standardizable AI systems spanning data, model, algorithm, computing, and infrastructure, including composition of advanced ML pipelines.",
+      "source_url": "https://mbzuai.ac.ae/research/research-centers/ciai/"
+    },
+    {
+      "id": "ifm",
+      "university": "university_01",
+      "department": "computer-science",
+      "name": "Institute of Foundation Models (IFM)",
+      "website_url": "https://ifm.ai/",
+      "description": "MBZUAI launched the Institute of Foundation Models as a multi-site initiative for open, large-scale, and efficient foundation-model research, with facilities associated with Abu Dhabi, Silicon Valley, and Paris. Official MBZUAI materials describe IFM work on open models and development processes, including initiatives such as LLM360, K2, and Jais.",
+      "research_summary": "Open, efficient foundation models and transparent model-development processes for real-world AI applications.",
+      "source_url": "https://mbzuai.ac.ae/news/mbzuai-launches-institute-of-foundation-models-and-establishes-silicon-valley-ai-lab/"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "departments": [
+    {
+      "id": "computer-science",
+      "university": "university_16",
+      "name": "Department of Computer Science",
+      "website_url": "https://www.cs.cornell.edu/",
+      "description": "Official Cornell Bowers CS AI and ML research pages list faculty exploring machine learning, NLP, vision, robotics, and related AI research.",
+      "source_url": "https://www.cs.cornell.edu/research/artificial-intelligence"
+    },
+    {
+      "id": "information-science",
+      "university": "university_16",
+      "name": "Department of Information Science",
+      "website_url": "https://infosci.cornell.edu/",
+      "description": "Official Cornell CS AI faculty roster includes Information Science faculty working in NLP and related areas.",
+      "source_url": "https://www.cs.cornell.edu/research/artificial-intelligence"
+    },
+    {
+      "id": "statistics",
+      "university": "university_16",
+      "name": "Department of Statistics and Data Science",
+      "website_url": "https://stat.cornell.edu/",
+      "description": "Official Cornell CS machine-learning faculty page lists Statistics and Data Science faculty among ML researchers.",
+      "source_url": "https://www.cs.cornell.edu/research/machine-learning"
+    }
+  ]
+}

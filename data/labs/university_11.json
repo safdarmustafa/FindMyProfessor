@@ -1,0 +1,14 @@
+{
+  "labs": [
+    {
+      "id": "uoft-ml",
+      "university": "university_11",
+      "department": "computer-science",
+      "name": "Machine Learning Group",
+      "website_url": "https://www.learning.cs.toronto.edu/",
+      "description": "Official UofT Machine Learning group page states that the Department of Computer Science has several faculty members working in machine learning, neural networks, statistical pattern recognition, probabilistic planning, and adaptive systems.",
+      "research_summary": "Machine learning, neural networks, statistical pattern recognition, probabilistic planning, and adaptive systems.",
+      "source_url": "https://www.learning.cs.toronto.edu/"
+    }
+  ]
+}

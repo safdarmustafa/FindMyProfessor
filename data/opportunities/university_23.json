@@ -1,0 +1,26 @@
+{
+  "opportunities": [
+    {
+      "professor": null,
+      "lab": null,
+      "eligibility": null,
+      "international_eligible": true,
+      "undergraduate_eligible": false,
+      "funding_type": null,
+      "stipend_amount": null,
+      "tuition_coverage": null,
+      "accommodation_coverage": null,
+      "travel_coverage": null,
+      "application_deadline": null,
+      "start_date": null,
+      "status": null,
+      "id": "phd-cms",
+      "university": "university_23",
+      "title": "Ph.D. in Computing and Mathematical Sciences",
+      "opportunity_type": "phd",
+      "description": "Official CMS AI/ML research pages describe doctoral-level AI and machine learning research. A numeric application deadline was not extracted from the fetched research page.",
+      "official_url": "https://www.cms.caltech.edu/academics/grad",
+      "source_url": "https://www.cms.caltech.edu/research/artificial-intelligence-and-machine-learning"
+    }
+  ]
+}

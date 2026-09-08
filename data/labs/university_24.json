@@ -1,0 +1,54 @@
+{
+  "labs": [
+    {
+      "id": "asset",
+      "university": "university_24",
+      "department": "cis",
+      "name": "ASSET Center",
+      "website_url": "https://asset.upenn.edu/",
+      "description": "Official CIS faculty page lists Rajeev Alur as Founding Director, ASSET Center.",
+      "research_summary": "Official listing associates ASSET with Alur's faculty role.",
+      "source_url": "https://www.cis.upenn.edu/people/faculty/"
+    },
+    {
+      "id": "warren-center",
+      "university": "university_24",
+      "department": "cis",
+      "name": "Warren Center for Network and Data Sciences",
+      "website_url": "https://warrencenter.upenn.edu/",
+      "description": "Official CIS faculty page lists Michael Kearns as Founding Director of the Warren Center.",
+      "research_summary": "Official listing associates the Warren Center with network and data sciences.",
+      "source_url": "https://www.cis.upenn.edu/people/faculty/"
+    },
+    {
+      "id": "grasp",
+      "university": "university_24",
+      "department": "cis",
+      "name": "GRASP Laboratory",
+      "website_url": "https://www.grasp.upenn.edu/",
+      "description": "Official CIS faculty page lists Camillo Jose Taylor as Director of the GRASP Laboratory.",
+      "research_summary": "Official GRASP listing describes robotics, perception, and autonomy research.",
+      "source_url": "https://www.cis.upenn.edu/people/faculty/"
+    },
+    {
+      "id": "precise",
+      "university": "university_24",
+      "department": "cis",
+      "name": "PRECISE Center",
+      "website_url": "https://precise.seas.upenn.edu/",
+      "description": "Official CIS faculty page lists Insup Lee as Director, PRECISE Center.",
+      "research_summary": "Official listing associates PRECISE with cyber-physical and medical device systems research.",
+      "source_url": "https://www.cis.upenn.edu/people/faculty/"
+    },
+    {
+      "id": "ideas",
+      "university": "university_24",
+      "department": "ese",
+      "name": "Innovation in Data Engineering and Science (IDEAS) Initiative",
+      "website_url": "https://www.seas.upenn.edu/research/ideas/",
+      "description": "Official CIS faculty page lists René Vidal as Director of the IDEAS Initiative.",
+      "research_summary": "Official listing associates IDEAS with data engineering and science.",
+      "source_url": "https://www.cis.upenn.edu/people/faculty/"
+    }
+  ]
+}

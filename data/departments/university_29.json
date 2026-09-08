@@ -1,0 +1,12 @@
+{
+  "departments": [
+    {
+      "id": "computer-science",
+      "university": "university_29",
+      "name": "Department of Computer Science, School of Computing",
+      "website_url": "https://www.comp.nus.edu.sg/",
+      "description": "Official NUS AI Lab faculty list and School of Computing individual faculty pages cover AI, ML, vision, robotics, NLP, and trustworthy ML.",
+      "source_url": "https://nusail.comp.nus.edu.sg/people/"
+    }
+  ]
+}

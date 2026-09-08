@@ -1,0 +1,10 @@
+{
+  "id": "university_20",
+  "name": "New York University",
+  "country": "United States",
+  "city": "New York",
+  "website_url": "https://www.nyu.edu/",
+  "description": "Official Courant Computer Science faculty listings filtered to Machine Learning, and official AI@NYU faculty pages, publish research interests and institutional emails (often obfuscated as 'at').",
+  "is_active": true,
+  "source_url": "https://cs.nyu.edu/dynamic/people/faculty/type/1/?area=Machine+Learning"
+}

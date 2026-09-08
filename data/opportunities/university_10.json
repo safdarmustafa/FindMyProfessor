@@ -1,0 +1,26 @@
+{
+  "opportunities": [
+    {
+      "professor": null,
+      "lab": null,
+      "eligibility": "Official Graduate School pages describe a full-time Ph.D. process with no spring admission. Program-specific requirements are on departmental pages.",
+      "international_eligible": true,
+      "undergraduate_eligible": false,
+      "funding_type": null,
+      "stipend_amount": null,
+      "tuition_coverage": null,
+      "accommodation_coverage": null,
+      "travel_coverage": null,
+      "application_deadline": "2026-12-15",
+      "start_date": null,
+      "id": "phd-computer-science",
+      "university": "university_10",
+      "title": "Ph.D. in Computer Science",
+      "opportunity_type": "phd",
+      "description": "Official Princeton Graduate School Application Deadlines page states the application for Fall 2027 will open on 15 September 2026 and lists Computer Science under the 15 December deadline. Applications must be submitted by 11:59 p.m. Eastern Time. As of 9 September 2026 the portal had not yet opened.",
+      "official_url": "https://gradschool.princeton.edu/admission-onboarding/prepare/deadlines-and-fees",
+      "status": "upcoming",
+      "source_url": "https://gradschool.princeton.edu/admission-onboarding/prepare/deadlines-and-fees"
+    }
+  ]
+}

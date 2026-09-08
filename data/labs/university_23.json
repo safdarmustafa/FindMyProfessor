@@ -1,0 +1,14 @@
+{
+  "labs": [
+    {
+      "id": "dolcit",
+      "university": "university_23",
+      "department": "cms",
+      "name": "Center on Learning, Decision-making, and Inference at Caltech (DOLCIT)",
+      "website_url": "https://dolcit.cms.caltech.edu/",
+      "description": "Official DOLCIT site is the CMS learning, decision-making, and inference center.",
+      "research_summary": "Official DOLCIT pages describe learning, decision-making, and inference research at Caltech.",
+      "source_url": "https://dolcit.cms.caltech.edu/people.html"
+    }
+  ]
+}

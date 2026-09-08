@@ -1,0 +1,64 @@
+{
+  "labs": [
+    {
+      "id": "las",
+      "university": "university_08",
+      "department": "computer-science",
+      "name": "Learning and Adaptive Systems Group",
+      "website_url": "https://las.inf.ethz.ch/",
+      "description": "Official LAS group page states that Andreas Krause is a Professor of Computer Science at ETH Zurich where he leads the Learning & Adaptive Systems Group. The same official biography states he serves as Chair of the ETH AI Center.",
+      "research_summary": "Official D-INFK faculty keywords for Andreas Krause: machine learning, artificial intelligence, reinforcement learning, probabilistic inference.",
+      "source_url": "https://las.inf.ethz.ch/krausea"
+    },
+    {
+      "id": "sri",
+      "university": "university_08",
+      "department": "computer-science",
+      "name": "Secure, Reliable, and Intelligent Systems Lab",
+      "website_url": "https://www.sri.inf.ethz.ch/",
+      "description": "Official SRI Lab page states that Martin Vechev is a Full Professor of Computer Science at ETH Zurich where he leads the Secure, Reliable, and Intelligent Systems Lab. Official D-INFK faculty keywords include automated reasoning, machine learning, safe artificial intelligence, and security.",
+      "research_summary": "Official lab biography describes work at the intersection of artificial intelligence and programming languages, including systems for reliable and safe AI.",
+      "source_url": "https://www.sri.inf.ethz.ch/people/martin"
+    },
+    {
+      "id": "odi",
+      "university": "university_08",
+      "department": "computer-science",
+      "name": "Optimization and Decision Intelligence Group",
+      "website_url": "https://odi.inf.ethz.ch/",
+      "description": "Official ETH course catalogue entry for Niao He lists URL https://odi.inf.ethz.ch/ and Field Computer Science, Relationship Associate Professor. Official D-INFK faculty keywords for Niao He: large-scale optimization, machine learning, reinforcement learning, probabilistic inference.",
+      "research_summary": "Official faculty keywords: large-scale optimization, machine learning, reinforcement learning, probabilistic inference. Official catalogue lists teaching including Optimization for Data Science and Foundations of Reinforcement Learning.",
+      "source_url": "https://odi.inf.ethz.ch/"
+    },
+    {
+      "id": "mds",
+      "university": "university_08",
+      "department": "computer-science",
+      "name": "Medical Data Science Group",
+      "website_url": "https://mds.inf.ethz.ch",
+      "description": "Official ETH course catalogue entry for Julia Vogt lists URL https://mds.inf.ethz.ch and Relationship Associate Professor. Official D-INFK faculty keywords: medical data science, machine learning, data mining, computational biology.",
+      "research_summary": "Official faculty keywords: medical data science, machine learning, data mining, computational biology. Official catalogue lists teaching including Machine Learning for Health Care and Topics in Medical Machine Learning.",
+      "source_url": "https://mds.inf.ethz.ch"
+    },
+    {
+      "id": "vlg",
+      "university": "university_08",
+      "department": "computer-science",
+      "name": "Computer Vision and Learning Group",
+      "website_url": "https://vlg.inf.ethz.ch",
+      "description": "Official ETH course catalogue entry for Siyu Tang lists URL https://vlg.inf.ethz.ch, Field Computer Vision, and Relationship Associate Professor. Official D-INFK faculty keywords: computer vision, motion and tracking, virtual humans, machine learning.",
+      "research_summary": "Official faculty keywords: computer vision, motion and tracking, virtual humans, machine learning. Official catalogue lists teaching including Digital Humans.",
+      "source_url": "https://vlg.inf.ethz.ch"
+    },
+    {
+      "id": "bmi",
+      "university": "university_08",
+      "department": "computer-science",
+      "name": "Biomedical Informatics Group",
+      "website_url": "http://bmi.inf.ethz.ch",
+      "description": "Official ETH course catalogue entry for Gunnar Rätsch lists URL http://bmi.inf.ethz.ch, Field Biomedical, Relationship Full Professor. Official D-INFK faculty keywords: biomedical data science, machine learning, computational genomics, cancer research.",
+      "research_summary": "Official faculty keywords: biomedical data science, machine learning, computational genomics, cancer research. Official catalogue lists teaching Machine Learning for Health Care and Data Science for Medicine.",
+      "source_url": "https://www.vvz.ethz.ch/Vorlesungsverzeichnis/dozent.view?ansicht=1&dozide=10045219&lang=en&semkez=2026S"
+    }
+  ]
+}

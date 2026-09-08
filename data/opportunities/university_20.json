@@ -1,0 +1,26 @@
+{
+  "opportunities": [
+    {
+      "professor": null,
+      "lab": null,
+      "eligibility": null,
+      "international_eligible": true,
+      "undergraduate_eligible": false,
+      "funding_type": null,
+      "stipend_amount": null,
+      "tuition_coverage": null,
+      "accommodation_coverage": null,
+      "travel_coverage": null,
+      "application_deadline": null,
+      "start_date": null,
+      "status": null,
+      "id": "phd-computer-science",
+      "university": "university_20",
+      "title": "Ph.D. in Computer Science",
+      "opportunity_type": "phd",
+      "description": "Official Courant CS faculty pages describe tenure-track faculty who can advise Computer Science Ph.D. students. A numeric application deadline was not extracted from the fetched Machine Learning faculty listing.",
+      "official_url": "https://cs.nyu.edu/home/doctoral/",
+      "source_url": "https://cs.nyu.edu/dynamic/people/faculty/type/1/?area=Machine+Learning"
+    }
+  ]
+}

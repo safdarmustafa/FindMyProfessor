@@ -1,0 +1,12 @@
+{
+  "departments": [
+    {
+      "id": "computer-science",
+      "university": "university_20",
+      "name": "Computer Science, Courant Institute",
+      "website_url": "https://cs.nyu.edu/",
+      "description": "Official Courant CS tenure-track faculty pages list Machine Learning area faculty including NLP, vision, robotics, and ML theory.",
+      "source_url": "https://cs.nyu.edu/dynamic/people/faculty/type/1/?area=Machine+Learning"
+    }
+  ]
+}

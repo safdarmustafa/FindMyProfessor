@@ -1,0 +1,24 @@
+{
+  "labs": [
+    {
+      "id": "nlp-lab",
+      "university": "university_12",
+      "department": "ic",
+      "name": "Natural Language Processing Lab",
+      "website_url": "https://www.epfl.ch/labs/nlp/",
+      "description": "Official EDIC affiliated-labs table lists Antoine Bosselut with the Natural Language Processing (IC) lab.",
+      "research_summary": "Official EDIC keywords: natural language processing, machine learning, knowledge representations, reasoning, alignment, LLMs, artificial intelligence.",
+      "source_url": "https://www.epfl.ch/education/phd/edic-computer-and-communication-sciences/edic-computer-and-communication-sciences/edic-affiliated-labs-research-expertise/"
+    },
+    {
+      "id": "mlo",
+      "university": "university_12",
+      "department": "ic",
+      "name": "Machine Learning and Optimization Laboratory",
+      "website_url": "https://www.epfl.ch/labs/mlo/",
+      "description": "Official EDIC table lists Martin Jaggi with Machine Learning and Optimization (IC).",
+      "research_summary": "Official project-lab page: distributed training, collaborative learning, efficiency, robustness and privacy when training ML and deep learning models.",
+      "source_url": "https://www.epfl.ch/schools/ic/education/master/computer-science/projects-lab-mcs/"
+    }
+  ]
+}

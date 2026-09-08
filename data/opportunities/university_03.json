@@ -1,0 +1,48 @@
+{
+  "opportunities": [
+    {
+      "id": "cs-phd",
+      "university": "university_03",
+      "professor": null,
+      "lab": null,
+      "title": "Ph.D. in Computer Science",
+      "opportunity_type": "phd",
+      "description": "Official Stanford CS graduate admissions materials state that there is one admissions cycle for starting in the Autumn quarter. For Ph.D. applicants, the application opens mid-September, the application deadline is 8 December 2026, and decisions are in February 2027. Applicants must apply either to the MS (including HCP) or PhD program, not to both.",
+      "eligibility": "Official materials require application to either MS or PhD, not both. All application deadlines are final; applications are not accepted after the deadline.",
+      "international_eligible": true,
+      "undergraduate_eligible": null,
+      "funding_type": null,
+      "stipend_amount": null,
+      "tuition_coverage": null,
+      "accommodation_coverage": null,
+      "travel_coverage": null,
+      "application_deadline": "2026-12-08",
+      "start_date": null,
+      "official_url": "https://www.cs.stanford.edu/admissions-graduate-application-deadlines",
+      "status": "open",
+      "source_url": "https://www.cs.stanford.edu/admissions-graduate-application-deadlines"
+    },
+    {
+      "id": "cs-ms",
+      "university": "university_03",
+      "professor": null,
+      "lab": null,
+      "title": "Master's in Computer Science",
+      "opportunity_type": "masters",
+      "description": "Official Stanford CS graduate admissions materials list a Master's application for Autumn entry, opening mid-September, deadline 8 December 2026, with decisions in March 2027. Official note: applicants must apply either to MS (including HCP) or PhD, not both.",
+      "eligibility": "Official materials require application to either MS or PhD, not both.",
+      "international_eligible": true,
+      "undergraduate_eligible": null,
+      "funding_type": null,
+      "stipend_amount": null,
+      "tuition_coverage": null,
+      "accommodation_coverage": null,
+      "travel_coverage": null,
+      "application_deadline": "2026-12-08",
+      "start_date": null,
+      "official_url": "https://www.cs.stanford.edu/admissions-graduate-application-deadlines",
+      "status": "open",
+      "source_url": "https://www.cs.stanford.edu/admissions-graduate-application-deadlines"
+    }
+  ]
+}

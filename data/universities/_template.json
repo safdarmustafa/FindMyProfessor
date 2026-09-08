@@ -1,0 +1,11 @@
+{
+  "_comment": "Copy to {id}.json and fill ONLY verified official-source values. This template is never seeded. Prefer null over guessed data.",
+  "id": "university_01",
+  "name": null,
+  "country": null,
+  "city": null,
+  "website_url": null,
+  "description": null,
+  "is_active": true,
+  "source_url": null
+}

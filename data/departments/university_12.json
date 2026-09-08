@@ -1,0 +1,12 @@
+{
+  "departments": [
+    {
+      "id": "ic",
+      "university": "university_12",
+      "name": "School of Computer and Communication Sciences",
+      "website_url": "https://www.epfl.ch/schools/ic/",
+      "description": "Official IC AIML research page lists affiliated professors in artificial intelligence and machine learning, including NLP, computer vision, and AI for science.",
+      "source_url": "https://www.epfl.ch/schools/ic/research/artificial-intelligence-machine-learning/"
+    }
+  ]
+}

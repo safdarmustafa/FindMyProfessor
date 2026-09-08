@@ -1,0 +1,26 @@
+{
+  "opportunities": [
+    {
+      "professor": null,
+      "lab": null,
+      "eligibility": null,
+      "international_eligible": true,
+      "undergraduate_eligible": false,
+      "funding_type": null,
+      "stipend_amount": null,
+      "tuition_coverage": null,
+      "accommodation_coverage": null,
+      "travel_coverage": null,
+      "application_deadline": null,
+      "start_date": null,
+      "status": null,
+      "id": "phd-informatics",
+      "university": "university_27",
+      "title": "Ph.D. in Informatics",
+      "opportunity_type": "phd",
+      "description": "Official IML joining information points prospective PhD students to School of Informatics doctoral admissions. A numeric application deadline was not extracted from the fetched IML page.",
+      "official_url": "https://informatics.ed.ac.uk/study-with-us/our-degrees/postgraduate-research",
+      "source_url": "https://informatics.ed.ac.uk/iml/research/machine-learning"
+    }
+  ]
+}

@@ -1,0 +1,186 @@
+{
+  "expected_count": 30,
+  "notes": "Initial 30-university dataset registry. Add a verified JSON file and set enabled=true only after official-source review. Leave fields null rather than inventing data. source_url is required in seed files and is kept as local source metadata (not stored in Supabase).",
+  "universities": [
+    {
+      "id": "university_01",
+      "name": "MBZUAI",
+      "file": "university_01.json",
+      "enabled": true
+    },
+    {
+      "id": "university_02",
+      "name": "KAUST",
+      "file": "university_02.json",
+      "enabled": true
+    },
+    {
+      "id": "university_03",
+      "name": "Stanford University",
+      "file": "university_03.json",
+      "enabled": true
+    },
+    {
+      "id": "university_04",
+      "name": "Massachusetts Institute of Technology",
+      "file": "university_04.json",
+      "enabled": true
+    },
+    {
+      "id": "university_05",
+      "name": "Carnegie Mellon University",
+      "file": "university_05.json",
+      "enabled": true
+    },
+    {
+      "id": "university_06",
+      "name": "University of California, Berkeley",
+      "file": "university_06.json",
+      "enabled": true
+    },
+    {
+      "id": "university_07",
+      "name": "University of Oxford",
+      "file": "university_07.json",
+      "enabled": true
+    },
+    {
+      "id": "university_08",
+      "name": "ETH Zurich",
+      "file": "university_08.json",
+      "enabled": true
+    },
+    {
+      "id": "university_09",
+      "name": "University of Cambridge",
+      "file": "university_09.json",
+      "enabled": true
+    },
+    {
+      "id": "university_10",
+      "name": "Princeton University",
+      "file": "university_10.json",
+      "enabled": true
+    },
+    {
+      "id": "university_11",
+      "name": "University of Toronto",
+      "file": "university_11.json",
+      "enabled": true
+    },
+    {
+      "id": "university_12",
+      "name": "EPFL",
+      "file": "university_12.json",
+      "enabled": true
+    },
+    {
+      "id": "university_13",
+      "name": "University of Washington",
+      "file": "university_13.json",
+      "enabled": true
+    },
+    {
+      "id": "university_14",
+      "name": "University of Illinois Urbana-Champaign",
+      "file": "university_14.json",
+      "enabled": true
+    },
+    {
+      "id": "university_15",
+      "name": "Georgia Institute of Technology",
+      "file": "university_15.json",
+      "enabled": true
+    },
+    {
+      "id": "university_16",
+      "name": "Cornell University",
+      "file": "university_16.json",
+      "enabled": true
+    },
+    {
+      "id": "university_17",
+      "name": "University of California, Los Angeles",
+      "file": "university_17.json",
+      "enabled": true
+    },
+    {
+      "id": "university_18",
+      "name": "University of Michigan",
+      "file": "university_18.json",
+      "enabled": true
+    },
+    {
+      "id": "university_19",
+      "name": "Columbia University",
+      "file": "university_19.json",
+      "enabled": true
+    },
+    {
+      "id": "university_20",
+      "name": "New York University",
+      "file": "university_20.json",
+      "enabled": true
+    },
+    {
+      "id": "university_21",
+      "name": "Harvard University",
+      "file": "university_21.json",
+      "enabled": true
+    },
+    {
+      "id": "university_22",
+      "name": "Imperial College London",
+      "file": "university_22.json",
+      "enabled": true
+    },
+    {
+      "id": "university_23",
+      "name": "California Institute of Technology",
+      "file": "university_23.json",
+      "enabled": true
+    },
+    {
+      "id": "university_24",
+      "name": "University of Pennsylvania",
+      "file": "university_24.json",
+      "enabled": true
+    },
+    {
+      "id": "university_25",
+      "name": "University of California, San Diego",
+      "file": "university_25.json",
+      "enabled": true
+    },
+    {
+      "id": "university_26",
+      "name": "The University of Texas at Austin",
+      "file": "university_26.json",
+      "enabled": true
+    },
+    {
+      "id": "university_27",
+      "name": "University of Edinburgh",
+      "file": "university_27.json",
+      "enabled": true
+    },
+    {
+      "id": "university_28",
+      "name": "University College London",
+      "file": "university_28.json",
+      "enabled": true
+    },
+    {
+      "id": "university_29",
+      "name": "National University of Singapore",
+      "file": "university_29.json",
+      "enabled": true
+    },
+    {
+      "id": "university_30",
+      "name": "University of Wisconsin–Madison",
+      "file": "university_30.json",
+      "enabled": true
+    }
+  ]
+}
