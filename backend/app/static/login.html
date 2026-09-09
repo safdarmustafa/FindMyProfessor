@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FindMyProfessor — Sign In</title>
+  <link rel="stylesheet" href="/static/css/fmp.css">
+  <style>
+    .login-wrap {
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .login-card {
+      background: var(--card, #fffdf8);
+      border: 1px solid var(--line, #d9d0c3);
+      border-radius: 1rem;
+      padding: 2.5rem 2.75rem;
+      width: 100%;
+      max-width: 420px;
+      text-align: center;
+    }
+    .login-card h1 {
+      font-size: 1.55rem;
+      margin: 0 0 .3rem;
+    }
+    .login-card .tagline {
+      color: var(--muted, #5c564e);
+      font-size: .95rem;
+      margin: 0 0 2rem;
+    }
+    .btn-google {
+      display: inline-flex;
+      align-items: center;
+      gap: .65rem;
+      width: 100%;
+      justify-content: center;
+      background: #fff;
+      color: #3c3c3c;
+      border: 1px solid #d1cec8;
+      border-radius: .55rem;
+      padding: .75rem 1.25rem;
+      font-size: .97rem;
+      font-family: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .15s, box-shadow .15s;
+      text-decoration: none;
+    }
+    .btn-google:hover {
+      background: #f5f3ee;
+      box-shadow: 0 2px 6px rgba(0,0,0,.08);
+    }
+    .btn-google svg { flex-shrink: 0; }
+    .divider {
+      border: none;
+      border-top: 1px solid var(--line, #d9d0c3);
+      margin: 1.75rem 0;
+    }
+    .user-info {
+      display: none;
+    }
+    .user-email {
+      font-weight: 600;
+      color: var(--accent, #1f4d3a);
+      word-break: break-all;
+      margin-bottom: 1.25rem;
+    }
+    .btn-primary {
+      display: inline-block;
+      width: 100%;
+      background: var(--accent, #1f4d3a);
+      color: #fff;
+      border: none;
+      border-radius: .55rem;
+      padding: .75rem 1.25rem;
+      font-size: .97rem;
+      font-family: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: opacity .15s;
+    }
+    .btn-primary:hover { opacity: .88; }
+    .btn-logout {
+      display: inline-block;
+      margin-top: .75rem;
+      background: none;
+      border: none;
+      color: var(--muted, #5c564e);
+      font-size: .88rem;
+      font-family: inherit;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+    .btn-logout:hover { color: var(--danger, #8a2b2b); }
+    .status-msg {
+      font-size: .88rem;
+      color: var(--muted, #5c564e);
+      margin-top: 1rem;
+      min-height: 1.3em;
+    }
+    .status-msg.error { color: var(--danger, #8a2b2b); }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="login-wrap">
+      <div class="login-card">
+        <h1>FindMyProfessor</h1>
+        <p class="tagline">Research discovery and outreach platform</p>
+
+        <!-- Signed-out state -->
+        <div id="sign-in-section">
+          <button class="btn-google" id="btn-google-sign-in">
+            <!-- Google "G" logo -->
+            <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true">
+              <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+              <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+              <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+              <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+              <path fill="none" d="M0 0h48v48H0z"/>
+            </svg>
+            Continue with Google
+          </button>
+          <p class="status-msg" id="sign-in-status" aria-live="polite"></p>
+        </div>
+
+        <hr class="divider">
+
+        <!-- Signed-in state -->
+        <div class="user-info" id="user-info-section">
+          <p style="color:var(--muted);font-size:.88rem;margin:0 0 .4rem">Signed in as</p>
+          <p class="user-email" id="user-email"></p>
+          <a href="/onboarding" class="btn-primary">Continue to app →</a>
+          <br>
+          <button class="btn-logout" id="btn-logout">Sign out</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Supabase JS client (ESM CDN — no build step required) -->
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+
+    const SUPABASE_URL  = 'https://foxlhoexpadesglemozo.supabase.co';
+    // Publishable (anon) key — safe to include in browser code.
+    // Never put the service-role key here.
+    const SUPABASE_PUBLISHABLE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZveGxob2V4cGFkZXNnbGVtb3pvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg4ODA3ODEsImV4cCI6MjEwNDQ1Njc4MX0.efRhGs-K2oN2_bMG5fgp3yFEyl5dUIaI62VxU6rFrXM';
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
+
+    // ── DOM refs ──────────────────────────────────────────────────────────────
+    const signInSection  = document.getElementById('sign-in-section');
+    const userInfoSection = document.getElementById('user-info-section');
+    const userEmailEl    = document.getElementById('user-email');
+    const btnSignIn      = document.getElementById('btn-google-sign-in');
+    const btnLogout      = document.getElementById('btn-logout');
+    const statusMsg      = document.getElementById('sign-in-status');
+
+    // ── UI helpers ────────────────────────────────────────────────────────────
+    function showSignedIn(email) {
+      userEmailEl.textContent = email || '(email unavailable)';
+      signInSection.style.display  = 'none';
+      userInfoSection.style.display = 'block';
+    }
+
+    function showSignedOut() {
+      signInSection.style.display  = 'block';
+      userInfoSection.style.display = 'none';
+    }
+
+    function setStatus(msg, isError = false) {
+      statusMsg.textContent = msg;
+      statusMsg.className   = 'status-msg' + (isError ? ' error' : '');
+    }
+
+    // ── Check for existing session on page load ───────────────────────────────
+    const { data: { session } } = await supabase.auth.getSession();
+    if (session?.user) {
+      showSignedIn(session.user.email);
+    } else {
+      showSignedOut();
+    }
+
+    // ── Listen for auth state changes (handles OAuth redirect callback) ───────
+    supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        showSignedIn(session.user.email);
+      } else {
+        showSignedOut();
+      }
+    });
+
+    // ── Sign in with Google ───────────────────────────────────────────────────
+    btnSignIn.addEventListener('click', async () => {
+      btnSignIn.disabled = true;
+      setStatus('Redirecting to Google…');
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: window.location.origin + '/login',
+        },
+      });
+      if (error) {
+        setStatus('Sign-in failed: ' + error.message, true);
+        btnSignIn.disabled = false;
+      }
+      // On success the page redirects — no further action needed here.
+    });
+
+    // ── Sign out ──────────────────────────────────────────────────────────────
+    btnLogout.addEventListener('click', async () => {
+      btnLogout.disabled = true;
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        setStatus('Sign-out failed: ' + error.message, true);
+        btnLogout.disabled = false;
+      }
+      // onAuthStateChange fires → showSignedOut() called automatically.
+    });
+  </script>
+</body>
+</html>

@@ -50,6 +50,14 @@ def root():
     }
 
 
+@app.get("/login")
+def login_page():
+    page = STATIC_DIR / "login.html"
+    if not page.exists():
+        raise HTTPException(status_code=404, detail="Login page is not available.")
+    return FileResponse(page)
+
+
 @app.get("/onboarding")
 def cv_onboarding():
     page = STATIC_DIR / "cv_onboarding.html"
