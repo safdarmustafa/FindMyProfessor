@@ -15,6 +15,12 @@
     <h1>Research Matches</h1>
     <p class="lead">Find professors whose research aligns with your background.</p>
 
+    <div class="mode-toggle" role="tablist" aria-label="Discovery mode">
+      <button type="button" data-mode="research" aria-pressed="true">Research</button>
+      <button type="button" class="secondary" data-mode="opportunity" aria-pressed="false">Opportunity First</button>
+      <button type="button" class="secondary" data-mode="both" aria-pressed="false">Both</button>
+    </div>
+
     <section id="cv-status"></section>
 
     <section id="filters" class="hidden">
@@ -33,6 +39,25 @@
             <input id="email-only" type="checkbox"> Email available
           </label>
         </div>
+        <div>
+          <label for="opportunity-type">Opportunity type</label>
+          <select id="opportunity-type">
+            <option value="">Any type</option>
+            <option value="phd">PhD</option>
+            <option value="masters">Masters</option>
+            <option value="internship">Internship</option>
+            <option value="ra">RA</option>
+          </select>
+        </div>
+        <div>
+          <label for="opportunity-status">Opportunity status</label>
+          <select id="opportunity-status">
+            <option value="">Any status</option>
+            <option value="open">Open</option>
+            <option value="upcoming">Upcoming</option>
+            <option value="unknown">Unknown</option>
+          </select>
+        </div>
       </div>
       <button type="button" id="apply-filters">Apply filters</button>
     </section>
@@ -46,6 +71,7 @@
     const api = window.FMPMatchingApi;
     const ui = window.FMPMatchingUi;
     const profileId = api.getProfileId();
+    let currentMode = "research";
     const statusEl = document.getElementById("page-status");
     const resultsEl = document.getElementById("results");
     const cvStatusEl = document.getElementById("cv-status");
@@ -56,11 +82,17 @@
       statusEl.textContent = text || "";
     }
 
-    function emptyState(message, actionLabel, href) {
-      resultsEl.innerHTML =
-        '<section><p>' + ui.escapeHtml(message) + '</p>' +
-        (href ? '<p><a href="' + ui.escapeHtml(href) + '">' + ui.escapeHtml(actionLabel) + "</a></p>" : "") +
-        "</section>";
+    function emptyState(message, actionLabel, hrefOrMode) {
+      const action = hrefOrMode
+        ? (hrefOrMode.charAt(0) === "/"
+          ? '<p><a href="' + ui.escapeHtml(hrefOrMode) + '">' + ui.escapeHtml(actionLabel) + "</a></p>"
+          : '<p><button type="button" id="empty-action">' + ui.escapeHtml(actionLabel) + "</button></p>")
+        : "";
+      resultsEl.innerHTML = "<section><p>" + ui.escapeHtml(message) + "</p>" + action + "</section>";
+      const button = document.getElementById("empty-action");
+      if (button && hrefOrMode && hrefOrMode.charAt(0) !== "/") {
+        button.onclick = function () { setMode(hrefOrMode); };
+      }
     }
 
     function loadingState() {
@@ -73,12 +105,24 @@
 
     function currentFilters() {
       return {
-        mode: "research",
+        mode: currentMode,
         limit: 25,
         universityId: document.getElementById("university").value || undefined,
         minScore: document.getElementById("min-score").value,
-        emailOnly: document.getElementById("email-only").checked
+        emailOnly: document.getElementById("email-only").checked,
+        opportunityType: document.getElementById("opportunity-type").value || undefined,
+        opportunityStatus: document.getElementById("opportunity-status").value || undefined
       };
+    }
+
+    function setMode(mode) {
+      currentMode = mode;
+      document.querySelectorAll(".mode-toggle button").forEach(function (button) {
+        const active = button.getAttribute("data-mode") === mode;
+        button.setAttribute("aria-pressed", active ? "true" : "false");
+        button.className = active ? "" : "secondary";
+      });
+      if (profileId) loadMatches();
     }
 
     async function loadUniversities() {
@@ -99,21 +143,30 @@
         const data = await api.fetchMatches(profileId, currentFilters());
         const matches = data.matches || [];
         if (!matches.length) {
-          emptyState(
-            "No strong research matches found yet. Try broadening your research interests or reviewing your CV.",
-            "Review my CV",
-            "/onboarding"
-          );
+          if (currentMode === "opportunity") {
+            emptyState(
+              "No current or upcoming university opportunities found.",
+              "View research matches",
+              "research"
+            );
+          } else {
+            emptyState(
+              "No strong research matches found yet. Try broadening your research interests or reviewing your CV.",
+              "Review my CV",
+              "/onboarding"
+            );
+          }
           showStatus("");
           return;
         }
-        resultsEl.innerHTML = matches.map(function (match) {
-          const id = match.professor && match.professor.id;
-          return ui.renderProfessorCard(match, {
-            detailHref: id ? "/matches/" + encodeURIComponent(id) : ""
-          });
-        }).join("");
-        showStatus(matches.length + " professor" + (matches.length === 1 ? "" : "s") + " ranked by research match.");
+        resultsEl.innerHTML = ui.renderMatchList(matches, { mode: currentMode });
+        if (currentMode === "opportunity") {
+          showStatus("Universities with useful opportunities, then professors by research match.");
+        } else if (currentMode === "both") {
+          showStatus("Professors ranked by research match, then university opportunity fit.");
+        } else {
+          showStatus(matches.length + " professor" + (matches.length === 1 ? "" : "s") + " ranked by research match.");
+        }
       } catch (err) {
         resultsEl.innerHTML =
           '<section><p>Unable to load research matches.</p>' +
@@ -131,6 +184,9 @@
     });
 
     document.getElementById("apply-filters").onclick = loadMatches;
+    document.querySelectorAll(".mode-toggle button").forEach(function (button) {
+      button.onclick = function () { setMode(button.getAttribute("data-mode")); };
+    });
 
     (async function start() {
       if (!profileId) {
@@ -142,7 +198,7 @@
         const profile = await api.fetchProfile(profileId);
         if (!profile.confirmed) {
           cvStatusEl.innerHTML = "<p>Your CV still needs confirmation.</p>";
-          emptyState("Confirm your CV to discover research matches.", "Review my CV", "/onboarding");
+          emptyState("Confirm your CV to discover opportunities.", "Review my CV", "/onboarding");
           return;
         }
         cvStatusEl.innerHTML = "<p class=\"ok\">Based on your confirmed CV</p>";

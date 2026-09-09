@@ -18,6 +18,8 @@ def get_matching_professors(
     university_id: UUID | None = Query(default=None),
     min_score: int = Query(default=0, ge=0, le=100),
     email_only: bool = Query(default=False),
+    opportunity_type: str | None = Query(default=None),
+    opportunity_status: str | None = Query(default=None),
 ):
     if not x_profile_id:
         raise HTTPException(
@@ -31,4 +33,6 @@ def get_matching_professors(
         university_id=str(university_id) if university_id else None,
         min_score=min_score,
         email_only=email_only,
+        opportunity_type=opportunity_type,
+        opportunity_status=opportunity_status,
     )

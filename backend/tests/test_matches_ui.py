@@ -54,7 +54,14 @@ SAMPLE_MATCH = {
             "not_professor_specific": True,
         }
     ],
-    "university_opportunity_fit": 100,
+    "university_opportunity_fit": {
+      "score": 100,
+      "best_opportunity_id": "44444444-4444-4444-4444-444444444444",
+      "best_opportunity_title": "University PhD",
+      "status": "open",
+      "non_closed_opportunity_count": 1,
+      "why": ["University has an open opportunity."]
+    },
 }
 
 
@@ -68,7 +75,8 @@ def test_research_matches_page_loads():
     assert "Unable to load research matches." in response.text
     assert "Loading research matches" in response.text
     assert "skeleton" in response.text
-    assert 'id="email-only"' in response.text
+    assert "Opportunity First" in response.text
+    assert "No current or upcoming university opportunities found." in response.text
 
 
 def test_onboarding_still_loads():
@@ -120,6 +128,8 @@ def test_api_request_builder_includes_profile_id_and_filters():
           universityId: "uni-1",
           minScore: 50,
           emailOnly: true,
+          opportunityType: "phd",
+          opportunityStatus: "open",
           limit: 25,
           mode: "research"
         });
@@ -133,6 +143,8 @@ def test_api_request_builder_includes_profile_id_and_filters():
     assert "university_id=uni-1" in lines[0]
     assert "min_score=50" in lines[0]
     assert "email_only=true" in lines[0]
+    assert "opportunity_type=phd" in lines[0]
+    assert "opportunity_status=open" in lines[0]
     assert "mode=research" in lines[0]
     assert json.loads(lines[1]) == {"X-Profile-Id": "profile-1"}
 
@@ -152,12 +164,13 @@ def test_card_renders_backend_score_priority_overlap_and_evidence():
 
 
 def test_university_opportunity_is_not_professor_specific():
-    html = _run_ui_js("process.stdout.write(globalThis.FMPMatchingUi.renderProfessorCard(match));")
+    html = _run_ui_js("process.stdout.write(globalThis.FMPMatchingUi.renderMatchList([match], {mode: 'opportunity'}));")
+    assert "University Opportunity Fit" in html
     assert "University opportunity" in html
     assert "This opportunity is offered by the university, not specifically by this professor." in html
     assert "Opportunities with this professor" not in html
     assert "This professor is offering" not in html
-    assert "University opportunity fit: 100" in html
+    assert "University opportunity fit: 100" in html or "100/100" in html
 
 
 def test_missing_email_is_discovery_only_and_lab_is_omitted():

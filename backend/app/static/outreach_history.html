@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FindMyProfessor — Outreach History</title>
+  <link rel="stylesheet" href="/static/css/fmp.css">
+  <style>
+    .history-item { background: var(--card,#fffdf8); border: 1px solid var(--line,#d9d0c3);
+      border-radius: .55rem; padding: .9rem 1.1rem; margin-bottom: .75rem; }
+    .history-item h2 { margin: 0 0 .25rem; font-size: 1rem; }
+    .badge { display: inline-block; padding: .15rem .5rem; border-radius: .3rem;
+      font-size: .78rem; font-weight: 700; text-transform: uppercase; }
+    .badge-sent { background: #dcfce7; color: #15803d; }
+    .badge-ready { background: #dbeafe; color: #1d4ed8; }
+    .badge-failed { background: #fee2e2; color: #b91c1c; }
+    .badge-generated, .badge-edited { background: var(--chip,#ece6da); color: var(--ink); }
+    .badge-sending { background: #fef9c3; color: #854d0e; }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/onboarding">CV profile</a>
+    <a href="/matches">Research Matches</a>
+    <span aria-current="page">Outreach History</span>
+  </nav>
+  <main>
+    <h1>Outreach History</h1>
+    <p class="lead">Your email drafts and sent outreach messages.</p>
+    <p id="page-status" class="status" aria-live="polite">Loading…</p>
+    <div id="history-list"></div>
+  </main>
+  <script src="/static/js/outreach_api.js"></script>
+  <script>
+    const api = window.FMPOutreachApi;
+    const profileId = api.getProfileId();
+    const statusEl = document.getElementById("page-status");
+    const listEl = document.getElementById("history-list");
+
+    function esc(s) {
+      return String(s == null ? "" : s)
+        .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+    }
+
+    function badgeClass(status) {
+      const map = { sent: "badge-sent", ready: "badge-ready", failed: "badge-failed",
+        sending: "badge-sending" };
+      return "badge " + (map[status] || "badge-generated");
+    }
+
+    function renderItem(item) {
+      const prof = esc(item.professor_name || "Professor");
+      const uni  = item.university_name ? " — " + esc(item.university_name) : "";
+      const email = item.professor_email ? '<p class="meta">' + esc(item.professor_email) + '</p>' : "";
+      const cv  = item.cv_display_name ? '<p class="meta">CV: ' + esc(item.cv_display_name) + '</p>' : "";
+      const sent = item.sent_at ? '<p class="meta">Sent: ' + esc(item.sent_at.replace("T", " ").split(".")[0]) + ' UTC</p>' : "";
+      return (
+        '<div class="history-item">' +
+          '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem">' +
+            '<h2>' + prof + uni + '</h2>' +
+            '<span class="' + badgeClass(item.status) + '">' + esc(item.status) + '</span>' +
+          '</div>' +
+          email +
+          '<p class="meta" style="margin:.2rem 0"><em>' + esc(item.subject) + '</em></p>' +
+          cv + sent +
+        '</div>'
+      );
+    }
+
+    (async function() {
+      if (!profileId) {
+        statusEl.textContent = "";
+        listEl.innerHTML = '<p>No profile selected. <a href="/onboarding">Review your CV</a> first.</p>';
+        return;
+      }
+      try {
+        const items = await api.listHistory(profileId);
+        statusEl.textContent = "";
+        if (!items || !items.length) {
+          listEl.innerHTML = '<p>No outreach drafts yet. <a href="/matches">Find research matches</a>.</p>';
+        } else {
+          listEl.innerHTML = items.map(renderItem).join("");
+        }
+      } catch(err) {
+        statusEl.className = "status error";
+        statusEl.textContent = err.message || "Unable to load history.";
+      }
+    })();
+  </script>
+</body>
+</html>

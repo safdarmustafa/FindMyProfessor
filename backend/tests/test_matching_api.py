@@ -3,7 +3,7 @@ from __future__ import annotations
 from uuid import uuid4
 
 from app.cv.extraction.schema import ExtractedStudentProfile
-from app.schemas.matching import UniversityOpportunityContext
+from app.opportunities.models import OpportunityRecord
 from app.services import matching as matching_service
 
 
@@ -58,18 +58,16 @@ def test_university_wide_opportunity_is_not_professor_specific(monkeypatch):
     )
     monkeypatch.setattr(
         matching_service,
-        "_load_opportunities_by_university",
-        lambda: {
-            university_id: [
-                UniversityOpportunityContext(
-                    id=str(uuid4()),
-                    title="University PhD",
-                    type="phd",
-                    status="open",
-                    not_professor_specific=True,
-                )
-            ]
-        },
+        "_load_opportunities",
+        lambda: [
+            OpportunityRecord(
+                id=str(uuid4()),
+                university_id=university_id,
+                title="University PhD",
+                opportunity_type="phd",
+                status="open",
+            )
+        ],
     )
 
     response = matching_service.match_professors(profile_id=str(uuid4()), mode="research")
@@ -107,12 +105,12 @@ def test_opportunity_context_uses_professor_university(monkeypatch):
         "_load_professor_areas",
         lambda names: {str(professor["id"]): ["Computer Vision"]},
     )
-    opp_a = UniversityOpportunityContext(id=str(uuid4()), title="A-open", type="phd", status="open")
-    opp_b = UniversityOpportunityContext(id=str(uuid4()), title="B-open", type="phd", status="open")
+    opp_a = OpportunityRecord(id=str(uuid4()), university_id=uni_a, title="A-open", opportunity_type="phd", status="open")
+    opp_b = OpportunityRecord(id=str(uuid4()), university_id=uni_b, title="B-open", opportunity_type="phd", status="open")
     monkeypatch.setattr(
         matching_service,
-        "_load_opportunities_by_university",
-        lambda: {uni_a: [opp_a], uni_b: [opp_b]},
+        "_load_opportunities",
+        lambda: [opp_a, opp_b],
     )
     match = matching_service.match_professors(profile_id=str(uuid4())).matches[0]
     titles = [item.title for item in match.university_opportunities]
@@ -121,14 +119,16 @@ def test_opportunity_context_uses_professor_university(monkeypatch):
 
 
 def test_closed_opportunity_fit_is_zero_and_does_not_change_score():
+    from app.opportunities.scoring import score_university_opportunities
+
     closed = [
-        UniversityOpportunityContext(id=str(uuid4()), title="Old", type="phd", status="closed")
+        OpportunityRecord(id=str(uuid4()), university_id="u", title="Old", opportunity_type="phd", status="closed")
     ]
     open_opp = [
-        UniversityOpportunityContext(id=str(uuid4()), title="New", type="phd", status="open")
+        OpportunityRecord(id=str(uuid4()), university_id="u", title="New", opportunity_type="phd", status="open")
     ]
-    assert matching_service._university_opportunity_fit(closed) == 0
-    assert matching_service._university_opportunity_fit(open_opp) == 100
+    assert score_university_opportunities(closed).score == 0
+    assert score_university_opportunities(open_opp).score == 100
 
 
 def test_no_duplicate_professor_matches(monkeypatch):
@@ -153,7 +153,7 @@ def test_no_duplicate_professor_matches(monkeypatch):
         "_load_professor_areas",
         lambda names: {str(professor["id"]): ["Computer Vision"]},
     )
-    monkeypatch.setattr(matching_service, "_load_opportunities_by_university", lambda: {})
+    monkeypatch.setattr(matching_service, "_load_opportunities", lambda: [])
     response = matching_service.match_professors(profile_id=str(uuid4()), limit=10)
     ids = [str(item.professor.id) for item in response.matches]
     assert ids == [str(professor["id"])]
@@ -194,7 +194,7 @@ def test_email_only_is_filter_not_score(monkeypatch):
             str(without_email["id"]): ["Computer Vision"],
         },
     )
-    monkeypatch.setattr(matching_service, "_load_opportunities_by_university", lambda: {})
+    monkeypatch.setattr(matching_service, "_load_opportunities", lambda: [])
     all_matches = matching_service.match_professors(profile_id=str(uuid4()), email_only=False)
     filtered = matching_service.match_professors(profile_id=str(uuid4()), email_only=True)
     assert {item.professor.name for item in all_matches.matches} == {"Dana", "Evan"}
@@ -235,18 +235,72 @@ def test_opportunity_mode_filters_to_universities_with_non_closed(monkeypatch):
     )
     monkeypatch.setattr(
         matching_service,
-        "_load_opportunities_by_university",
-        lambda: {
-            uni_open: [UniversityOpportunityContext(id=str(uuid4()), title="Open PhD", type="phd", status="open")],
-            uni_closed: [
-                UniversityOpportunityContext(id=str(uuid4()), title="Closed PhD", type="phd", status="closed")
-            ],
-        },
+        "_load_opportunities",
+        lambda: [
+            OpportunityRecord(
+                id=str(uuid4()),
+                university_id=uni_open,
+                title="Open PhD",
+                opportunity_type="phd",
+                status="open",
+            ),
+            OpportunityRecord(
+                id=str(uuid4()),
+                university_id=uni_closed,
+                title="Closed PhD",
+                opportunity_type="phd",
+                status="closed",
+            ),
+        ],
     )
     research = matching_service.match_professors(profile_id=str(uuid4()), mode="research")
     opportunity = matching_service.match_professors(profile_id=str(uuid4()), mode="opportunity")
     assert {item.professor.name for item in research.matches} == {"Fay", "Gus"}
     assert {item.professor.name for item in opportunity.matches} == {"Fay"}
+    assert research.matches[0].research_match.score == opportunity.matches[0].research_match.score
+
+
+def test_both_mode_keeps_research_and_opportunity_separate(monkeypatch):
+    university_id = str(uuid4())
+    professor = _professor_row(name="Hana", university_id=university_id, email=None)
+    monkeypatch.setattr(
+        matching_service.cv_service,
+        "get_active_profile",
+        lambda profile_id: {
+            "cv_id": str(uuid4()),
+            "confirmed": True,
+            "parsing_status": "parsed",
+            "extracted_profile": ExtractedStudentProfile(
+                research_interests=["Computer Vision"]
+            ).model_dump(),
+        },
+    )
+    monkeypatch.setattr(matching_service, "_load_catalog", lambda: (["Computer Vision"], {}))
+    monkeypatch.setattr(matching_service, "_load_professors", lambda **kwargs: [professor])
+    monkeypatch.setattr(
+        matching_service,
+        "_load_professor_areas",
+        lambda names: {str(professor["id"]): ["Computer Vision"]},
+    )
+    monkeypatch.setattr(
+        matching_service,
+        "_load_opportunities",
+        lambda: [
+            OpportunityRecord(
+                id=str(uuid4()),
+                university_id=university_id,
+                title="Open PhD",
+                opportunity_type="phd",
+                status="open",
+                international_eligible=True,
+            )
+        ],
+    )
+    research = matching_service.match_professors(profile_id=str(uuid4()), mode="research")
+    both = matching_service.match_professors(profile_id=str(uuid4()), mode="both")
+    assert research.matches[0].research_match.score == both.matches[0].research_match.score
+    assert both.matches[0].university_opportunity_fit.score == 100
+    assert both.matches[0].university_opportunities[0].not_professor_specific is True
 
 
 def test_matching_router_registered():
@@ -256,3 +310,25 @@ def test_matching_router_registered():
     client = TestClient(app)
     spec = client.get("/openapi.json").json()
     assert "/matching/professors" in spec["paths"]
+    params = spec["paths"]["/matching/professors"]["get"]["parameters"]
+    names = {item.get("name") for item in params}
+    assert {"mode", "limit", "university_id", "min_score", "email_only", "opportunity_type", "opportunity_status"} <= names
+
+
+def test_health_docs_and_pages():
+    from fastapi.testclient import TestClient
+    from app.main import app
+
+    client = TestClient(app)
+    assert client.get("/health").status_code == 200
+    assert client.get("/docs").status_code == 200
+    assert client.get("/onboarding").status_code == 200
+    assert client.get("/matches").status_code == 200
+    missing = client.get("/matching/professors")
+    assert missing.status_code == 400
+    research = client.get("/matching/professors", params={"mode": "research"})
+    opportunity = client.get("/matching/professors", params={"mode": "opportunity"})
+    both = client.get("/matching/professors", params={"mode": "both"})
+    assert research.status_code == 400
+    assert opportunity.status_code == 400
+    assert both.status_code == 400

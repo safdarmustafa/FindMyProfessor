@@ -5,8 +5,10 @@ from typing import Any
 from fastapi import HTTPException
 
 from app.cv.extraction.schema import ExtractedStudentProfile
-from app.matching.models import MatchEvidence
 from app.matching.scoring import MATCH_VERSION, score_professor
+from app.opportunities.evidence import university_opportunity_evidence
+from app.opportunities.models import OpportunityRecord, UniversityFitResult
+from app.opportunities.scoring import is_clearly_undergraduate, score_university_opportunities
 from app.schemas.matching import (
     MatchDepartment,
     MatchLab,
@@ -16,13 +18,13 @@ from app.schemas.matching import (
     ProfessorMatch,
     ResearchMatchScore,
     UniversityOpportunityContext,
+    UniversityOpportunityFit,
 )
 from app.services import cv as cv_service
 from app.services.query import execute
 from app.supabase_client import supabase
 
 PAGE_SIZE = 1000
-GENERIC_CLOSED = "closed"
 
 
 def match_professors(
@@ -33,6 +35,8 @@ def match_professors(
     university_id: str | None = None,
     min_score: int = 0,
     email_only: bool = False,
+    opportunity_type: str | None = None,
+    opportunity_status: str | None = None,
 ) -> MatchingResponse:
     if mode not in {"research", "opportunity", "both"}:
         raise HTTPException(status_code=400, detail="mode must be research, opportunity, or both.")
@@ -40,17 +44,12 @@ def match_professors(
     catalog_names, area_name_by_id = _load_catalog()
     professors = _load_professors(university_id=university_id, email_only=email_only)
     areas_by_professor = _load_professor_areas(area_name_by_id)
-    opportunities_by_university = _load_opportunities_by_university()
-
-    if mode == "opportunity":
-        useful_universities = {
-            uni_id
-            for uni_id, opps in opportunities_by_university.items()
-            if any(not _is_closed(item) for item in opps)
-        }
-        professors = [
-            row for row in professors if _university_id(row) in useful_universities
-        ]
+    opportunities = _filter_opportunities(
+        _load_opportunities(),
+        opportunity_type=opportunity_type,
+        opportunity_status=opportunity_status,
+    )
+    student_is_undergrad = is_clearly_undergraduate(student)
 
     matches: list[ProfessorMatch] = []
     seen_professors: set[str] = set()
@@ -68,21 +67,21 @@ def match_professors(
         if result.score < min_score:
             continue
         university = _university(row)
-        opportunities = opportunities_by_university.get(str(university.id) if university and university.id else "", [])
+        related = opportunities_for_professor(opportunities, row)
+        fit = score_university_opportunities(
+            related,
+            student_is_undergraduate=student_is_undergrad,
+        )
+        if mode == "opportunity" and (fit.best_opportunity is None or fit.score <= 0):
+            continue
         evidence = list(result.evidence)
-        for opportunity in opportunities:
-            if opportunity.not_professor_specific:
-                evidence.append(
-                    MatchEvidence(
-                        type="university_opportunity",
-                        opportunity_id=str(opportunity.id),
-                        title=opportunity.title,
-                        opportunity_type=opportunity.type,
-                        status=opportunity.status,
-                        university=university.name if university else None,
-                        not_professor_specific=True,
-                    )
+        for opportunity in related:
+            evidence.append(
+                university_opportunity_evidence(
+                    opportunity,
+                    university_name=university.name if university else None,
                 )
+            )
         matches.append(
             ProfessorMatch(
                 professor=_professor_card(row),
@@ -93,12 +92,12 @@ def match_professors(
                 ),
                 research_overlap=result.research_overlap,
                 evidence=evidence,
-                university_opportunities=opportunities,
-                university_opportunity_fit=_university_opportunity_fit(opportunities),
+                university_opportunities=[_opportunity_context(item) for item in related],
+                university_opportunity_fit=_fit_schema(fit),
             )
         )
 
-    matches.sort(key=lambda item: (-item.research_match.score, item.professor.name.lower(), str(item.professor.id)))
+    matches.sort(key=lambda item: _sort_key(item, mode))
     matches = matches[:limit]
     return MatchingResponse(
         profile_id=profile_id,
@@ -176,45 +175,135 @@ def _load_professor_areas(area_name_by_id: dict[str, str]) -> dict[str, list[str
     return grouped
 
 
-def _load_opportunities_by_university() -> dict[str, list[UniversityOpportunityContext]]:
+def _load_opportunities() -> list[OpportunityRecord]:
     rows = _fetch_all(
         "opportunities",
-        "id,professor_id,lab_id,university_id,title,opportunity_type,status,official_url",
+        "id,professor_id,lab_id,university_id,title,opportunity_type,description,"
+        "eligibility,international_eligible,undergraduate_eligible,funding_type,"
+        "stipend_amount,tuition_coverage,accommodation_coverage,travel_coverage,"
+        "application_deadline,start_date,official_url,status",
     )
-    grouped: dict[str, list[UniversityOpportunityContext]] = {}
+    records: list[OpportunityRecord] = []
     for row in rows:
-        university_id = str(row.get("university_id") or "")
-        if not university_id:
-            continue
-        professor_id = row.get("professor_id")
-        grouped.setdefault(university_id, []).append(
-            UniversityOpportunityContext(
-                id=row["id"],
+        records.append(
+            OpportunityRecord(
+                id=str(row["id"]),
+                university_id=str(row["university_id"]) if row.get("university_id") else None,
+                professor_id=str(row["professor_id"]) if row.get("professor_id") else None,
+                lab_id=str(row["lab_id"]) if row.get("lab_id") else None,
                 title=row.get("title"),
-                type=row.get("opportunity_type"),
-                status=row.get("status"),
-                not_professor_specific=professor_id is None,
+                opportunity_type=row.get("opportunity_type"),
+                description=row.get("description"),
+                eligibility=row.get("eligibility"),
+                international_eligible=row.get("international_eligible"),
+                undergraduate_eligible=row.get("undergraduate_eligible"),
+                funding_type=row.get("funding_type"),
+                stipend_amount=row.get("stipend_amount"),
+                tuition_coverage=row.get("tuition_coverage"),
+                accommodation_coverage=row.get("accommodation_coverage"),
+                travel_coverage=row.get("travel_coverage"),
+                application_deadline=_date_text(row.get("application_deadline")),
+                start_date=_date_text(row.get("start_date")),
                 official_url=row.get("official_url"),
+                status=row.get("status"),
             )
         )
-    return grouped
+    return records
 
 
-def _university_opportunity_fit(opportunities: list[UniversityOpportunityContext]) -> int:
-    if not opportunities:
-        return 0
-    statuses = { (item.status or "unknown").casefold() for item in opportunities }
-    if statuses == {"closed"} or all(_is_closed(item) for item in opportunities):
-        return 0
-    if "open" in statuses:
-        return 100
-    if "upcoming" in statuses:
-        return 60
-    return 40
+def _filter_opportunities(
+    records: list[OpportunityRecord],
+    *,
+    opportunity_type: str | None,
+    opportunity_status: str | None,
+) -> list[OpportunityRecord]:
+    filtered = records
+    if opportunity_type:
+        wanted = opportunity_type.strip().casefold()
+        filtered = [
+            item for item in filtered if (item.opportunity_type or "").strip().casefold() == wanted
+        ]
+    if opportunity_status:
+        wanted_status = opportunity_status.strip().casefold()
+        filtered = [item for item in filtered if item.status_key == wanted_status]
+    return filtered
 
 
-def _is_closed(item: UniversityOpportunityContext) -> bool:
-    return (item.status or "").casefold() == GENERIC_CLOSED
+def opportunities_for_professor(
+    records: list[OpportunityRecord],
+    professor_row: dict[str, Any],
+) -> list[OpportunityRecord]:
+    professor_id = str(professor_row.get("id") or "")
+    lab_id = str(professor_row.get("lab_id") or "") if professor_row.get("lab_id") else None
+    university_id = _university_id(professor_row)
+    matched: list[OpportunityRecord] = []
+    seen: set[str] = set()
+    for item in records:
+        belongs = False
+        if item.professor_id:
+            belongs = item.professor_id == professor_id
+        elif item.lab_id:
+            belongs = bool(lab_id) and item.lab_id == lab_id
+        elif item.university_id:
+            belongs = bool(university_id) and item.university_id == university_id
+        if not belongs or item.id in seen:
+            continue
+        seen.add(item.id)
+        matched.append(item)
+    return matched
+
+
+def _opportunity_context(item: OpportunityRecord) -> UniversityOpportunityContext:
+    return UniversityOpportunityContext(
+        id=item.id,
+        title=item.title,
+        type=item.opportunity_type,
+        status=item.status,
+        not_professor_specific=item.not_professor_specific,
+        official_url=item.official_url,
+        description=item.description,
+        eligibility=item.eligibility,
+        international_eligible=item.international_eligible,
+        undergraduate_eligible=item.undergraduate_eligible,
+        funding_type=item.funding_type,
+        stipend_amount=item.stipend_amount,
+        tuition_coverage=item.tuition_coverage,
+        accommodation_coverage=item.accommodation_coverage,
+        travel_coverage=item.travel_coverage,
+        application_deadline=item.application_deadline,
+        start_date=item.start_date,
+        professor_id=item.professor_id,
+        lab_id=item.lab_id,
+    )
+
+
+def _fit_schema(fit: UniversityFitResult) -> UniversityOpportunityFit:
+    best = fit.best_opportunity
+    return UniversityOpportunityFit(
+        score=fit.score,
+        best_opportunity_id=best.id if best else None,
+        best_opportunity_title=best.title if best else None,
+        status=best.status if best else None,
+        non_closed_opportunity_count=fit.non_closed_opportunity_count,
+        why=list(fit.why),
+    )
+
+
+def _sort_key(item: ProfessorMatch, mode: str) -> tuple:
+    fit_score = item.university_opportunity_fit.score if item.university_opportunity_fit else 0
+    name = item.professor.name.lower()
+    professor_id = str(item.professor.id)
+    if mode == "opportunity":
+        return (-fit_score, -item.research_match.score, name, professor_id)
+    if mode == "both":
+        return (-item.research_match.score, -fit_score, name, professor_id)
+    return (-item.research_match.score, name, professor_id)
+
+
+def _date_text(value: Any) -> str | None:
+    if value is None:
+        return None
+    return str(value)
 
 
 def _professor_card(row: dict[str, Any]) -> MatchProfessor:

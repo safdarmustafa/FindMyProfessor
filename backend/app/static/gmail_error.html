@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FindMyProfessor — Gmail Connection Error</title>
+  <link rel="stylesheet" href="/static/css/fmp.css">
+</head>
+<body>
+  <nav>
+    <a href="/onboarding">CV profile</a>
+    <a href="/matches">Research Matches</a>
+  </nav>
+  <main>
+    <h1>Gmail Connection Failed</h1>
+    <p id="error-message" class="status error">The Gmail connection could not be completed.</p>
+    <p><a href="/matches">Return to Research Matches</a></p>
+    <script>
+      const params = new URLSearchParams(location.search);
+      const reason = params.get("reason") || "";
+      const messages = {
+        denied: "You declined to grant Gmail access. No connection was made.",
+        missing_params: "The authorization response was incomplete.",
+        invalid_state: "The connection request could not be verified (state mismatch). Please try again.",
+        exchange_failed: "The authorization code could not be exchanged. Please try again.",
+        no_token: "No access token was returned. Please try again.",
+        store_failed: "The connection could not be saved. Please try again."
+      };
+      const msg = messages[reason];
+      if (msg) document.getElementById("error-message").textContent = msg;
+    </script>
+  </main>
+</body>
+</html>

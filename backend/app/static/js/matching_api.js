@@ -25,6 +25,8 @@
       params.set("min_score", String(opts.minScore));
     }
     if (opts.emailOnly) params.set("email_only", "true");
+    if (opts.opportunityType) params.set("opportunity_type", opts.opportunityType);
+    if (opts.opportunityStatus) params.set("opportunity_status", opts.opportunityStatus);
     return "/matching/professors?" + params.toString();
   }
 

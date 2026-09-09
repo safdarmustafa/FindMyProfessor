@@ -61,7 +61,8 @@
         statusEl.className = "status ok";
         let html = "";
         if (match) {
-          html += ui.renderProfessorCard(match, { showWhy: true });
+          html += ui.renderProfessorCard(match, { showWhy: true, mode: "both" });
+          html += '<div style="margin-top:1rem"><a href="/outreach/compose/' + encodeURIComponent(professorId) + '" class="btn-primary">Generate Email Draft</a></div>';
         } else {
           html += "<section><p>No research match is available for this professor with the current confirmed CV.</p></section>";
         }

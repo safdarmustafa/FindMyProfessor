@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FindMyProfessor — Gmail Connected</title>
+  <link rel="stylesheet" href="/static/css/fmp.css">
+</head>
+<body>
+  <nav>
+    <a href="/onboarding">CV profile</a>
+    <a href="/matches">Research Matches</a>
+  </nav>
+  <main>
+    <h1>Gmail Connected ✓</h1>
+    <p class="lead">Your Gmail account has been connected successfully.</p>
+    <p>You can now return to your email draft to attach your CV and send.</p>
+    <p><a href="/matches" class="btn-primary">Return to Matches</a></p>
+    <script>
+      // If window.opener exists (popup flow), close and notify parent
+      if (window.opener && !window.opener.closed) {
+        window.opener.postMessage({ type: "gmail_connected" }, window.location.origin);
+        window.close();
+      }
+    </script>
+  </main>
+</body>
+</html>
