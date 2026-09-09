@@ -42,12 +42,33 @@ if STATIC_DIR.exists():
 
 @app.get("/")
 def root():
-    return {
-        "message": "FindMyProfessor API is running",
-        "version": "0.1.0",
-        "cv_onboarding": "/onboarding",
-        "research_matches": "/matches",
-    }
+    page = STATIC_DIR / "index.html"
+    if not page.exists():
+        # Fallback to JSON if the static page has not been deployed yet
+        from fastapi.responses import JSONResponse
+        return JSONResponse({
+            "message": "FindMyProfessor API is running",
+            "version": "0.1.0",
+            "cv_onboarding": "/onboarding",
+            "research_matches": "/matches",
+        })
+    return FileResponse(page)
+
+
+@app.get("/privacy")
+def privacy_page():
+    page = STATIC_DIR / "privacy.html"
+    if not page.exists():
+        raise HTTPException(status_code=404, detail="Privacy policy page is not available.")
+    return FileResponse(page)
+
+
+@app.get("/terms")
+def terms_page():
+    page = STATIC_DIR / "terms.html"
+    if not page.exists():
+        raise HTTPException(status_code=404, detail="Terms of service page is not available.")
+    return FileResponse(page)
 
 
 @app.get("/login")
