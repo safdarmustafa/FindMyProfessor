@@ -13,7 +13,7 @@ from app.cv.parsers.base import ParseError
 from app.cv.parsers.registry import extract_normalized_text
 from app.cv.storage import read_cv_bytes, save_cv_bytes
 from app.cv.validation import CvTooLargeError, UnsupportedCvError, detect_cv_type
-from app.services.query import execute
+from app.services.query import execute, is_missing_column_error
 from app.supabase_client import supabase
 
 logger = logging.getLogger(__name__)
@@ -80,17 +80,33 @@ def ensure_profile(profile_id: str | None, user_id: str | None = None) -> str:
         ).data
         if existing:
             return user_id
+        payload = {"id": user_id, "full_name": "Student", "linked_user_id": user_id}
         try:
-            execute(
-                supabase.table("profiles").insert(
-                    {"id": user_id, "full_name": "Student", "linked_user_id": user_id}
-                )
-            )
+            execute(supabase.table("profiles").insert(payload))
         except HTTPException as exc:
-            raise HTTPException(
-                status_code=503,
-                detail="Could not create a student profile for this account.",
-            ) from exc
+            if is_missing_column_error(exc, "linked_user_id"):
+                # profiles.linked_user_id is not migrated yet
+                # (migrations/20260910_profiles_linked_user_id.sql). It is
+                # only a secondary link column — profile.id == user_id
+                # already IS the ownership record app/auth.py needs, so
+                # insert without it rather than failing profile creation.
+                logger.warning(
+                    "profiles.linked_user_id is not migrated yet — "
+                    "creating profile %s without it.", user_id,
+                )
+                payload.pop("linked_user_id", None)
+                try:
+                    execute(supabase.table("profiles").insert(payload))
+                except HTTPException as exc2:
+                    raise HTTPException(
+                        status_code=503,
+                        detail="Could not create a student profile for this account.",
+                    ) from exc2
+            else:
+                raise HTTPException(
+                    status_code=503,
+                    detail="Could not create a student profile for this account.",
+                ) from exc
         return user_id
     new_id = _provision_auth_user()
     existing = execute(

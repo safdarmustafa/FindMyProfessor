@@ -37,7 +37,7 @@ from dataclasses import dataclass
 
 from fastapi import Header, HTTPException
 
-from app.services.query import execute
+from app.services.query import execute, is_missing_column_error
 from app.supabase_client import supabase
 
 logger = logging.getLogger(__name__)
@@ -74,26 +74,65 @@ def get_authenticated_user_id(authorization: str | None) -> str | None:
 
 
 def _find_linked_profile_id(user_id: str) -> str | None:
-    """A profile already explicitly linked to this authenticated user, if any."""
-    rows = execute(
-        supabase.table("profiles").select("id").eq("linked_user_id", user_id).limit(1)
-    ).data or []
-    if rows:
-        return str(rows[0]["id"])
-    # A profile whose id was assigned directly from a real auth user (new
-    # users going forward, once cv_service stops fabricating an identity
-    # for an already-authenticated caller) needs no separate link row.
+    """A profile already belonging to this authenticated user, if any.
+
+    Checked in two ways:
+    1. profiles.id == user_id — the direct case: a profile created for an
+       already-authenticated caller (app/services/cv.py's ensure_profile,
+       user_id branch) uses the user's own id as the profile id, so no
+       separate link row is needed at all. Checked FIRST since it needs
+       no optional column and covers the common/new-user case on its own.
+    2. profiles.linked_user_id == user_id — the legacy case: an existing
+       profile created anonymously before this user's first authenticated
+       session, explicitly claimed via _claim_profile() below
+       (migrations/20260910_profiles_linked_user_id.sql). If that column
+       is not yet present in the database, this degrades to "no legacy
+       profile to claim" rather than failing the request — the direct
+       check above still works, and no profile is ever returned without
+       a real ownership match either way.
+    """
     rows = execute(
         supabase.table("profiles").select("id").eq("id", user_id).limit(1)
     ).data or []
+    if rows:
+        return str(rows[0]["id"])
+
+    try:
+        rows = execute(
+            supabase.table("profiles").select("id").eq("linked_user_id", user_id).limit(1)
+        ).data or []
+    except HTTPException as exc:
+        if is_missing_column_error(exc, "linked_user_id"):
+            logger.warning(
+                "profiles.linked_user_id is not migrated yet "
+                "(migrations/20260910_profiles_linked_user_id.sql) — "
+                "legacy profile claiming is unavailable until it is applied."
+            )
+            return None
+        raise
     return str(rows[0]["id"]) if rows else None
 
 
 def _profile_link_state(profile_id: str) -> str | None:
-    """Returns None if the profile doesn't exist, 'unlinked', or 'linked'."""
-    rows = execute(
-        supabase.table("profiles").select("id, linked_user_id").eq("id", profile_id).limit(1)
-    ).data or []
+    """Returns None if the profile doesn't exist (or link state can't be
+    determined — see below), 'unlinked', or 'linked'."""
+    try:
+        rows = execute(
+            supabase.table("profiles").select("id, linked_user_id").eq("id", profile_id).limit(1)
+        ).data or []
+    except HTTPException as exc:
+        if is_missing_column_error(exc, "linked_user_id"):
+            # Same pending-migration case as _find_linked_profile_id above.
+            # Returning None here means resolve_identity's caller treats
+            # this X-Profile-Id as unclaimable rather than granting access
+            # to it — it never falls back to trusting it outright.
+            logger.warning(
+                "profiles.linked_user_id is not migrated yet "
+                "(migrations/20260910_profiles_linked_user_id.sql) — "
+                "cannot determine link state for this profile."
+            )
+            return None
+        raise
     if not rows:
         return None
     return "linked" if rows[0].get("linked_user_id") else "unlinked"
