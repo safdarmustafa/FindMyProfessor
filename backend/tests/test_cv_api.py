@@ -116,9 +116,9 @@ def test_docx_upload_selects_docx_parser(client):
 
 
 def test_onboarding_page_available(client):
+    # Product pages are owned by the React SPA. FastAPI is API-only.
     response = client.get("/onboarding")
-    assert response.status_code == 200
-    assert b"CV-first" in response.content
+    assert response.status_code == 404
 
 
 def _cleanup_profile(profile_id: str) -> None:

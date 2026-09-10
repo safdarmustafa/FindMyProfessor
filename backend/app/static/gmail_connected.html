@@ -5,24 +5,119 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FindMyProfessor — Gmail Connected</title>
   <link rel="stylesheet" href="/static/css/fmp.css">
+  <style>
+    .centered-card {
+      min-height: 80vh; display: flex; align-items: center; justify-content: center; padding: 2rem;
+    }
+    .status-card {
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: var(--r-xl); padding: 2.5rem 2.75rem;
+      max-width: 440px; width: 100%; text-align: center;
+      box-shadow: var(--shadow-md);
+    }
+    .icon-circle {
+      width: 56px; height: 56px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.25rem;
+    }
+    .icon-circle.success { background: var(--green-bg); }
+    .status-card h1 { font-size: 1.35rem; margin-bottom: .5rem; }
+    .status-card p  { color: var(--muted); font-size: .95rem; margin-bottom: 1.25rem; }
+    .status-card a  { margin-top: .5rem; display: inline-block; }
+
+    /* Countdown */
+    .countdown { font-size: .85rem; color: var(--muted); margin-top: .75rem; }
+    .spinner {
+      width: 18px; height: 18px; border-radius: 50%;
+      border: 2px solid #d1fae5; border-top-color: #16a34a;
+      animation: spin .65s linear infinite; display: inline-block;
+      vertical-align: middle; margin-right: .35rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
 </head>
 <body>
-  <nav>
-    <a href="/onboarding">CV profile</a>
-    <a href="/matches">Research Matches</a>
+  <nav class="app-nav">
+    <div class="app-nav-inner">
+      <a class="nav-brand" href="/">FindMyProfessor</a>
+      <div class="nav-links">
+        <a href="/onboarding">CV Profile</a>
+        <a href="/matches">Research Matches</a>
+      </div>
+    </div>
   </nav>
-  <main>
-    <h1>Gmail Connected ✓</h1>
-    <p class="lead">Your Gmail account has been connected successfully.</p>
-    <p>You can now return to your email draft to attach your CV and send.</p>
-    <p><a href="/matches" class="btn-primary">Return to Matches</a></p>
-    <script>
-      // If window.opener exists (popup flow), close and notify parent
-      if (window.opener && !window.opener.closed) {
-        window.opener.postMessage({ type: "gmail_connected" }, window.location.origin);
-        window.close();
+
+  <div class="centered-card">
+    <div class="status-card">
+      <div class="icon-circle success">
+        <svg width="28" height="28" viewBox="0 0 28 28" fill="none" stroke="#16a34a" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="14" cy="14" r="12"/>
+          <path d="M8.5 14l3.5 3.5 7-7"/>
+        </svg>
+      </div>
+      <h1 id="card-title">Gmail connected.</h1>
+      <p id="card-message">Your Gmail account has been connected successfully.</p>
+      <div id="card-actions"></div>
+      <p id="card-countdown" class="countdown"></p>
+    </div>
+  </div>
+
+  <script>
+    // ── Popup flow ──────────────────────────────────────────────────────
+    if (window.opener && !window.opener.closed) {
+      window.opener.postMessage({ type: "gmail_connected" }, window.location.origin);
+      window.close();
+    }
+
+    // ── Pending outreach intent ─────────────────────────────────────────
+    const PENDING_KEY    = "fmp_pending_outreach";
+    const MAX_AGE_MS     = 10 * 60 * 1000; // 10 minutes
+    const REDIRECT_DELAY = 1500;
+
+    const titleEl     = document.getElementById("card-title");
+    const messageEl   = document.getElementById("card-message");
+    const actionsEl   = document.getElementById("card-actions");
+    const countdownEl = document.getElementById("card-countdown");
+
+    function showDefaultState() {
+      titleEl.textContent   = "Gmail connected.";
+      messageEl.textContent = "Your Gmail account has been connected successfully.";
+      actionsEl.innerHTML   = '<a href="/matches" class="btn-primary">Continue to Matches</a>';
+    }
+
+    function clearPending() {
+      try { localStorage.removeItem(PENDING_KEY); } catch(e) {}
+    }
+
+    (function checkPending() {
+      let pending = null;
+      try {
+        const raw = localStorage.getItem(PENDING_KEY);
+        if (raw) pending = JSON.parse(raw);
+      } catch(e) {}
+
+      if (!pending || !pending.return_path || !pending.timestamp) {
+        showDefaultState();
+        return;
       }
-    </script>
-  </main>
+
+      const age = Date.now() - pending.timestamp;
+      if (age > MAX_AGE_MS) {
+        clearPending();
+        showDefaultState();
+        return;
+      }
+
+      // Valid pending intent
+      titleEl.textContent   = "Gmail connected!";
+      messageEl.textContent = "Returning to your email draft in a moment…";
+      countdownEl.innerHTML = '<span class="spinner"></span> Redirecting…';
+
+      setTimeout(function() {
+        clearPending();
+        window.location.href = pending.return_path;
+      }, REDIRECT_DELAY);
+    })();
+  </script>
 </body>
 </html>

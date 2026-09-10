@@ -1139,19 +1139,20 @@ def test_history_returns_all_drafts():
 def test_history_page_exists():
     from app.main import app
     client = TestClient(app)
-    assert client.get("/outreach/history-view").status_code == 200
+    # Legacy HTML history view was removed; React owns /outreach/history.
+    assert client.get("/outreach/history-view").status_code == 404
 
 
 def test_gmail_connected_page_exists():
     from app.main import app
     client = TestClient(app)
-    assert client.get("/outreach/gmail-connected").status_code == 200
+    assert client.get("/outreach/gmail-connected").status_code == 404
 
 
 def test_gmail_error_page_exists():
     from app.main import app
     client = TestClient(app)
-    assert client.get("/outreach/gmail-callback-error").status_code == 200
+    assert client.get("/outreach/gmail-callback-error").status_code == 404
 
 
 # ─────────────────────────────────────────────────────────────────────────────

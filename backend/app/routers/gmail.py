@@ -23,6 +23,10 @@ logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/gmail", tags=["gmail"])
 
+# React frontend base URL — override with FRONTEND_URL env var in production.
+# All post-OAuth browser redirects must land on the React SPA, not FastAPI.
+_FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173").rstrip("/")
+
 SCOPES_STRING = gmail_oauth.GMAIL_SEND_SCOPE
 
 
@@ -86,20 +90,20 @@ def gmail_callback(
     if error:
         logger.info("OAuth callback received error.")
         return RedirectResponse(
-            url="/outreach/gmail-callback-error?reason=denied",
+            url=f"{_FRONTEND_URL}/outreach/gmail-callback-error?reason=denied",
             status_code=302,
         )
 
     if not code or not state:
         return RedirectResponse(
-            url="/outreach/gmail-callback-error?reason=missing_params",
+            url=f"{_FRONTEND_URL}/outreach/gmail-callback-error?reason=missing_params",
             status_code=302,
         )
 
     profile_id = gmail_oauth.consume_state(state)
     if not profile_id:
         return RedirectResponse(
-            url="/outreach/gmail-callback-error?reason=invalid_state",
+            url=f"{_FRONTEND_URL}/outreach/gmail-callback-error?reason=invalid_state",
             status_code=302,
         )
 
@@ -108,7 +112,7 @@ def gmail_callback(
     except Exception:
         logger.warning("OAuth code exchange failed.")
         return RedirectResponse(
-            url="/outreach/gmail-callback-error?reason=exchange_failed",
+            url=f"{_FRONTEND_URL}/outreach/gmail-callback-error?reason=exchange_failed",
             status_code=302,
         )
 
@@ -118,7 +122,7 @@ def gmail_callback(
 
     if not access_token:
         return RedirectResponse(
-            url="/outreach/gmail-callback-error?reason=no_token",
+            url=f"{_FRONTEND_URL}/outreach/gmail-callback-error?reason=no_token",
             status_code=302,
         )
 
@@ -139,11 +143,11 @@ def gmail_callback(
     except Exception:
         logger.error("Failed to store Gmail connection.")
         return RedirectResponse(
-            url="/outreach/gmail-callback-error?reason=store_failed",
+            url=f"{_FRONTEND_URL}/outreach/gmail-callback-error?reason=store_failed",
             status_code=302,
         )
 
-    return RedirectResponse(url="/outreach/gmail-connected", status_code=302)
+    return RedirectResponse(url=f"{_FRONTEND_URL}/outreach/gmail-connected", status_code=302)
 
 
 # ---------------------------------------------------------------------------

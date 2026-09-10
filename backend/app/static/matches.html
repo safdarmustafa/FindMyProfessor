@@ -5,38 +5,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FindMyProfessor — Research Matches</title>
   <link rel="stylesheet" href="/static/css/fmp.css">
+  <style>
+    #metrics-bar { display: none; }
+    .skeleton.pc { min-height: 120px; margin-bottom: .6rem; }
+    #cv-status { font-size: .82rem; }
+    #filters h2 { font-size: .68rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin-bottom: .6rem; }
+    #results > section { margin-top: 0; }
+  </style>
 </head>
 <body>
-  <nav>
-    <a href="/onboarding">CV profile</a>
-    <a href="/matches" aria-current="page">Research Matches</a>
+  <nav class="app-nav">
+    <div class="app-nav-inner">
+      <a class="nav-brand" href="/">FindMyProfessor</a>
+      <div class="nav-links">
+        <a href="/onboarding">CV Profile</a>
+        <a href="/matches" aria-current="page">Research Matches</a>
+        <a href="/outreach/history-view">Outreach</a>
+      </div>
+    </div>
   </nav>
-  <main>
-    <h1>Research Matches</h1>
-    <p class="lead">Find professors whose research aligns with your background.</p>
 
-    <div class="mode-toggle" role="tablist" aria-label="Discovery mode">
-      <button type="button" data-mode="research" aria-pressed="true">Research</button>
-      <button type="button" class="secondary" data-mode="opportunity" aria-pressed="false">Opportunity First</button>
-      <button type="button" class="secondary" data-mode="both" aria-pressed="false">Both</button>
+  <main>
+    <div class="page-head">
+      <h1>Research Matches</h1>
+      <p>Professors ranked by research alignment with your profile.</p>
     </div>
 
-    <section id="cv-status"></section>
+    <!-- Compact metrics strip -->
+    <div id="metrics-bar" class="metrics-bar" role="region" aria-label="Match summary"></div>
 
-    <section id="filters" class="hidden">
-      <h2>Filters</h2>
+    <!-- CV status line -->
+    <div id="cv-status"></div>
+
+    <!-- Discovery mode toggle -->
+    <div class="mode-toggle" role="tablist" aria-label="Discovery mode">
+      <button type="button" data-mode="research"     aria-pressed="true">Research Match</button>
+      <button type="button" class="secondary" data-mode="opportunity" aria-pressed="false">Opportunity First</button>
+      <button type="button" class="secondary" data-mode="both"        aria-pressed="false">Both</button>
+    </div>
+
+    <!-- Filters (revealed after profile load) -->
+    <section id="filters" class="hidden" style="background:none;border:none;padding:0;box-shadow:none;margin:.25rem 0 0">
+      <h2>Refine results</h2>
       <div class="filters">
         <div>
           <label for="university">University</label>
           <select id="university"><option value="">All universities</option></select>
         </div>
         <div>
-          <label for="min-score">Minimum match score</label>
+          <label for="min-score">Min. match %</label>
           <input id="min-score" type="number" min="0" max="100" value="0">
         </div>
-        <div>
-          <label for="email-only">
-            <input id="email-only" type="checkbox"> Email available
+        <div style="display:flex;align-items:flex-end;padding-bottom:.05rem">
+          <label style="display:flex;align-items:center;gap:.4rem;margin:0;cursor:pointer;text-transform:none;letter-spacing:0;font-weight:500;font-size:.85rem">
+            <input id="email-only" type="checkbox">
+            <span>Email available</span>
           </label>
         </div>
         <div>
@@ -58,24 +81,29 @@
             <option value="unknown">Unknown</option>
           </select>
         </div>
+        <div style="display:flex;align-items:flex-end">
+          <button type="button" id="apply-filters" class="secondary" style="width:100%">Apply</button>
+        </div>
       </div>
-      <button type="button" id="apply-filters">Apply filters</button>
     </section>
 
-    <p id="page-status" class="status" aria-live="polite"></p>
+    <p id="page-status" class="status" aria-live="polite" style="margin-top:.65rem;font-size:.82rem"></p>
     <div id="results"></div>
   </main>
+
   <script src="/static/js/matching_api.js"></script>
   <script src="/static/js/matching_ui.js"></script>
   <script>
     const api = window.FMPMatchingApi;
-    const ui = window.FMPMatchingUi;
-    const profileId = api.getProfileId();
-    let currentMode = "research";
-    const statusEl = document.getElementById("page-status");
-    const resultsEl = document.getElementById("results");
+    const ui  = window.FMPMatchingUi;
+    const profileId   = api.getProfileId();
+    let   currentMode = "research";
+
+    const statusEl   = document.getElementById("page-status");
+    const resultsEl  = document.getElementById("results");
     const cvStatusEl = document.getElementById("cv-status");
-    const filtersEl = document.getElementById("filters");
+    const filtersEl  = document.getElementById("filters");
+    const metricsBar = document.getElementById("metrics-bar");
 
     function showStatus(text, kind) {
       statusEl.className = "status" + (kind ? " " + kind : "");
@@ -85,10 +113,13 @@
     function emptyState(message, actionLabel, hrefOrMode) {
       const action = hrefOrMode
         ? (hrefOrMode.charAt(0) === "/"
-          ? '<p><a href="' + ui.escapeHtml(hrefOrMode) + '">' + ui.escapeHtml(actionLabel) + "</a></p>"
-          : '<p><button type="button" id="empty-action">' + ui.escapeHtml(actionLabel) + "</button></p>")
+          ? '<p style="margin-top:.75rem"><a href="' + ui.escapeHtml(hrefOrMode) + '" class="btn-primary">' + ui.escapeHtml(actionLabel) + "</a></p>"
+          : '<p style="margin-top:.75rem"><button type="button" class="btn-primary" id="empty-action">' + ui.escapeHtml(actionLabel) + "</button></p>")
         : "";
-      resultsEl.innerHTML = "<section><p>" + ui.escapeHtml(message) + "</p>" + action + "</section>";
+      resultsEl.innerHTML =
+        '<section style="text-align:center;padding:2.5rem 1.5rem;background:none;border:none;box-shadow:none">' +
+        '<p style="color:var(--muted);font-size:.9rem">' + ui.escapeHtml(message) + "</p>" +
+        action + "</section>";
       const button = document.getElementById("empty-action");
       if (button && hrefOrMode && hrefOrMode.charAt(0) !== "/") {
         button.onclick = function () { setMode(hrefOrMode); };
@@ -97,20 +128,41 @@
 
     function loadingState() {
       resultsEl.innerHTML =
-        '<div class="skeleton card" aria-hidden="true"></div>' +
-        '<div class="skeleton card" aria-hidden="true"></div>' +
-        '<div class="skeleton card" aria-hidden="true"></div>';
-      showStatus("Loading research matches…");
+        '<div class="skeleton pc" aria-hidden="true"></div>' +
+        '<div class="skeleton pc" aria-hidden="true"></div>' +
+        '<div class="skeleton pc" aria-hidden="true"></div>';
+      showStatus("Loading research matches\u2026");
+    }
+
+    function renderMetrics(matches) {
+      if (!matches || !matches.length) { metricsBar.style.display = "none"; return; }
+      const total  = matches.length;
+      const strong = matches.filter(function (m) { return m.research_match && m.research_match.score >= 80; }).length;
+      const ready  = matches.filter(function (m) { return m.professor && m.professor.email_available; }).length;
+      const opps   = matches.reduce(function (n, m) {
+        return n + (m.university_opportunities || []).filter(function (o) {
+          return String(o.status || "").toLowerCase() !== "closed";
+        }).length;
+      }, 0);
+      metricsBar.innerHTML =
+        metricCell(total,  "Professors") +
+        metricCell(strong, "Strong matches") +
+        metricCell(ready,  "Outreach-ready") +
+        metricCell(opps,   "Opportunities");
+      metricsBar.style.display = "";
+    }
+    function metricCell(v, label) {
+      return '<div class="metric-cell"><div class="metric-value">' + v + '</div><div class="metric-label">' + label + '</div></div>';
     }
 
     function currentFilters() {
       return {
-        mode: currentMode,
-        limit: 25,
-        universityId: document.getElementById("university").value || undefined,
-        minScore: document.getElementById("min-score").value,
-        emailOnly: document.getElementById("email-only").checked,
-        opportunityType: document.getElementById("opportunity-type").value || undefined,
+        mode:              currentMode,
+        limit:             25,
+        universityId:      document.getElementById("university").value || undefined,
+        minScore:          document.getElementById("min-score").value,
+        emailOnly:         document.getElementById("email-only").checked,
+        opportunityType:   document.getElementById("opportunity-type").value || undefined,
         opportunityStatus: document.getElementById("opportunity-status").value || undefined
       };
     }
@@ -126,12 +178,12 @@
     }
 
     async function loadUniversities() {
-      const data = await api.fetchUniversities();
+      const data   = await api.fetchUniversities();
       const select = document.getElementById("university");
       (data.universities || []).forEach(function (university) {
         if (!university || !university.id || !university.name) return;
         const option = document.createElement("option");
-        option.value = university.id;
+        option.value       = university.id;
         option.textContent = university.name;
         select.appendChild(option);
       });
@@ -140,42 +192,39 @@
     async function loadMatches() {
       loadingState();
       try {
-        const data = await api.fetchMatches(profileId, currentFilters());
+        const data    = await api.fetchMatches(profileId, currentFilters());
         const matches = data.matches || [];
+        renderMetrics(matches);
         if (!matches.length) {
+          metricsBar.style.display = "none";
           if (currentMode === "opportunity") {
-            emptyState(
-              "No current or upcoming university opportunities found.",
-              "View research matches",
-              "research"
-            );
+            emptyState("No current or upcoming university opportunities found.", "View research matches", "research");
           } else {
-            emptyState(
-              "No strong research matches found yet. Try broadening your research interests or reviewing your CV.",
-              "Review my CV",
-              "/onboarding"
-            );
+            emptyState("No strong research matches found yet. Try broadening your research interests or reviewing your CV.", "Review my CV", "/onboarding");
           }
           showStatus("");
           return;
         }
         resultsEl.innerHTML = ui.renderMatchList(matches, { mode: currentMode });
         if (currentMode === "opportunity") {
-          showStatus("Universities with useful opportunities, then professors by research match.");
+          showStatus("Universities with open opportunities, then professors by research match.");
         } else if (currentMode === "both") {
           showStatus("Professors ranked by research match, then university opportunity fit.");
         } else {
-          showStatus(matches.length + " professor" + (matches.length === 1 ? "" : "s") + " ranked by research match.");
+          showStatus(matches.length + " professor" + (matches.length === 1 ? "" : "s") + " ranked by research alignment.");
         }
       } catch (err) {
+        metricsBar.style.display = "none";
         resultsEl.innerHTML =
-          '<section><p>Unable to load research matches.</p>' +
-          '<button type="button" id="retry">Retry</button></section>';
+          '<section style="text-align:center;padding:2rem 1.5rem;background:none;border:none;box-shadow:none">' +
+          '<p style="color:var(--muted);font-size:.9rem;margin-bottom:.85rem">Unable to load research matches.</p>' +
+          '<button type="button" id="retry" class="secondary">Retry</button></section>';
         document.getElementById("retry").onclick = loadMatches;
         showStatus(err.message || "Unable to load research matches.", "error");
       }
     }
 
+    /* Why toggle event delegation */
     resultsEl.addEventListener("click", function (event) {
       const button = event.target.closest(".js-toggle-why");
       if (!button) return;
@@ -190,18 +239,18 @@
 
     (async function start() {
       if (!profileId) {
-        cvStatusEl.innerHTML = "<p>No student profile is selected in this browser.</p>";
+        cvStatusEl.innerHTML = '<p style="color:var(--muted);font-size:.82rem;margin-bottom:.65rem">No student profile found in this browser.</p>';
         emptyState("Confirm your CV to discover research matches.", "Review my CV", "/onboarding");
         return;
       }
       try {
         const profile = await api.fetchProfile(profileId);
         if (!profile.confirmed) {
-          cvStatusEl.innerHTML = "<p>Your CV still needs confirmation.</p>";
+          cvStatusEl.innerHTML = '<p style="color:var(--muted);font-size:.82rem;margin-bottom:.65rem">Your CV profile is not yet confirmed.</p>';
           emptyState("Confirm your CV to discover opportunities.", "Review my CV", "/onboarding");
           return;
         }
-        cvStatusEl.innerHTML = "<p class=\"ok\">Based on your confirmed CV</p>";
+        cvStatusEl.innerHTML = '<p class="ok" style="font-size:.78rem;margin-bottom:.6rem">Matches based on your confirmed research profile.</p>';
         filtersEl.classList.remove("hidden");
         await loadUniversities();
         await loadMatches();

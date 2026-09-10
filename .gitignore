@@ -9,3 +9,8 @@ __pycache__/
 backend/var/
 *.egg-info/
 var/
+frontend/dist/
+backend/app/static/react/
+
+node_modules/
+frontend/node_modules/

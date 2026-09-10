@@ -346,6 +346,19 @@ def send_draft(*, profile_id: str, draft_id: str, confirmed: bool) -> SendDraftR
 # Phase 6 — History
 # ---------------------------------------------------------------------------
 
+def _display_name(value: Any) -> str | None:
+    """String or nested {name} / {title} object → display string."""
+    if not value:
+        return None
+    if isinstance(value, str):
+        return value
+    if isinstance(value, dict):
+        name = value.get("name") or value.get("title")
+        return str(name) if name else None
+    name = getattr(value, "name", None)
+    return str(name) if name else None
+
+
 def list_history(*, profile_id: str) -> list[DraftHistoryItem]:
     """
     List all drafts for a profile as history items.
@@ -361,11 +374,28 @@ def list_history(*, profile_id: str) -> list[DraftHistoryItem]:
                 cv_display = _cv_display_name(cv_row)
             except Exception:
                 pass
+        professor_name = _display_name(getattr(record, "professor_name", None))
+        university_name = _display_name(getattr(record, "university_name", None))
+        professor_email = getattr(record, "professor_email", None)
+        # Draft rows do not persist denormalized names; hydrate from professor.
+        if not professor_name or not university_name:
+            try:
+                prof = get_professor(record.professor_id)
+            except Exception:
+                prof = None
+            if prof:
+                professor_name = professor_name or _display_name(prof.get("name")) or (
+                    " ".join(
+                        p for p in (prof.get("first_name"), prof.get("last_name")) if p
+                    ) or None
+                )
+                university_name = university_name or _display_name(prof.get("university"))
+                professor_email = professor_email or prof.get("email")
         items.append(DraftHistoryItem(
             draft_id=record.draft_id,
-            professor_name=getattr(record, "professor_name", None),
-            professor_email=getattr(record, "professor_email", None),
-            university_name=getattr(record, "university_name", None),
+            professor_name=professor_name,
+            professor_email=professor_email,
+            university_name=university_name,
             subject=record.subject,
             status=record.generation_status,  # type: ignore[arg-type]
             cv_display_name=cv_display,

@@ -67,32 +67,21 @@ SAMPLE_MATCH = {
 
 def test_research_matches_page_loads():
     client = TestClient(app)
+    # /matches is a React SPA route. FastAPI no longer serves HTML for it.
     response = client.get("/matches")
-    assert response.status_code == 200
-    assert "Research Matches" in response.text
-    assert "Find professors whose research aligns with your background." in response.text
-    assert "Confirm your CV to discover research matches." in response.text
-    assert "Unable to load research matches." in response.text
-    assert "Loading research matches" in response.text
-    assert "skeleton" in response.text
-    assert "Opportunity First" in response.text
-    assert "No current or upcoming university opportunities found." in response.text
+    assert response.status_code == 404
 
 
 def test_onboarding_still_loads():
     client = TestClient(app)
     response = client.get("/onboarding")
-    assert response.status_code == 200
-    assert "CV-first" in response.text
-    assert 'href="/matches"' in response.text
+    assert response.status_code == 404
 
 
 def test_professor_match_page_loads():
     client = TestClient(app)
     response = client.get(f"/matches/{uuid4()}")
-    assert response.status_code == 200
-    assert "Professor" in response.text
-    assert "Back to research matches" in response.text
+    assert response.status_code == 404
 
 
 def test_json_professor_api_is_unchanged_path():
@@ -153,12 +142,16 @@ def test_card_renders_backend_score_priority_overlap_and_evidence():
     html = _run_ui_js(
         "process.stdout.write(globalThis.FMPMatchingUi.renderProfessorCard(match, {detailHref: '/matches/x'}));"
     )
-    assert "87/100" in html
-    assert "high" in html
+    # Score renders as separate spans: pc-score-num="87" + pc-score-unit="%"
+    assert "87" in html
+    assert "pc-score-num" in html
+    # "high" priority → "Strong" alignment label in redesigned card
+    assert "Strong" in html
     assert "Computer Vision" in html
     assert "Medical AI" in html
     assert "Computer Vision matches your explicit research interest." in html
-    assert "Why am I a match?" in html
+    # Toggle button text: "Why this match" (no trailing ?)
+    assert "Why this match" in html
     assert "Ada Lovelace" in html
     assert "Example University" in html
 

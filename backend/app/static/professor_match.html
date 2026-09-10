@@ -3,53 +3,221 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FindMyProfessor — Professor match</title>
+  <title>FindMyProfessor — Professor Profile</title>
   <link rel="stylesheet" href="/static/css/fmp.css">
 </head>
 <body>
-  <nav>
-    <a href="/onboarding">CV profile</a>
-    <a href="/matches">Research Matches</a>
+  <nav class="app-nav">
+    <div class="app-nav-inner">
+      <a class="nav-brand" href="/">FindMyProfessor</a>
+      <div class="nav-links">
+        <a href="/onboarding">CV Profile</a>
+        <a href="/matches">Research Matches</a>
+        <a href="/outreach/history-view">Outreach</a>
+      </div>
+    </div>
   </nav>
+
   <main>
-    <p><a href="/matches">Back to research matches</a></p>
-    <h1>Professor</h1>
-    <p id="page-status" class="status" aria-live="polite">Loading…</p>
+    <p style="margin-bottom:1.1rem">
+      <a href="/matches" style="display:inline-flex;align-items:center;gap:.3rem;font-size:.82rem;color:var(--muted);text-decoration:none">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="9,2 4,7 9,12"/>
+        </svg>
+        Research Matches
+      </a>
+    </p>
+
+    <p id="page-status" class="status" aria-live="polite" style="margin-bottom:.6rem"></p>
     <div id="detail"></div>
   </main>
+
   <script src="/static/js/matching_api.js"></script>
   <script src="/static/js/matching_ui.js"></script>
   <script>
-    const api = window.FMPMatchingApi;
-    const ui = window.FMPMatchingUi;
-    const profileId = api.getProfileId();
-    const professorId = window.location.pathname.split("/").filter(Boolean).pop();
-    const statusEl = document.getElementById("page-status");
-    const detailEl = document.getElementById("detail");
+    var api         = window.FMPMatchingApi;
+    var ui          = window.FMPMatchingUi;
+    var profileId   = api.getProfileId();
+    var professorId = window.location.pathname.split("/").filter(Boolean).pop();
+    var statusEl    = document.getElementById("page-status");
+    var detailEl    = document.getElementById("detail");
 
-    function websiteBlock(professor) {
-      if (!professor || !professor.website_url) return "";
-      return '<p><a href="' + ui.escapeHtml(professor.website_url) + '">Website</a></p>';
+    /* SVGs */
+    var CHECK_SVG =
+      '<svg width="11" height="11" viewBox="0 0 11 11" fill="none" aria-hidden="true">' +
+      '<circle cx="5.5" cy="5.5" r="5.5" fill="#dcfce7"/>' +
+      '<path d="M3 5.5l1.8 1.8 3.2-3.2" stroke="#16a34a" stroke-width="1.4" ' +
+      'stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+    var EXT_SVG =
+      '<svg width="11" height="11" viewBox="0 0 11 11" fill="none" stroke="currentColor" ' +
+      'stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' +
+      '<path d="M4 1.5H2a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V7"/>' +
+      '<polyline points="7 1.5 9.5 1.5 9.5 4"/><line x1="5" y1="6" x2="9.5" y2="1.5"/></svg>';
+
+    /* Score class helper (mirrors matching_ui.js logic) */
+    function scoreClass(score) {
+      if (typeof score !== "number") return "pc-moderate";
+      if (score >= 80) return "pc-strong";
+      if (score >= 60) return "pc-good";
+      return "pc-moderate";
     }
 
+    /* Build the full faculty profile layout */
+    function buildDetailLayout(match, directory) {
+      var professor  = match.professor || {};
+      var research   = match.research_match || {};
+      var score      = research.score;
+      var composeHref = "/outreach/compose/" + encodeURIComponent(professorId);
+      var html = "";
+
+      /* Affiliation */
+      var univName = professor.university && professor.university.name ? professor.university.name : "";
+      var deptName = professor.department && professor.department.name ? professor.department.name : "";
+      var labName  = professor.lab        && professor.lab.name        ? professor.lab.name        : "";
+
+      /* Score block */
+      var cls = scoreClass(score);
+      var clsLabel = cls === "pc-strong" ? "Strong research alignment"
+                   : cls === "pc-good"   ? "Good research alignment"
+                   :                       "Potential research alignment";
+      var scoreDisplay = typeof score === "number"
+        ? '<span class="score-num">' + score + '</span><span class="score-unit">%</span>'
+        : '<span class="score-num" style="font-size:1.5rem;color:var(--muted)">N/A</span>';
+
+      /* Website */
+      var websiteUrl  = (directory && directory.website_url) || professor.website_url || "";
+      var websiteBtn  = websiteUrl
+        ? '<a class="website-link" href="' + ui.escapeHtml(websiteUrl) + '" target="_blank" rel="noopener">Faculty website ' + EXT_SVG + '</a>'
+        : "";
+
+      /* Outreach status */
+      var outreachBadge = professor.email_available
+        ? '<span class="outreach-ready-badge">' + CHECK_SVG + " Outreach ready</span>"
+        : '<span class="discovery-badge">Discovery only</span>';
+
+      /* CTA */
+      var draftBtn = professor.email_available
+        ? '<a href="' + ui.escapeHtml(composeHref) + '" class="btn-primary">Draft Personalized Email</a>'
+        : '<a href="' + ui.escapeHtml(composeHref) + '" class="btn-primary">Prepare Draft</a>';
+
+      /* ── Hero ── */
+      html +=
+        '<div class="prof-hero">' +
+          '<div class="prof-hero-top">' +
+            '<div>' +
+              '<h1 class="prof-name">' + ui.escapeHtml(professor.name || "Professor") + '</h1>' +
+              (professor.title ? '<p class="prof-title">' + ui.escapeHtml(professor.title) + '</p>' : '') +
+              (deptName ? '<p class="prof-affil">' + ui.escapeHtml(deptName) + '</p>' : '') +
+              (univName ? '<p class="prof-affil">' + ui.escapeHtml(univName) + '</p>' : '') +
+              (labName  ? '<p class="prof-affil">' + ui.escapeHtml(labName)  + '</p>' : '') +
+              websiteBtn +
+            '</div>' +
+            '<div class="score-block">' +
+              scoreDisplay +
+              '<div class="score-label">Research Match</div>' +
+              '<div style="margin-top:.5rem">' +
+                '<span class="pc-score-label ' + cls + '">' +
+                  (cls === "pc-strong" ? "Strong" : cls === "pc-good" ? "Good" : "Potential") +
+                '</span>' +
+              '</div>' +
+            '</div>' +
+          '</div>' +
+          '<div class="prof-status-row">' +
+            outreachBadge +
+            '<span style="font-size:.8rem;color:var(--muted)">' + ui.escapeHtml(clsLabel) + '</span>' +
+          '</div>' +
+          '<div class="prof-actions">' +
+            draftBtn +
+            '<a href="/matches" class="secondary">Back to Matches</a>' +
+          '</div>' +
+        '</div>';
+
+      /* ── Research match section ── */
+      html += '<div class="detail-section">' + ui.renderWhy(match) + '</div>';
+
+      /* ── Research overlap chips ── */
+      var chips = ui.overlapChips(match.research_overlap);
+      if (chips) {
+        html +=
+          '<div class="detail-section">' +
+            '<h3>Research overlap</h3>' +
+            chips +
+          '</div>';
+      }
+
+      /* ── Opportunities (university-wide, clearly labelled) ── */
+      var opportunities = match.university_opportunities || [];
+      var active = opportunities.filter(function (o) {
+        return String(o.status || "").toLowerCase() !== "closed";
+      });
+      var closedOpps = opportunities.filter(function (o) {
+        return String(o.status || "").toLowerCase() === "closed";
+      });
+      if (active.length || closedOpps.length) {
+        html += '<div class="detail-section"><h3>University opportunities</h3>';
+        if (active.length) html += active.map(ui.renderOpportunity).join("");
+        if (closedOpps.length) {
+          html += '<p style="font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);margin:.75rem 0 .3rem">Closed</p>';
+          html += closedOpps.map(ui.renderOpportunity).join("");
+        }
+        html += '</div>';
+      }
+
+      /* ── Bottom CTA repeat ── */
+      html +=
+        '<div class="bottom-cta">' +
+          draftBtn +
+          '<a href="/matches" class="secondary">Back to Matches</a>' +
+        '</div>';
+
+      return html;
+    }
+
+    /* Fallback when no match data */
+    function buildDirectoryFallback(directory) {
+      return (
+        '<div class="detail-section">' +
+          '<h1 style="font-size:1.55rem;margin:0 0 .4rem">' + ui.escapeHtml(directory.name || "Professor") + '</h1>' +
+          (directory.title ? '<p class="meta">' + ui.escapeHtml(directory.title) + '</p>' : '') +
+          '<p class="no-match-note" style="margin-top:.65rem">' +
+            'No research match data available for this professor with the current confirmed profile.' +
+          '</p>' +
+          (directory.website_url
+            ? '<p><a href="' + ui.escapeHtml(directory.website_url) + '" target="_blank" rel="noopener" class="website-link">Faculty website ' + EXT_SVG + '</a></p>'
+            : '') +
+        '</div>' +
+        '<div class="bottom-cta"><a href="/matches" class="secondary">Back to Matches</a></div>'
+      );
+    }
+
+    /* Main load */
     (async function start() {
       if (!profileId) {
         statusEl.textContent = "";
-        detailEl.innerHTML = '<section><p>Confirm your CV to discover research matches.</p><p><a href="/onboarding">Review my CV</a></p></section>';
+        detailEl.innerHTML =
+          '<section><p>Confirm your CV to discover research matches.</p>' +
+          '<p style="margin-top:.75rem"><a href="/onboarding" class="btn-primary">Review my CV</a></p></section>';
         return;
       }
       try {
-        const profile = await api.fetchProfile(profileId);
+        statusEl.textContent = "Loading\u2026";
+        var profile = await api.fetchProfile(profileId);
         if (!profile.confirmed) {
           statusEl.textContent = "";
-          detailEl.innerHTML = '<section><p>Confirm your CV to discover research matches.</p><p><a href="/onboarding">Review my CV</a></p></section>';
+          detailEl.innerHTML =
+            '<section><p>Confirm your CV to discover research matches.</p>' +
+            '<p style="margin-top:.75rem"><a href="/onboarding" class="btn-primary">Review my CV</a></p></section>';
           return;
         }
-        const [matchData, directory] = await Promise.all([
+        var results = await Promise.all([
           api.fetchMatches(profileId, { mode: "research", limit: 100 }),
           api.fetchProfessor(professorId)
         ]);
-        const match = (matchData.matches || []).find(function (item) {
+        var matchData  = results[0];
+        var directory  = results[1];
+        var match = (matchData.matches || []).find(function (item) {
           return item.professor && String(item.professor.id) === String(professorId);
         });
         if (!match && !directory) {
@@ -57,28 +225,15 @@
           detailEl.innerHTML = "<section><p>Professor not found.</p></section>";
           return;
         }
-        statusEl.textContent = "Based on your confirmed CV";
-        statusEl.className = "status ok";
-        let html = "";
-        if (match) {
-          html += ui.renderProfessorCard(match, { showWhy: true, mode: "both" });
-          html += '<div style="margin-top:1rem"><a href="/outreach/compose/' + encodeURIComponent(professorId) + '" class="btn-primary">Generate Email Draft</a></div>';
-        } else {
-          html += "<section><p>No research match is available for this professor with the current confirmed CV.</p></section>";
-        }
-        if (directory) {
-          html += "<section><h2>Directory</h2>";
-          html += "<p>" + ui.escapeHtml(directory.name || "") + "</p>";
-          if (directory.title) html += "<p class=\"meta\">" + ui.escapeHtml(directory.title) + "</p>";
-          html += websiteBlock(directory);
-          if (!directory.lab) html += "<p class=\"meta\">Lab: not available</p>";
-          html += "</section>";
-        }
-        detailEl.innerHTML = html;
+        statusEl.textContent = "";
+        detailEl.innerHTML = match
+          ? buildDetailLayout(match, directory)
+          : buildDirectoryFallback(directory);
       } catch (err) {
         statusEl.className = "status error";
         statusEl.textContent = "Unable to load research matches.";
-        detailEl.innerHTML = '<section><p><a href="/matches">Return to matches</a></p></section>';
+        detailEl.innerHTML =
+          '<section><p><a href="/matches">Return to matches</a></p></section>';
       }
     })();
   </script>

@@ -1,0 +1,291 @@
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+}
+
+/* ── Nav bar ─────────────────────────────────────────── */
+.app-nav {
+  background: #ffffff;
+  height: var(--nav-h);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid var(--line);
+  flex-shrink: 0;
+}
+
+.app-nav-inner {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+/* Brand */
+.app-nav-brand {
+  font-family: var(--font-serif);
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--navy);
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  letter-spacing: -.01em;
+}
+.app-nav-brand:hover { text-decoration: none; color: var(--navy); opacity: .85; }
+
+/* Nav links */
+.app-nav-links {
+  display: flex;
+  align-items: center;
+  gap: .125rem;
+  flex: 1;
+}
+
+.app-nav-link {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: .875rem;
+  font-weight: 500;
+  padding: .35rem .7rem;
+  border-radius: var(--r-sm);
+  transition: color .12s, background .12s;
+  position: relative;
+}
+.app-nav-link:hover {
+  color: var(--navy);
+  background: var(--line-light);
+  text-decoration: none;
+}
+.app-nav-link.active {
+  color: var(--navy);
+  font-weight: 600;
+}
+.app-nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: .7rem;
+  right: .7rem;
+  height: 2px;
+  background: var(--navy);
+  border-radius: 2px 2px 0 0;
+}
+
+/* Right side: Gmail status */
+.app-nav-right {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  margin-left: auto;
+}
+
+.app-nav-gmail {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: .8125rem;
+}
+
+.app-nav-gmail-label {
+  color: var(--muted);
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-nav-gmail-connect {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: .8125rem;
+  font-weight: 500;
+  transition: color .12s;
+}
+.app-nav-gmail-connect:hover {
+  color: var(--navy);
+  text-decoration: none;
+}
+
+.app-nav-divider {
+  width: 1px;
+  height: 22px;
+  background: var(--line);
+  flex-shrink: 0;
+}
+
+.app-nav-signin {
+  color: var(--navy);
+  text-decoration: none;
+  font-size: .8125rem;
+  font-weight: 600;
+  padding: .35rem .75rem;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--line);
+  transition: background .12s, border-color .12s;
+}
+.app-nav-signin:hover {
+  background: var(--line-light);
+  text-decoration: none;
+}
+
+/* Account menu */
+.app-account-menu {
+  position: relative;
+}
+
+.app-account-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: var(--navy);
+  color: #fff;
+  font-size: .8125rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: box-shadow .12s, transform .12s;
+  flex-shrink: 0;
+}
+.app-account-avatar:hover {
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
+.app-account-avatar[aria-expanded="true"] {
+  box-shadow: 0 0 0 3px var(--accent-bg);
+}
+
+.app-account-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 220px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-lg);
+  padding: .4rem;
+  z-index: 200;
+}
+
+.app-account-email {
+  font-size: .78rem;
+  color: var(--muted);
+  padding: .55rem .65rem .5rem;
+  border-bottom: 1px solid var(--line-light);
+  margin-bottom: .3rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.app-account-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: none;
+  border: none;
+  color: var(--ink);
+  text-decoration: none;
+  font-size: .875rem;
+  font-weight: 500;
+  font-family: var(--font-ui);
+  padding: .5rem .65rem;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: background .12s;
+}
+.app-account-item:hover {
+  background: var(--line-light);
+  text-decoration: none;
+}
+.app-account-item--danger {
+  color: var(--red);
+}
+.app-account-item--danger:hover {
+  background: var(--red-bg);
+}
+
+.app-nav-mobile-email {
+  font-size: .8rem;
+  color: var(--muted);
+  padding: .5rem .6rem .2rem;
+  margin-top: .25rem;
+  border-top: 1px solid var(--line-light);
+}
+.app-nav-mobile-signout {
+  color: var(--red);
+  background: none;
+  border: none;
+  text-align: left;
+  font-family: var(--font-ui);
+  cursor: pointer;
+  width: 100%;
+}
+
+/* Hamburger */
+.app-nav-hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--muted);
+  padding: .3rem;
+  border-radius: var(--r-sm);
+  margin-left: auto;
+}
+.app-nav-hamburger:hover { color: var(--navy); background: var(--line-light); }
+
+/* Mobile dropdown */
+.app-nav-mobile-menu {
+  background: #ffffff;
+  border-top: 1px solid var(--line);
+  padding: .5rem 1rem .75rem;
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+}
+
+.app-nav-mobile-link {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: .9rem;
+  padding: .45rem .6rem;
+  border-radius: var(--r-sm);
+  display: block;
+  transition: color .12s, background .12s;
+}
+.app-nav-mobile-link:hover { color: var(--navy); background: var(--line-light); text-decoration: none; }
+.app-nav-mobile-link.active { color: var(--navy); font-weight: 600; }
+
+.app-nav-mobile-gmail {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: .8rem;
+  color: var(--muted);
+  padding: .45rem .6rem;
+  margin-top: .25rem;
+  border-top: 1px solid var(--line-light);
+}
+
+/* Main */
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+@media (max-width: 640px) {
+  .app-nav-links { display: none; }
+  .app-nav-right { display: none; }
+  .app-nav-hamburger { display: flex; }
+  .app-nav-inner { gap: 0; }
+}

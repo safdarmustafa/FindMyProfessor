@@ -6,140 +6,122 @@
   <title>FindMyProfessor — Sign In</title>
   <link rel="stylesheet" href="/static/css/fmp.css">
   <style>
-    .login-wrap {
-      min-height: 80vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    body { display: flex; flex-direction: column; min-height: 100vh; }
+    .login-outer {
+      flex: 1; display: flex; align-items: center; justify-content: center;
+      padding: 2rem 1.25rem;
     }
     .login-card {
-      background: var(--card, #fffdf8);
-      border: 1px solid var(--line, #d9d0c3);
-      border-radius: 1rem;
-      padding: 2.5rem 2.75rem;
-      width: 100%;
-      max-width: 420px;
-      text-align: center;
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: var(--r-xl); padding: 2.75rem 3rem;
+      width: 100%; max-width: 420px; text-align: center;
+      box-shadow: var(--shadow-md);
     }
-    .login-card h1 {
-      font-size: 1.55rem;
-      margin: 0 0 .3rem;
+    .login-brand {
+      font-family: var(--font-serif);
+      font-size: 1.55rem; font-weight: 700; color: var(--navy);
+      margin: 0 0 .3rem; display: block;
     }
-    .login-card .tagline {
-      color: var(--muted, #5c564e);
-      font-size: .95rem;
-      margin: 0 0 2rem;
+    .login-tagline {
+      color: var(--muted); font-size: .9rem; margin: 0 0 2.25rem;
     }
     .btn-google {
-      display: inline-flex;
-      align-items: center;
-      gap: .65rem;
-      width: 100%;
-      justify-content: center;
-      background: #fff;
-      color: #3c3c3c;
-      border: 1px solid #d1cec8;
-      border-radius: .55rem;
-      padding: .75rem 1.25rem;
-      font-size: .97rem;
-      font-family: inherit;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background .15s, box-shadow .15s;
+      display: inline-flex; align-items: center; gap: .7rem;
+      width: 100%; justify-content: center;
+      background: var(--card); color: #3c4043;
+      border: 1px solid #dadce0; border-radius: var(--r-md);
+      padding: .8rem 1.25rem; font-size: .97rem;
+      font-family: var(--font-ui); font-weight: 600;
+      cursor: pointer; transition: background .12s, box-shadow .12s;
       text-decoration: none;
     }
     .btn-google:hover {
-      background: #f5f3ee;
-      box-shadow: 0 2px 6px rgba(0,0,0,.08);
+      background: var(--bg); box-shadow: 0 2px 8px rgba(0,0,0,.1);
+      text-decoration: none;
     }
     .btn-google svg { flex-shrink: 0; }
+
     .divider {
-      border: none;
-      border-top: 1px solid var(--line, #d9d0c3);
-      margin: 1.75rem 0;
+      border: none; border-top: 1px solid var(--line); margin: 1.75rem 0;
     }
-    .user-info {
-      display: none;
-    }
+    .user-info { display: none; }
     .user-email {
-      font-weight: 600;
-      color: var(--accent, #1f4d3a);
-      word-break: break-all;
-      margin-bottom: 1.25rem;
+      font-weight: 600; color: var(--navy);
+      word-break: break-all; margin: .2rem 0 1.25rem;
+      font-size: .95rem;
     }
-    .btn-primary {
-      display: inline-block;
-      width: 100%;
-      background: var(--accent, #1f4d3a);
-      color: #fff;
-      border: none;
-      border-radius: .55rem;
-      padding: .75rem 1.25rem;
-      font-size: .97rem;
-      font-family: inherit;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: none;
-      transition: opacity .15s;
+    .user-label { color: var(--muted); font-size: .82rem; margin: 0 0 .15rem; }
+    .btn-continue {
+      display: inline-block; width: 100%;
+      background: var(--accent); color: #fff; border: none;
+      border-radius: var(--r-md); padding: .8rem 1.25rem;
+      font-size: .97rem; font-family: var(--font-ui); font-weight: 600;
+      cursor: pointer; text-decoration: none; transition: background .12s;
+      text-align: center;
     }
-    .btn-primary:hover { opacity: .88; }
+    .btn-continue:hover { background: var(--accent-dk); text-decoration: none; }
     .btn-logout {
-      display: inline-block;
-      margin-top: .75rem;
-      background: none;
-      border: none;
-      color: var(--muted, #5c564e);
-      font-size: .88rem;
-      font-family: inherit;
-      cursor: pointer;
+      display: inline-block; margin-top: .85rem;
+      background: none; border: none;
+      color: var(--muted); font-size: .875rem;
+      font-family: var(--font-ui); cursor: pointer;
       text-decoration: underline;
     }
-    .btn-logout:hover { color: var(--danger, #8a2b2b); }
+    .btn-logout:hover { color: var(--danger); }
     .status-msg {
-      font-size: .88rem;
-      color: var(--muted, #5c564e);
-      margin-top: 1rem;
-      min-height: 1.3em;
+      font-size: .875rem; color: var(--muted); margin-top: 1rem; min-height: 1.3em;
     }
-    .status-msg.error { color: var(--danger, #8a2b2b); }
+    .status-msg.error { color: var(--danger); }
+
+    .login-footer {
+      text-align: center; padding: 1.25rem;
+      font-size: .8rem; color: var(--muted);
+      border-top: 1px solid var(--line);
+    }
+    .login-footer a { color: var(--muted); text-decoration: none; margin: 0 .5rem; }
+    .login-footer a:hover { color: var(--accent); }
   </style>
 </head>
 <body>
-  <main>
-    <div class="login-wrap">
-      <div class="login-card">
-        <h1>FindMyProfessor</h1>
-        <p class="tagline">Research discovery and outreach platform</p>
 
-        <!-- Signed-out state -->
-        <div id="sign-in-section">
-          <button class="btn-google" id="btn-google-sign-in">
-            <!-- Google "G" logo -->
-            <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true">
-              <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-              <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-              <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-              <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-              <path fill="none" d="M0 0h48v48H0z"/>
-            </svg>
-            Continue with Google
-          </button>
-          <p class="status-msg" id="sign-in-status" aria-live="polite"></p>
-        </div>
+  <main class="login-outer">
+    <div class="login-card">
+      <span class="login-brand">FindMyProfessor</span>
+      <p class="login-tagline">Research discovery and outreach platform</p>
 
-        <hr class="divider">
+      <!-- Signed-out state -->
+      <div id="sign-in-section">
+        <button class="btn-google" id="btn-google-sign-in">
+          <!-- Google G logo -->
+          <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true">
+            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+            <path fill="none" d="M0 0h48v48H0z"/>
+          </svg>
+          Continue with Google
+        </button>
+        <p class="status-msg" id="sign-in-status" aria-live="polite"></p>
+      </div>
 
-        <!-- Signed-in state -->
-        <div class="user-info" id="user-info-section">
-          <p style="color:var(--muted);font-size:.88rem;margin:0 0 .4rem">Signed in as</p>
-          <p class="user-email" id="user-email"></p>
-          <a href="/onboarding" class="btn-primary">Continue to app →</a>
-          <br>
-          <button class="btn-logout" id="btn-logout">Sign out</button>
-        </div>
+      <hr class="divider">
+
+      <!-- Signed-in state -->
+      <div class="user-info" id="user-info-section">
+        <p class="user-label">Signed in as</p>
+        <p class="user-email" id="user-email"></p>
+        <a href="/onboarding" class="btn-continue">Continue to app &rarr;</a>
+        <br>
+        <button class="btn-logout" id="btn-logout">Sign out</button>
       </div>
     </div>
   </main>
+
+  <footer class="login-footer">
+    <a href="/privacy">Privacy Policy</a>
+    <a href="/terms">Terms of Service</a>
+  </footer>
 
   <!-- Supabase JS client (ESM CDN — no build step required) -->
   <script type="module">
@@ -152,24 +134,24 @@
 
     const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 
-    // ── DOM refs ──────────────────────────────────────────────────────────────
-    const signInSection  = document.getElementById('sign-in-section');
+    // ── DOM refs ───────────────────────────────────────────────────────────
+    const signInSection   = document.getElementById('sign-in-section');
     const userInfoSection = document.getElementById('user-info-section');
-    const userEmailEl    = document.getElementById('user-email');
-    const btnSignIn      = document.getElementById('btn-google-sign-in');
-    const btnLogout      = document.getElementById('btn-logout');
-    const statusMsg      = document.getElementById('sign-in-status');
+    const userEmailEl     = document.getElementById('user-email');
+    const btnSignIn       = document.getElementById('btn-google-sign-in');
+    const btnLogout       = document.getElementById('btn-logout');
+    const statusMsg       = document.getElementById('sign-in-status');
 
-    // ── UI helpers ────────────────────────────────────────────────────────────
+    // ── UI helpers ─────────────────────────────────────────────────────────
     function showSignedIn(email) {
-      userEmailEl.textContent = email || '(email unavailable)';
-      signInSection.style.display  = 'none';
-      userInfoSection.style.display = 'block';
+      userEmailEl.textContent        = email || '(email unavailable)';
+      signInSection.style.display    = 'none';
+      userInfoSection.style.display  = 'block';
     }
 
     function showSignedOut() {
-      signInSection.style.display  = 'block';
-      userInfoSection.style.display = 'none';
+      signInSection.style.display    = 'block';
+      userInfoSection.style.display  = 'none';
     }
 
     function setStatus(msg, isError = false) {
@@ -177,7 +159,7 @@
       statusMsg.className   = 'status-msg' + (isError ? ' error' : '');
     }
 
-    // ── Check for existing session on page load ───────────────────────────────
+    // ── Check for existing session on page load ────────────────────────────
     const { data: { session } } = await supabase.auth.getSession();
     if (session?.user) {
       showSignedIn(session.user.email);
@@ -185,7 +167,7 @@
       showSignedOut();
     }
 
-    // ── Listen for auth state changes (handles OAuth redirect callback) ───────
+    // ── Listen for auth state changes (handles OAuth redirect callback) ────
     supabase.auth.onAuthStateChange((_event, session) => {
       if (session?.user) {
         showSignedIn(session.user.email);
@@ -194,7 +176,7 @@
       }
     });
 
-    // ── Sign in with Google ───────────────────────────────────────────────────
+    // ── Sign in with Google ────────────────────────────────────────────────
     btnSignIn.addEventListener('click', async () => {
       btnSignIn.disabled = true;
       setStatus('Redirecting to Google…');
@@ -211,7 +193,7 @@
       // On success the page redirects — no further action needed here.
     });
 
-    // ── Sign out ──────────────────────────────────────────────────────────────
+    // ── Sign out ───────────────────────────────────────────────────────────
     btnLogout.addEventListener('click', async () => {
       btnLogout.disabled = true;
       const { error } = await supabase.auth.signOut();

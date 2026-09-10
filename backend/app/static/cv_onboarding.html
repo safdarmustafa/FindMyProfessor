@@ -3,85 +3,336 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FindMyProfessor — CV profile</title>
+  <title>FindMyProfessor — CV Profile</title>
   <link rel="stylesheet" href="/static/css/fmp.css">
+  <style>
+    .onboard-wrap { max-width: 760px; margin: 0 auto; padding: 2rem 1.25rem 4rem; }
+
+    /* Progress indicator */
+    .onboard-progress {
+      display: flex; align-items: center; margin-bottom: 2.25rem;
+    }
+    .op-step { display: flex; align-items: center; gap: .5rem; }
+    .op-dot {
+      width: 28px; height: 28px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: .78rem; font-weight: 700;
+      background: var(--bg); border: 2px solid var(--line); color: var(--muted);
+      flex-shrink: 0;
+    }
+    .op-step.active .op-dot   { background: var(--accent); border-color: var(--accent); color: #fff; }
+    .op-step.done   .op-dot   { background: var(--green);  border-color: var(--green);  color: #fff; }
+    .op-label { font-size: .82rem; font-weight: 500; color: var(--muted); white-space: nowrap; }
+    .op-step.active .op-label { color: var(--accent); font-weight: 600; }
+    .op-step.done   .op-label { color: var(--green); }
+    .op-line { flex: 1; height: 2px; background: var(--line); margin: 0 .5rem; min-width: 1.5rem; }
+    .op-line.done { background: var(--green); }
+
+    /* Upload zone */
+    .upload-zone {
+      border: 2px dashed var(--line); border-radius: var(--r-lg);
+      padding: 2.75rem 1.5rem; text-align: center;
+      cursor: pointer; transition: border-color .15s, background .15s;
+      background: var(--card);
+    }
+    .upload-zone:hover { border-color: var(--accent); background: var(--chip); }
+    .upload-zone input[type="file"] { display: none; }
+    .upload-icon { margin-bottom: .75rem; opacity: .55; }
+    .upload-zone p { margin: .35rem 0 0; color: var(--muted); font-size: .9rem; }
+    .upload-zone strong { display: block; font-size: 1rem; margin-bottom: .2rem; color: var(--ink); }
+
+    .file-preview {
+      display: flex; align-items: center; gap: .85rem;
+      background: var(--chip); border: 1px solid #bfdbfe;
+      border-radius: var(--r-md); padding: .75rem 1rem;
+      margin-top: .85rem;
+    }
+    .file-preview-icon { flex-shrink: 0; }
+    .file-preview-name { font-weight: 600; font-size: .9rem; }
+    .file-preview-meta { font-size: .78rem; color: var(--muted); margin-top: .1rem; }
+    .file-clear-btn {
+      margin-left: auto; background: none; border: none; color: var(--muted);
+      cursor: pointer; padding: .15rem .3rem; font-size: .8rem;
+      border-radius: var(--r-sm);
+    }
+    .file-clear-btn:hover { color: var(--danger); background: var(--red-bg); }
+
+    /* Upload btn row */
+    .upload-action { margin-top: 1rem; display: flex; align-items: center; gap: .85rem; }
+
+    /* Profile section */
+    .profile-card {
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: var(--r-lg); padding: 1.5rem 1.6rem;
+      margin-bottom: 1.25rem; box-shadow: var(--shadow-sm);
+    }
+    .profile-section-title {
+      font-size: .73rem; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--muted);
+      margin: 1.5rem 0 .6rem; padding-top: 1.25rem;
+      border-top: 1px solid var(--line);
+    }
+    .profile-section-title:first-of-type { margin-top: 0; padding-top: 0; border-top: none; }
+    .profile-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .85rem 1rem; }
+    .profile-grid .full { grid-column: 1 / -1; }
+    @media (max-width: 540px) { .profile-grid { grid-template-columns: 1fr; } }
+
+    label { display: block; font-size: .82rem; font-weight: 500; margin-bottom: .25rem; color: var(--muted); }
+    input[type="text"], input[type="number"], textarea {
+      width: 100%; padding: .6rem .8rem; border-radius: var(--r-md);
+      border: 1px solid var(--line); font-family: var(--font-ui);
+      font-size: .9rem; background: var(--bg); color: var(--ink);
+    }
+    input:focus, textarea:focus {
+      outline: none; border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37,99,235,.1);
+    }
+    textarea { min-height: 4.5rem; resize: vertical; line-height: 1.55; }
+    textarea.json { font-family: ui-monospace, monospace; font-size: .82rem; min-height: 5.5rem; }
+
+    /* Confirm button + states */
+    .confirm-row { margin-top: 1.35rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+
+    .btn-spinner {
+      display: inline-flex; align-items: center; gap: .5rem;
+    }
+    .spinner {
+      width: 16px; height: 16px; border-radius: 50%;
+      border: 2px solid rgba(255,255,255,.35);
+      border-top-color: #fff;
+      animation: spin .65s linear infinite;
+      flex-shrink: 0;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .confirm-success {
+      display: flex; align-items: center; gap: .65rem;
+      background: var(--green-bg); border: 1px solid #86efac;
+      border-radius: var(--r-md); padding: .65rem 1rem;
+      font-size: .9rem; color: #15803d; font-weight: 500;
+    }
+
+    /* Page status line */
+    #upload-status, #save-status { font-size: .88rem; margin-top: .4rem; }
+
+    /* Parse banner */
+    #parse-banner { font-size: .9rem; padding: .6rem .9rem; border-radius: var(--r-sm);
+      background: var(--green-bg); color: #15803d; margin-bottom: .5rem; }
+    #parse-banner.error { background: var(--red-bg); color: var(--danger); }
+  </style>
 </head>
 <body>
-  <nav>
-    <a href="/onboarding" aria-current="page">CV profile</a>
-    <a href="/matches">Research Matches</a>
+  <nav class="app-nav">
+    <div class="app-nav-inner">
+      <a class="nav-brand" href="/">FindMyProfessor</a>
+      <div class="nav-links">
+        <a href="/onboarding" aria-current="page">CV Profile</a>
+        <a href="/matches">Research Matches</a>
+      </div>
+    </div>
   </nav>
-  <main>
-    <h1>CV-first student profile</h1>
-    <p class="lead">Upload a CV, review what we extracted, edit if needed, then confirm. We do not invent missing facts.</p>
 
-    <section>
-      <h2>1. Upload CV</h2>
-      <p><small>PDF, Word (.doc/.docx), text, RTF, or OpenDocument (.odt). Max 10 MB.</small></p>
-      <input id="file" type="file" accept=".pdf,.doc,.docx,.txt,.rtf,.odt">
-      <button type="button" id="upload">Upload and extract</button>
-      <p class="status" id="upload-status"></p>
+  <div class="onboard-wrap">
+
+    <!-- Progress indicator -->
+    <div class="onboard-progress" aria-label="Steps">
+      <div class="op-step active" id="prog-1">
+        <div class="op-dot">01</div>
+        <span class="op-label">Upload CV</span>
+      </div>
+      <div class="op-line" id="line-1"></div>
+      <div class="op-step" id="prog-2">
+        <div class="op-dot">02</div>
+        <span class="op-label">Review Profile</span>
+      </div>
+      <div class="op-line" id="line-2"></div>
+      <div class="op-step" id="prog-3">
+        <div class="op-dot">03</div>
+        <span class="op-label">Ready</span>
+      </div>
+    </div>
+
+    <!-- Step 1: Upload -->
+    <div id="step-upload">
+      <div class="page-header">
+        <h1>Set up your CV profile</h1>
+        <p class="lead">Upload a CV, review what was extracted, and confirm. We do not invent missing facts.</p>
+      </div>
+
+      <div class="profile-card">
+        <label style="display:block;margin-bottom:.75rem;font-size:.82rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.06em">Supported formats</label>
+        <p style="font-size:.85rem;color:var(--muted);margin-bottom:1rem">PDF, Word (.doc/.docx), plain text, RTF, or OpenDocument (.odt). Maximum 10 MB.</p>
+
+        <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file').click()">
+          <div class="upload-icon">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+          </div>
+          <strong>Click to select your CV</strong>
+          <p>or drag and drop here</p>
+          <input id="file" type="file" accept=".pdf,.doc,.docx,.txt,.rtf,.odt">
+        </div>
+
+        <div id="file-preview-row" class="hidden">
+          <div class="file-preview">
+            <div class="file-preview-icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="4" y="2" width="16" height="20" rx="2"/>
+                <line x1="8" y1="7" x2="16" y2="7"/>
+                <line x1="8" y1="11" x2="16" y2="11"/>
+                <line x1="8" y1="15" x2="12" y2="15"/>
+              </svg>
+            </div>
+            <div>
+              <div class="file-preview-name" id="file-name-display"></div>
+              <div class="file-preview-meta" id="file-meta-display"></div>
+            </div>
+            <button class="file-clear-btn" id="btn-clear-file" type="button" title="Remove file">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><line x1="2" y1="2" x2="12" y2="12"/><line x1="12" y1="2" x2="2" y2="12"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="upload-action">
+          <button type="button" id="upload">Upload and extract</button>
+          <p class="status" id="upload-status"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: Review profile (hidden until upload) -->
+    <section id="result" class="hidden" style="background:none;border:none;padding:0;margin:0;box-shadow:none">
+
+      <div class="page-header" style="margin-top:1.5rem">
+        <h2>Review extracted profile</h2>
+        <p id="parse-banner"></p>
+        <p style="font-size:.82rem;color:var(--muted)">Profile ID: <code id="profile-id"></code></p>
+      </div>
+
+      <div class="profile-card">
+
+        <p class="profile-section-title">Identity</p>
+        <div class="profile-grid">
+          <div class="form-group"><label for="name">Name</label><input id="name" type="text"></div>
+          <div class="form-group"><label for="email">Email</label><input id="email" type="text"></div>
+          <div class="form-group"><label for="phone">Phone</label><input id="phone" type="text"></div>
+        </div>
+
+        <p class="profile-section-title">Education</p>
+        <div class="profile-grid">
+          <div class="form-group"><label for="degree">Degree</label><input id="degree" type="text"></div>
+          <div class="form-group"><label for="field">Field of study</label><input id="field" type="text"></div>
+          <div class="form-group"><label for="institution">Institution</label><input id="institution" type="text"></div>
+          <div class="form-group"><label for="country">Country</label><input id="country" type="text"></div>
+          <div class="form-group"><label for="grad-year">Graduation year</label><input id="grad-year" type="number"></div>
+          <div class="form-group"><label for="semester">Current semester</label><input id="semester" type="text"></div>
+        </div>
+
+        <p class="profile-section-title">Research &amp; Skills</p>
+        <div class="profile-grid">
+          <div class="form-group full">
+            <label for="interests">Research interests <small>(one per line)</small></label>
+            <textarea id="interests"></textarea>
+          </div>
+          <div class="form-group full">
+            <label for="signals">Research signals <small>(inferred from projects, publications — one per line)</small></label>
+            <textarea id="signals"></textarea>
+          </div>
+          <div class="form-group full">
+            <label for="skills">Skills <small>(one per line; optional category after a pipe, e.g. Python | language)</small></label>
+            <textarea id="skills"></textarea>
+          </div>
+        </div>
+
+        <p class="profile-section-title">Experience &amp; Work</p>
+        <div class="profile-grid">
+          <div class="form-group full"><label for="projects">Projects <small>(JSON array)</small></label><textarea id="projects" class="json"></textarea></div>
+          <div class="form-group full"><label for="publications">Publications <small>(JSON array)</small></label><textarea id="publications" class="json"></textarea></div>
+          <div class="form-group full"><label for="experience">Experience <small>(JSON array)</small></label><textarea id="experience" class="json"></textarea></div>
+          <div class="form-group full"><label for="certs">Certifications <small>(JSON array)</small></label><textarea id="certs" class="json"></textarea></div>
+        </div>
+
+        <div class="confirm-row">
+          <button type="button" id="save-edits" class="secondary">Save edits</button>
+          <button type="button" id="confirm">Confirm profile</button>
+          <p class="status" id="save-status" style="margin:0"></p>
+        </div>
+
+      </div>
     </section>
 
-    <section id="result" class="hidden">
-      <h2>2. CV analysis</h2>
-      <p id="parse-banner"></p>
-      <p><small>Profile ID: <span id="profile-id"></span></small></p>
+  </div>
 
-      <h3>Identity</h3>
-      <label>Name <input id="name"></label>
-      <label>Email <input id="email"></label>
-      <label>Phone <input id="phone"></label>
-
-      <h3>Education</h3>
-      <label>Degree <input id="degree"></label>
-      <label>Field of study <input id="field"></label>
-      <label>Institution <input id="institution"></label>
-      <label>Country <input id="country"></label>
-      <label>Graduation year <input id="grad-year"></label>
-      <label>Current semester <input id="semester"></label>
-
-      <h3>Research interests</h3>
-      <label>One per line <textarea id="interests"></textarea></label>
-      <h3>Research signals</h3>
-      <label>Inferred from projects, publications, or research roles — one per line <textarea id="signals"></textarea></label>
-
-      <h3>Skills</h3>
-      <label>One per line (optional category after a pipe, e.g. Python | language) <textarea id="skills"></textarea></label>
-
-      <h3>Projects</h3>
-      <label>JSON array <textarea id="projects" class="json"></textarea></label>
-      <h3>Publications</h3>
-      <label>JSON array <textarea id="publications" class="json"></textarea></label>
-      <h3>Experience</h3>
-      <label>JSON array <textarea id="experience" class="json"></textarea></label>
-      <h3>Certifications</h3>
-      <label>JSON array <textarea id="certs" class="json"></textarea></label>
-
-      <button type="button" id="save-edits">Save edits</button>
-      <button type="button" class="secondary" id="confirm">Confirm profile</button>
-      <p class="status" id="save-status"></p>
-    </section>
-  </main>
   <script>
     const state = { profileId: localStorage.getItem("fmp_profile_id") || null };
 
-    function lines(value) {
-      return value.split("\n").map(s => s.trim()).filter(Boolean);
-    }
-    function fillLines(el, items) {
-      el.value = (items || []).join("\n");
-    }
-    function fillJson(el, items) {
-      el.value = JSON.stringify(items || [], null, 2);
-    }
+    /* ── Helpers ─────────────────────────────────────────────────── */
+    function lines(value) { return value.split("\n").map(s => s.trim()).filter(Boolean); }
+    function fillLines(el, items) { el.value = (items || []).join("\n"); }
+    function fillJson(el, items)  { el.value = JSON.stringify(items || [], null, 2); }
     function parseJson(el, fallback) {
       const raw = el.value.trim();
       if (!raw) return fallback;
-      return JSON.parse(raw);
+      try { return JSON.parse(raw); } catch(e) { return fallback; }
+    }
+    function fmt(bytes) {
+      if (bytes < 1024) return bytes + " B";
+      if (bytes < 1024*1024) return (bytes/1024).toFixed(0) + " KB";
+      return (bytes/(1024*1024)).toFixed(1) + " MB";
     }
 
+    /* ── Progress ─────────────────────────────────────────────────── */
+    function setProgress(step) {
+      for (let i = 1; i <= 3; i++) {
+        const el = document.getElementById("prog-" + i);
+        el.classList.remove("active", "done");
+        if (i < step) el.classList.add("done");
+        else if (i === step) el.classList.add("active");
+      }
+      for (let i = 1; i <= 2; i++) {
+        const el = document.getElementById("line-" + i);
+        if (i < step) el.classList.add("done"); else el.classList.remove("done");
+      }
+    }
+
+    /* ── File picker ─────────────────────────────────────────────── */
+    const fileInput = document.getElementById("file");
+    const previewRow = document.getElementById("file-preview-row");
+    const fileNameDisplay = document.getElementById("file-name-display");
+    const fileMetaDisplay = document.getElementById("file-meta-display");
+
+    fileInput.addEventListener("change", function() {
+      const f = fileInput.files[0];
+      if (!f) { previewRow.classList.add("hidden"); return; }
+      fileNameDisplay.textContent = f.name;
+      fileMetaDisplay.textContent = fmt(f.size) + " · " + (f.type || "document");
+      previewRow.classList.remove("hidden");
+    });
+
+    document.getElementById("btn-clear-file").addEventListener("click", function(e) {
+      e.stopPropagation();
+      fileInput.value = "";
+      previewRow.classList.add("hidden");
+    });
+
+    /* Drag & drop */
+    const zone = document.getElementById("upload-zone");
+    zone.addEventListener("dragover", function(e) { e.preventDefault(); zone.classList.add("drag-over"); });
+    zone.addEventListener("dragleave", function() { zone.classList.remove("drag-over"); });
+    zone.addEventListener("drop", function(e) {
+      e.preventDefault(); zone.classList.remove("drag-over");
+      if (e.dataTransfer.files.length) {
+        fileInput.files = e.dataTransfer.files;
+        fileInput.dispatchEvent(new Event("change"));
+      }
+    });
+
+    /* ── Profile render ──────────────────────────────────────────── */
     function showProfile(data) {
+      setProgress(2);
       document.getElementById("result").classList.remove("hidden");
       state.profileId = data.profile_id || data.profileId || state.profileId;
       if (state.profileId) localStorage.setItem("fmp_profile_id", state.profileId);
@@ -90,30 +341,30 @@
       const banner = document.getElementById("parse-banner");
       if (status === "failed" || data.parsing_error) {
         banner.className = "error";
-        banner.textContent = data.parsing_error || "Your CV was uploaded successfully, but we couldn't extract its text. Please upload another version.";
+        banner.textContent = data.parsing_error || "CV uploaded but text could not be extracted. Try another format.";
       } else {
-        banner.className = "ok";
+        banner.className = "";
         banner.textContent = "CV analysis complete. Review the extracted profile, then confirm.";
       }
       const extracted = data.extracted_profile || {};
-      const identity = extracted.identity || {};
+      const identity  = extracted.identity || {};
       const education = (extracted.education || [])[0] || {};
-      document.getElementById("name").value = identity.name || "";
-      document.getElementById("email").value = identity.email || "";
-      document.getElementById("phone").value = identity.phone || "";
-      document.getElementById("degree").value = education.degree || "";
-      document.getElementById("field").value = education.field_of_study || "";
+      document.getElementById("name").value       = identity.name || "";
+      document.getElementById("email").value      = identity.email || "";
+      document.getElementById("phone").value      = identity.phone || "";
+      document.getElementById("degree").value     = education.degree || "";
+      document.getElementById("field").value      = education.field_of_study || "";
       document.getElementById("institution").value = education.institution || "";
-      document.getElementById("country").value = education.country || "";
-      document.getElementById("grad-year").value = education.graduation_year || "";
-      document.getElementById("semester").value = education.current_semester || "";
+      document.getElementById("country").value    = education.country || "";
+      document.getElementById("grad-year").value  = education.graduation_year || "";
+      document.getElementById("semester").value   = education.current_semester || "";
       fillLines(document.getElementById("interests"), extracted.research_interests);
-      fillLines(document.getElementById("signals"), extracted.research_signals);
+      fillLines(document.getElementById("signals"),   extracted.research_signals);
       fillLines(document.getElementById("skills"), (extracted.skills || []).map(s => s.category ? `${s.name} | ${s.category}` : s.name));
-      fillJson(document.getElementById("projects"), extracted.projects);
-      fillJson(document.getElementById("publications"), extracted.publications);
-      fillJson(document.getElementById("experience"), extracted.experience);
-      fillJson(document.getElementById("certs"), extracted.certifications);
+      fillJson(document.getElementById("projects"),     extracted.projects);
+      fillJson(document.getElementById("publications"),  extracted.publications);
+      fillJson(document.getElementById("experience"),   extracted.experience);
+      fillJson(document.getElementById("certs"),        extracted.certifications);
     }
 
     function collectedProfile() {
@@ -124,25 +375,25 @@
       const year = document.getElementById("grad-year").value.trim();
       return {
         identity: {
-          name: document.getElementById("name").value.trim() || null,
+          name:  document.getElementById("name").value.trim() || null,
           email: document.getElementById("email").value.trim() || null,
           phone: document.getElementById("phone").value.trim() || null
         },
         education: [{
-          degree: document.getElementById("degree").value.trim() || null,
-          field_of_study: document.getElementById("field").value.trim() || null,
-          institution: document.getElementById("institution").value.trim() || null,
-          country: document.getElementById("country").value.trim() || null,
-          graduation_year: year ? Number(year) : null,
+          degree:           document.getElementById("degree").value.trim() || null,
+          field_of_study:   document.getElementById("field").value.trim() || null,
+          institution:      document.getElementById("institution").value.trim() || null,
+          country:          document.getElementById("country").value.trim() || null,
+          graduation_year:  year ? Number(year) : null,
           current_semester: document.getElementById("semester").value.trim() || null
         }],
         research_interests: lines(document.getElementById("interests").value),
-        research_signals: lines(document.getElementById("signals").value),
+        research_signals:   lines(document.getElementById("signals").value),
         skills,
-        experience: parseJson(document.getElementById("experience"), []),
-        projects: parseJson(document.getElementById("projects"), []),
-        publications: parseJson(document.getElementById("publications"), []),
-        certifications: parseJson(document.getElementById("certs"), [])
+        experience:    parseJson(document.getElementById("experience"),   []),
+        projects:      parseJson(document.getElementById("projects"),     []),
+        publications:  parseJson(document.getElementById("publications"),  []),
+        certifications:parseJson(document.getElementById("certs"),         [])
       };
     }
 
@@ -152,19 +403,25 @@
       return h;
     }
 
+    /* ── Upload ──────────────────────────────────────────────────── */
     document.getElementById("upload").onclick = async () => {
-      const file = document.getElementById("file").files[0];
+      const file   = document.getElementById("file").files[0];
       const status = document.getElementById("upload-status");
       status.className = "status";
-      if (!file) {
-        status.textContent = "Choose a CV file first.";
-        return;
-      }
-      status.textContent = "Uploading and extracting…";
+      if (!file) { status.textContent = "Choose a CV file first."; return; }
+
+      const btn = document.getElementById("upload");
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Uploading…';
+      status.textContent = "";
+
       const body = new FormData();
       body.append("file", file);
       const response = await fetch("/cv/upload", { method: "POST", headers: await headers(), body });
       const data = await response.json().catch(() => ({}));
+      btn.disabled = false;
+      btn.textContent = "Upload and extract";
+
       if (!response.ok) {
         status.className = "status error";
         status.textContent = data.detail || "Upload failed.";
@@ -173,13 +430,14 @@
       status.className = "status ok";
       status.textContent = data.parsing_status === "parsed" ? "Extracted. Review below." : (data.parsing_error || "Uploaded.");
       showProfile({
-        profile_id: data.profile_id,
-        parsing_status: data.parsing_status,
-        parsing_error: data.parsing_error,
-        extracted_profile: data.extracted_profile
+        profile_id:       data.profile_id,
+        parsing_status:   data.parsing_status,
+        parsing_error:    data.parsing_error,
+        extracted_profile:data.extracted_profile
       });
     };
 
+    /* ── Save edits ──────────────────────────────────────────────── */
     document.getElementById("save-edits").onclick = async () => {
       const status = document.getElementById("save-status");
       try {
@@ -199,20 +457,34 @@
       }
     };
 
+    /* ── Confirm ─────────────────────────────────────────────────── */
     document.getElementById("confirm").onclick = async () => {
       const status = document.getElementById("save-status");
+      const btn = document.getElementById("confirm");
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Confirming…';
+
       const response = await fetch("/profile/confirm", { method: "POST", headers: await headers() });
-      const data = await response.json().catch(() => ({}));
+      const data     = await response.json().catch(() => ({}));
+      btn.disabled   = false;
+      btn.textContent = "Confirm profile";
+
       if (!response.ok) {
         status.className = "status error";
         status.textContent = data.detail || "Confirm failed.";
         return;
       }
-      status.className = "status ok";
-      status.innerHTML = (data.message || "Profile saved.") +
-        ' <a href="/matches">View research matches</a>';
+      setProgress(3);
+      status.className = "";
+      status.innerHTML =
+        '<div class="confirm-success">' +
+          '<svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="#16a34a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="9" r="8"/><path d="M5.5 9l2.5 2.5 4.5-4.5"/></svg>' +
+          ' <span>' + (data.message || "Profile confirmed.") + '</span>' +
+          ' <a href="/matches" style="margin-left:.5rem;font-weight:600;color:var(--accent)">View research matches &rarr;</a>' +
+        '</div>';
     };
 
+    /* ── Auto-load if existing profile ──────────────────────────── */
     (async () => {
       if (!state.profileId) return;
       const response = await fetch("/profile", { headers: await headers() });

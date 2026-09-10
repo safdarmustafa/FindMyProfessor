@@ -1,9 +1,8 @@
 from pathlib import Path
-from uuid import UUID
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from app.routers import cv, departments, gmail, labs, matching, outreach, professors, profile, universities
@@ -40,99 +39,20 @@ if STATIC_DIR.exists():
     app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
 
+# ---------------------------------------------------------------------------
+# API root — JSON only. The React SPA owns all product page routes.
+# Legacy HTML pages (login, onboarding, matches, outreach/*, etc.) have been
+# removed from FastAPI. The React frontend at localhost:5173 renders them.
+# ---------------------------------------------------------------------------
+
 @app.get("/")
 def root():
-    page = STATIC_DIR / "index.html"
-    if not page.exists():
-        # Fallback to JSON if the static page has not been deployed yet
-        from fastapi.responses import JSONResponse
-        return JSONResponse({
-            "message": "FindMyProfessor API is running",
-            "version": "0.1.0",
-            "cv_onboarding": "/onboarding",
-            "research_matches": "/matches",
-        })
-    return FileResponse(page)
-
-
-@app.get("/privacy")
-def privacy_page():
-    page = STATIC_DIR / "privacy.html"
-    if not page.exists():
-        raise HTTPException(status_code=404, detail="Privacy policy page is not available.")
-    return FileResponse(page)
-
-
-@app.get("/terms")
-def terms_page():
-    page = STATIC_DIR / "terms.html"
-    if not page.exists():
-        raise HTTPException(status_code=404, detail="Terms of service page is not available.")
-    return FileResponse(page)
-
-
-@app.get("/login")
-def login_page():
-    page = STATIC_DIR / "login.html"
-    if not page.exists():
-        raise HTTPException(status_code=404, detail="Login page is not available.")
-    return FileResponse(page)
-
-
-@app.get("/onboarding")
-def cv_onboarding():
-    page = STATIC_DIR / "cv_onboarding.html"
-    if not page.exists():
-        raise HTTPException(status_code=404, detail="Onboarding UI is not available.")
-    return FileResponse(page)
-
-
-@app.get("/matches")
-def research_matches():
-    page = STATIC_DIR / "matches.html"
-    if not page.exists():
-        raise HTTPException(status_code=404, detail="Research matches UI is not available.")
-    return FileResponse(page)
-
-
-@app.get("/matches/{professor_id}")
-def research_match_professor(professor_id: UUID):
-    page = STATIC_DIR / "professor_match.html"
-    if not page.exists():
-        raise HTTPException(status_code=404, detail="Professor match UI is not available.")
-    return FileResponse(page)
-
-
-@app.get("/outreach/compose/{professor_id}")
-def email_compose(professor_id: UUID):
-    page = STATIC_DIR / "email_draft.html"
-    if not page.exists():
-        raise HTTPException(status_code=404, detail="Email compose UI is not available.")
-    return FileResponse(page)
-
-
-@app.get("/outreach/history-view")
-def outreach_history_page():
-    page = STATIC_DIR / "outreach_history.html"
-    if not page.exists():
-        raise HTTPException(status_code=404, detail="Outreach history UI is not available.")
-    return FileResponse(page)
-
-
-@app.get("/outreach/gmail-connected")
-def gmail_connected_page():
-    page = STATIC_DIR / "gmail_connected.html"
-    if not page.exists():
-        raise HTTPException(status_code=404, detail="Gmail connected page is not available.")
-    return FileResponse(page)
-
-
-@app.get("/outreach/gmail-callback-error")
-def gmail_callback_error_page():
-    page = STATIC_DIR / "gmail_error.html"
-    if not page.exists():
-        raise HTTPException(status_code=404, detail="Gmail error page is not available.")
-    return FileResponse(page)
+    return JSONResponse({
+        "message": "FindMyProfessor API",
+        "version": "0.1.0",
+        "docs": "/docs",
+        "health": "/health",
+    })
 
 
 @app.get("/health")

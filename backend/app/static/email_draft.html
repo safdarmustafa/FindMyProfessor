@@ -6,144 +6,251 @@
   <title>FindMyProfessor — Email Draft</title>
   <link rel="stylesheet" href="/static/css/fmp.css">
   <style>
-    .draft-form label { display: block; font-weight: 600; margin-top: 1.25rem; margin-bottom: .35rem; }
-    .draft-form input[type="text"], .draft-form textarea, .draft-form select {
-      width: 100%; box-sizing: border-box; padding: .6rem .75rem;
-      border: 1px solid var(--line,#d9d0c3); border-radius: .5rem;
-      font-size: .95rem; font-family: inherit; background: var(--card,#fffdf8);
+    .workspace { max-width: 820px; margin: 0 auto; padding: 1.5rem 1.25rem 4rem; }
+
+    /* Professor header */
+    .prof-header {
+      background: var(--card); border: 1px solid var(--line);
+      border-radius: var(--r-lg); padding: 1.1rem 1.4rem;
+      margin-bottom: 1.25rem; box-shadow: var(--shadow-sm);
+      display: flex; align-items: center; justify-content: space-between;
+      gap: .75rem; flex-wrap: wrap;
     }
-    .draft-form textarea { min-height: 240px; resize: vertical; line-height: 1.6; }
+    .prof-header h2 { margin: 0; font-size: 1.15rem; }
+    .prof-header p  { margin: .15rem 0 0; color: var(--muted); font-size: .875rem; }
+
+    /* Gmail widget */
+    .gmail-widget {
+      display: flex; align-items: center; gap: .65rem;
+      background: var(--bg); border: 1px solid var(--line);
+      border-radius: var(--r-md); padding: .55rem .9rem;
+      font-size: .875rem;
+    }
+    .gmail-widget .dot {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+    }
+    .gmail-widget .dot.connected    { background: var(--green); }
+    .gmail-widget .dot.disconnected { background: var(--muted); }
+
+    /* Step cards */
+    .draft-workspace { display: flex; flex-direction: column; gap: 1rem; }
+
+    /* Draft form */
+    .draft-form label {
+      display: block; font-weight: 600; margin-top: 1.25rem; margin-bottom: .35rem;
+    }
+    .draft-form input[type="text"],
+    .draft-form textarea,
+    .draft-form select {
+      width: 100%; box-sizing: border-box; padding: .65rem .85rem;
+      border: 1px solid var(--line); border-radius: var(--r-md);
+      font-size: .95rem; font-family: var(--font-ui); background: var(--card); color: var(--ink);
+      transition: border-color .12s, box-shadow .12s;
+    }
     .draft-form input:focus, .draft-form textarea:focus, .draft-form select:focus {
-      outline: 2px solid var(--accent,#1f4d3a); outline-offset: 1px;
+      outline: none; border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(37,99,235,.1);
     }
-    .step-card { background: var(--card,#fffdf8); border: 1px solid var(--line,#d9d0c3);
-      border-radius: .6rem; padding: 1.1rem 1.3rem; margin-bottom: 1.1rem; }
-    .step-card h3 { margin: 0 0 .6rem; font-size: 1rem; }
-    .step-label { font-size: .78rem; font-weight: 700; letter-spacing: .06em;
-      text-transform: uppercase; color: var(--muted); margin-bottom: .4rem; }
-    .gmail-connected { color: #16a34a; font-weight: 600; }
-    .gmail-disconnected { color: var(--muted); }
-    .evidence-list { list-style: none; padding: 0; margin: .4rem 0 0; }
-    .evidence-list li { display: flex; gap: .5rem; padding: .2rem 0; font-size: .9rem; }
-    .evidence-list li::before { content: "✓"; color: #16a34a; font-weight: bold; flex-shrink: 0; }
-    .word-count { font-size: .8rem; color: var(--muted); margin-top: .25rem; }
-    .word-count.over { color: #dc2626; }
-    .type-toggle { display: flex; gap: .5rem; margin-bottom: 1rem; }
-    .type-toggle button { padding: .35rem .85rem; border: 1px solid var(--line,#d9d0c3);
-      border-radius: .4rem; background: var(--card,#fffdf8); cursor: pointer; font-size: .9rem; font-family: inherit; }
-    .type-toggle button[aria-pressed="true"] { background: var(--accent,#1f4d3a); color: #fff; border-color: var(--accent,#1f4d3a); }
+    .draft-form textarea { min-height: 260px; resize: vertical; line-height: 1.65; }
+
+    /* Actions row */
     .actions { margin-top: 1.25rem; display: flex; gap: .75rem; flex-wrap: wrap; align-items: center; }
-    .save-ok { color: #16a34a; font-size: .9rem; }
-    #unsaved-banner { display: none; background: #fef3c7; border: 1px solid #f59e0b;
-      border-radius: .4rem; padding: .45rem .85rem; font-size: .85rem; margin-bottom: .85rem; }
-    .preview-box { background: var(--bg,#f4f1ea); border: 1px solid var(--line,#d9d0c3);
-      border-radius: .5rem; padding: 1rem 1.2rem; font-size: .92rem; line-height: 1.65; }
+    .save-ok  { color: var(--green); font-size: .9rem; font-weight: 500; }
+
+    /* Unsaved banner */
+    #unsaved-banner {
+      display: none;
+      background: var(--yellow-bg); border: 1px solid #f59e0b;
+      border-radius: var(--r-sm); padding: .45rem .9rem;
+      font-size: .85rem; margin-bottom: .85rem;
+    }
+
+    /* Type toggle */
+    .type-toggle { display: flex; gap: .5rem; margin-bottom: 1rem; flex-wrap: wrap; }
+    .type-toggle button {
+      padding: .4rem .9rem; border: 1px solid var(--line);
+      border-radius: var(--r-md); background: var(--bg); cursor: pointer;
+      font-size: .875rem; font-family: var(--font-ui); color: var(--muted);
+    }
+    .type-toggle button[aria-pressed="true"] {
+      background: var(--accent); color: #fff; border-color: var(--accent);
+    }
+
+    /* Evidence list */
+    #evidence-section { margin-bottom: .8rem; }
+    #evidence-section p { font-size: .88rem; font-weight: 600; margin-bottom: .2rem; }
+
+    /* Word count */
+    .word-count     { font-size: .8rem; color: var(--muted); margin-top: .25rem; }
+    .word-count.over{ color: var(--danger); }
+
+    /* Preview box */
+    .preview-box {
+      background: var(--bg); border: 1px solid var(--line);
+      border-radius: var(--r-md); padding: 1.1rem 1.3rem;
+      font-size: .92rem; line-height: 1.65;
+    }
     .preview-box .meta-line { color: var(--muted); font-size: .85rem; margin-bottom: .2rem; }
     .preview-box .body-text { white-space: pre-wrap; margin-top: .8rem; }
-    .send-btn { background: #16a34a; color: #fff; border: none; padding: .55rem 1.3rem;
-      border-radius: .45rem; cursor: pointer; font-size: 1rem; font-family: inherit; font-weight: 600; }
-    .send-btn:disabled { background: #9ca3af; cursor: not-allowed; }
-    .badge-sent { color: #16a34a; font-weight: 700; font-size: 1.05rem; }
-    .badge-failed { color: #dc2626; font-weight: 600; }
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.45);
-      display: flex; align-items: center; justify-content: center; z-index: 100; }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(15,23,42,.5);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 100; padding: 1rem;
+    }
     .modal-overlay.hidden { display: none; }
-    .modal-box { background: var(--card,#fffdf8); border-radius: .7rem; padding: 1.5rem 1.75rem;
-      max-width: 560px; width: 94%; box-shadow: 0 8px 32px rgba(0,0,0,.18); }
-    .modal-box h2 { margin: 0 0 1rem; font-size: 1.15rem; }
-    .modal-actions { display: flex; gap: .75rem; margin-top: 1.2rem; justify-content: flex-end; }
+    .modal-box {
+      background: var(--card); border-radius: var(--r-xl);
+      padding: 1.75rem 2rem; max-width: 580px; width: 100%;
+      box-shadow: var(--shadow-lg);
+    }
+    .modal-box h2 { margin: 0 0 1rem; font-size: 1.2rem; }
+    .modal-actions { display: flex; gap: .75rem; margin-top: 1.35rem; justify-content: flex-end; }
+
+    /* Send button */
+    .send-btn {
+      background: #15803d; color: #fff; border: none;
+      padding: .6rem 1.5rem; border-radius: var(--r-md);
+      cursor: pointer; font-size: .97rem; font-family: var(--font-ui); font-weight: 600;
+      display: inline-flex; align-items: center; gap: .4rem;
+    }
+    .send-btn:disabled { background: #9ca3af; cursor: not-allowed; }
+
+    /* Spinner */
+    .spinner {
+      width: 15px; height: 15px; border-radius: 50%;
+      border: 2px solid rgba(255,255,255,.35); border-top-color: #fff;
+      animation: spin .65s linear infinite; display: inline-block;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Send result */
+    .badge-sent   { color: var(--green); font-weight: 700; font-size: 1.05rem; }
+    .badge-failed { color: var(--danger); font-weight: 600; }
+
+    /* No-email warning */
+    #prof-no-email {
+      display: inline-flex; align-items: center; gap: .4rem;
+      background: var(--yellow-bg); border: 1px solid #f59e0b;
+      border-radius: var(--r-sm); padding: .35rem .8rem;
+      font-size: .82rem; color: var(--yellow-ink); margin-top: .35rem;
+    }
   </style>
 </head>
 <body>
-  <nav>
-    <a href="/onboarding">CV profile</a>
-    <a href="/matches">Research Matches</a>
-    <a href="/outreach/history-view">Outreach History</a>
-    <span aria-current="page">Email Draft</span>
+  <nav class="app-nav">
+    <div class="app-nav-inner">
+      <a class="nav-brand" href="/">FindMyProfessor</a>
+      <div class="nav-links">
+        <a href="/onboarding">CV Profile</a>
+        <a href="/matches">Research Matches</a>
+        <a href="/outreach/history-view">Outreach History</a>
+        <span aria-current="page">Email Draft</span>
+      </div>
+    </div>
   </nav>
-  <main>
-    <h1>Generate Email Draft</h1>
-    <p class="lead">Compose a personalized research outreach email, attach your CV, and send via Gmail.</p>
 
-    <section id="professor-section" class="step-card hidden">
-      <h2 id="prof-name"></h2>
-      <p id="prof-affiliation" class="meta"></p>
-      <p id="prof-no-email" class="muted hidden" style="font-size:.85rem">⚠ Professor email not available — draft can be prepared but not sent.</p>
-    </section>
+  <div class="workspace">
+
+    <div class="page-header">
+      <h1>Generate Email Draft</h1>
+      <p class="lead">Compose a personalized research outreach email, attach your CV, and send via Gmail.</p>
+    </div>
+
+    <!-- Professor header -->
+    <div id="professor-section" class="prof-header hidden">
+      <div>
+        <h2 id="prof-name"></h2>
+        <p id="prof-affiliation"></p>
+        <div id="prof-no-email" class="hidden">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="7" cy="7" r="6"/><line x1="7" y1="4" x2="7" y2="7.5"/><circle cx="7" cy="10" r=".5" fill="currentColor"/></svg>
+          Professor email not available — draft can be prepared but not sent.
+        </div>
+      </div>
+      <!-- Gmail status widget inline -->
+      <div class="gmail-widget" id="gmail-header-widget">
+        <div class="dot disconnected" id="gmail-dot"></div>
+        <span id="gmail-header-status">Checking Gmail…</span>
+      </div>
+    </div>
 
     <p id="page-status" class="status" aria-live="polite"></p>
 
-    <section id="draft-section" class="hidden">
+    <section id="draft-section" class="hidden" style="background:none;border:none;padding:0;box-shadow:none;margin:0">
+      <div class="draft-workspace">
 
-      <!-- Step 1: Email type + generate -->
-      <div class="step-card">
-        <p class="step-label">Step 1 — Email type</p>
-        <div class="type-toggle" role="group" aria-label="Email type">
-          <button type="button" data-type="research" aria-pressed="true">Research Outreach</button>
-          <button type="button" data-type="research_opportunity" aria-pressed="false" class="secondary">Research + Opportunity</button>
-        </div>
-        <div id="unsaved-banner">You have unsaved edits. Regenerating will replace them.</div>
+        <!-- Step 1: Email type + generate -->
+        <div class="step-card">
+          <p class="step-label">Step 1 — Email type</p>
+          <div class="type-toggle" role="group" aria-label="Email type">
+            <button type="button" data-type="research" aria-pressed="true">Research Outreach</button>
+            <button type="button" data-type="research_opportunity" aria-pressed="false">Research + Opportunity</button>
+          </div>
+          <div id="unsaved-banner">You have unsaved edits. Regenerating will replace them.</div>
 
-        <div id="evidence-section" class="hidden" style="margin-bottom:.8rem">
-          <p style="font-size:.88rem;font-weight:600;margin-bottom:.2rem">Email based on:</p>
-          <ul id="evidence-list" class="evidence-list"></ul>
-        </div>
+          <div id="evidence-section" class="hidden">
+            <p style="font-size:.88rem;font-weight:600;margin-bottom:.2rem">Email based on:</p>
+            <ul id="evidence-list" class="evidence-list"></ul>
+          </div>
 
-        <div class="draft-form">
-          <button type="button" id="btn-generate" class="btn-primary">Generate Draft</button>
+          <div class="draft-form">
+            <button type="button" id="btn-generate">Generate Draft</button>
 
-          <div id="draft-fields" class="hidden">
-            <label for="subject-field">Subject</label>
-            <input type="text" id="subject-field" autocomplete="off">
+            <div id="draft-fields" class="hidden">
+              <label for="subject-field">Subject</label>
+              <input type="text" id="subject-field" autocomplete="off">
 
-            <label for="body-field">Body</label>
-            <textarea id="body-field" spellcheck="true"></textarea>
-            <p id="word-count" class="word-count"></p>
+              <label for="body-field">Body</label>
+              <textarea id="body-field" spellcheck="true"></textarea>
+              <p id="word-count" class="word-count"></p>
 
-            <div class="actions">
-              <button type="button" id="btn-regenerate" class="secondary">Regenerate</button>
-              <button type="button" id="btn-save" class="btn-primary">Save Draft</button>
-              <span id="save-ok" class="save-ok hidden">Saved ✓</span>
+              <div class="actions">
+                <button type="button" id="btn-regenerate" class="secondary">Regenerate</button>
+                <button type="button" id="btn-save">Save Draft</button>
+                <span id="save-ok" class="save-ok hidden">Saved</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- Step 2: CV attachment -->
-      <div id="step-cv" class="step-card hidden">
-        <p class="step-label">Step 2 — Attach CV</p>
-        <div class="draft-form">
-          <label for="cv-select">Select CV version</label>
-          <select id="cv-select">
-            <option value="">Loading CV versions…</option>
-          </select>
-          <p id="cv-selected" class="meta" style="margin-top:.4rem"></p>
-          <button type="button" id="btn-attach-cv" class="btn-primary" style="margin-top:.7rem" disabled>Attach CV</button>
-          <span id="cv-ok" class="save-ok hidden" style="margin-left:.5rem">Attached ✓</span>
+        <!-- Step 2: CV attachment -->
+        <div id="step-cv" class="step-card hidden">
+          <p class="step-label">Step 2 — Attach CV</p>
+          <div class="draft-form">
+            <label for="cv-select">Select CV version</label>
+            <select id="cv-select">
+              <option value="">Loading CV versions…</option>
+            </select>
+            <p id="cv-selected" class="meta" style="margin-top:.4rem"></p>
+            <button type="button" id="btn-attach-cv" style="margin-top:.75rem" disabled>Attach CV</button>
+            <span id="cv-ok" class="save-ok hidden" style="margin-left:.5rem">Attached</span>
+          </div>
         </div>
-      </div>
 
-      <!-- Step 3: Gmail -->
-      <div id="step-gmail" class="step-card hidden">
-        <p class="step-label">Step 3 — Connect Gmail</p>
-        <p id="gmail-status-text" class="gmail-disconnected">Gmail not connected.</p>
-        <div id="gmail-actions" style="margin-top:.6rem;display:flex;gap:.6rem;flex-wrap:wrap"></div>
-      </div>
+        <!-- Step 3: Gmail -->
+        <div id="step-gmail" class="step-card hidden">
+          <p class="step-label">Step 3 — Gmail connection</p>
+          <p id="gmail-status-text" class="gmail-disconnected">Gmail not connected.</p>
+          <div id="gmail-actions" style="margin-top:.65rem;display:flex;gap:.6rem;flex-wrap:wrap"></div>
+        </div>
 
-      <!-- Step 4: Preview & Send -->
-      <div id="step-send" class="step-card hidden">
-        <p class="step-label">Step 4 — Preview &amp; Send</p>
-        <button type="button" id="btn-preview" class="btn-primary">Preview Email</button>
-        <div id="send-result" class="hidden" style="margin-top:.8rem"></div>
-      </div>
+        <!-- Step 4: Preview & Send -->
+        <div id="step-send" class="step-card hidden">
+          <p class="step-label">Step 4 — Preview &amp; Send</p>
+          <button type="button" id="btn-preview">Preview Email</button>
+          <div id="send-result" class="hidden" style="margin-top:.85rem"></div>
+        </div>
 
+      </div>
     </section>
 
     <section id="no-profile-section" class="hidden">
       <p>Confirm your CV to generate email drafts.</p>
-      <p><a href="/onboarding">Review my CV</a></p>
+      <p><a href="/onboarding" class="btn-primary">Review my CV</a></p>
     </section>
-  </main>
+
+  </div>
 
   <!-- Preview modal -->
   <div id="preview-modal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
@@ -160,32 +267,32 @@
   <script src="/static/js/outreach_api.js"></script>
   <script>
     const api = window.FMPOutreachApi;
-    const profileId = api.getProfileId();
+    const profileId   = api.getProfileId();
     const professorId = location.pathname.split("/").filter(Boolean).pop();
 
-    let currentDraftId = null;
+    let currentDraftId   = null;
     let currentEmailType = "research";
-    let hasUnsaved = false;
-    let gmailEmail = null;
-    let selectedCvId = null;
+    let hasUnsaved       = false;
+    let gmailEmail       = null;
+    let selectedCvId     = null;
 
-    const statusEl = document.getElementById("page-status");
-    const draftSection = document.getElementById("draft-section");
+    const statusEl       = document.getElementById("page-status");
+    const draftSection   = document.getElementById("draft-section");
     const noProfileSection = document.getElementById("no-profile-section");
-    const draftFields = document.getElementById("draft-fields");
-    const subjectField = document.getElementById("subject-field");
-    const bodyField = document.getElementById("body-field");
-    const wordCountEl = document.getElementById("word-count");
-    const evidenceSection = document.getElementById("evidence-section");
-    const evidenceList = document.getElementById("evidence-list");
-    const unsavedBanner = document.getElementById("unsaved-banner");
-    const saveOk = document.getElementById("save-ok");
-    const stepCv = document.getElementById("step-cv");
-    const stepGmail = document.getElementById("step-gmail");
-    const stepSend = document.getElementById("step-send");
-    const cvSelect = document.getElementById("cv-select");
-    const cvOk = document.getElementById("cv-ok");
-    const sendResult = document.getElementById("send-result");
+    const draftFields    = document.getElementById("draft-fields");
+    const subjectField   = document.getElementById("subject-field");
+    const bodyField      = document.getElementById("body-field");
+    const wordCountEl    = document.getElementById("word-count");
+    const evidenceSection= document.getElementById("evidence-section");
+    const evidenceList   = document.getElementById("evidence-list");
+    const unsavedBanner  = document.getElementById("unsaved-banner");
+    const saveOk         = document.getElementById("save-ok");
+    const stepCv         = document.getElementById("step-cv");
+    const stepGmail      = document.getElementById("step-gmail");
+    const stepSend       = document.getElementById("step-send");
+    const cvSelect       = document.getElementById("cv-select");
+    const cvOk           = document.getElementById("cv-ok");
+    const sendResult     = document.getElementById("send-result");
 
     function esc(s) {
       return String(s == null ? "" : s)
@@ -201,7 +308,7 @@
       wordCountEl.className = "word-count" + (words > 300 ? " over" : "");
     }
     function markUnsaved() { hasUnsaved = true; unsavedBanner.style.display = ""; saveOk.classList.add("hidden"); }
-    function markSaved() { hasUnsaved = false; unsavedBanner.style.display = "none"; }
+    function markSaved()   { hasUnsaved = false; unsavedBanner.style.display = "none"; }
 
     function renderEvidence(items) {
       if (!items || !items.length) { evidenceSection.classList.add("hidden"); return; }
@@ -211,8 +318,8 @@
 
     function applyDraft(draft) {
       subjectField.value = draft.subject || "";
-      bodyField.value = draft.body || "";
-      currentDraftId = draft.draft_id;
+      bodyField.value    = draft.body    || "";
+      currentDraftId     = draft.draft_id;
       renderEvidence(draft.evidence_used);
       draftFields.classList.remove("hidden");
       markSaved();
@@ -220,7 +327,6 @@
       if (!draft.professor_email_available) {
         document.getElementById("prof-no-email").classList.remove("hidden");
       }
-      // Reveal Phase 6 steps now that there's a draft
       stepCv.classList.remove("hidden");
       stepGmail.classList.remove("hidden");
       stepSend.classList.remove("hidden");
@@ -228,12 +334,24 @@
       loadGmailStatus();
     }
 
+    /* ── Gmail pending intent ──────────────────────────────────────── */
+    function savePendingIntent() {
+      try {
+        localStorage.setItem("fmp_pending_outreach", JSON.stringify({
+          professor_id: professorId,
+          return_path:  "/outreach/compose/" + professorId,
+          timestamp:    Date.now()
+        }));
+      } catch(e) {}
+    }
+
+    /* ── Generate ──────────────────────────────────────────────────── */
     async function generate() {
       if (hasUnsaved && currentDraftId) {
         if (!confirm("Regenerating will replace your unsaved edits. Continue?")) return;
       }
       showStatus("Generating personalized draft…");
-      document.getElementById("btn-generate").disabled = true;
+      document.getElementById("btn-generate").disabled   = true;
       document.getElementById("btn-regenerate").disabled = true;
       try {
         const draft = await api.generateDraft(profileId, professorId, currentEmailType, null);
@@ -242,11 +360,12 @@
       } catch(err) {
         showStatus(err.message || "Generation failed.", "error");
       } finally {
-        document.getElementById("btn-generate").disabled = false;
+        document.getElementById("btn-generate").disabled   = false;
         document.getElementById("btn-regenerate").disabled = false;
       }
     }
 
+    /* ── Save ──────────────────────────────────────────────────────── */
     async function save() {
       if (!currentDraftId) { showStatus("Generate a draft first.", "error"); return; }
       try {
@@ -260,7 +379,7 @@
       }
     }
 
-    // ── CV ────────────────────────────────────────────────────────────────
+    /* ── CV ────────────────────────────────────────────────────────── */
     async function loadCvVersions() {
       try {
         const versions = await api.listCvVersions(profileId);
@@ -271,7 +390,7 @@
         }
         versions.forEach(function(v) {
           const opt = document.createElement("option");
-          opt.value = v.cv_version_id;
+          opt.value       = v.cv_version_id;
           opt.textContent = v.display_name + (v.is_default ? " (default)" : "") + (v.confirmed ? " ✓" : "");
           cvSelect.appendChild(opt);
         });
@@ -296,17 +415,32 @@
       }
     });
 
-    // ── Gmail ─────────────────────────────────────────────────────────────
+    /* ── Gmail ─────────────────────────────────────────────────────── */
     async function loadGmailStatus() {
       try {
         const status = await api.getGmailStatus(profileId);
-        const textEl = document.getElementById("gmail-status-text");
-        const actionsEl = document.getElementById("gmail-actions");
+
+        // Update compact header widget
+        const dot        = document.getElementById("gmail-dot");
+        const headerText = document.getElementById("gmail-header-status");
         if (status.connected) {
+          dot.className = "dot connected";
+          headerText.textContent = status.email ? "Gmail: " + status.email : "Gmail connected";
+        } else {
+          dot.className = "dot disconnected";
+          headerText.textContent = "Gmail not connected";
+        }
+
+        // Update full step-3 panel
+        const textEl    = document.getElementById("gmail-status-text");
+        const actionsEl = document.getElementById("gmail-actions");
+
+        if (status.connected) {
+          // connected: true with email: null is still fully connected
           gmailEmail = status.email || "";
           textEl.textContent = status.email
-            ? "✓ Connected as " + status.email
-            : "✓ Gmail connected (account email unavailable)";
+            ? "Connected as " + status.email
+            : "Gmail connected (account email unavailable)";
           textEl.className = "gmail-connected";
           actionsEl.innerHTML =
             '<button type="button" id="btn-disconnect-gmail" class="secondary">Disconnect Gmail</button>';
@@ -320,31 +454,34 @@
           };
         } else {
           gmailEmail = null;
-          textEl.textContent = "Gmail not connected. Connect Gmail to send this email.";
-          textEl.className = "gmail-disconnected";
+          textEl.textContent = "Connect Gmail to send this email.";
+          textEl.className   = "gmail-disconnected";
+          // Save pending intent BEFORE redirecting
           actionsEl.innerHTML =
-            '<a href="' + api.gmailConnectUrl(profileId) + '" class="btn-primary">Connect Gmail</a>';
+            '<a id="gmail-connect-link" href="' + api.gmailConnectUrl(profileId) + '" class="btn-primary">Connect Gmail</a>';
+          document.getElementById("gmail-connect-link").addEventListener("click", function() {
+            savePendingIntent();
+          });
         }
       } catch(err) {
         document.getElementById("gmail-status-text").textContent = "Unable to check Gmail status.";
       }
     }
 
-    // ── Preview & Send ────────────────────────────────────────────────────
+    /* ── Preview & Send ────────────────────────────────────────────── */
     document.getElementById("btn-preview").addEventListener("click", async function() {
       if (!currentDraftId) { showStatus("Generate and save a draft first.", "error"); return; }
       try {
         const preview = await api.getSendPreview(profileId, currentDraftId);
-        const modal = document.getElementById("preview-modal");
         document.getElementById("preview-content").innerHTML =
-          '<p class="meta-line"><strong>To:</strong> ' + esc(preview.to_address) + '</p>' +
-          '<p class="meta-line"><strong>From:</strong> ' + esc(preview.from_address) + '</p>' +
-          '<p class="meta-line"><strong>Subject:</strong> ' + esc(preview.subject) + '</p>' +
+          '<p class="meta-line"><strong>To:</strong> '         + esc(preview.to_address)      + '</p>' +
+          '<p class="meta-line"><strong>From:</strong> '       + esc(preview.from_address)    + '</p>' +
+          '<p class="meta-line"><strong>Subject:</strong> '    + esc(preview.subject)         + '</p>' +
           '<p class="meta-line"><strong>Attachment:</strong> ' + esc(preview.cv_display_name) + '</p>' +
           '<p class="meta-line" style="margin-bottom:.8rem"><strong>Gmail account:</strong> ' + esc(preview.gmail_account) + '</p>' +
-          '<hr style="border:none;border-top:1px solid var(--line,#d9d0c3);margin:.5rem 0">' +
+          '<hr style="border:none;border-top:1px solid var(--line);margin:.5rem 0">' +
           '<div class="body-text">' + esc(preview.body) + '</div>';
-        modal.classList.remove("hidden");
+        document.getElementById("preview-modal").classList.remove("hidden");
         showStatus("");
       } catch(err) {
         showStatus(err.message || "Cannot preview — check CV and Gmail connection.", "error");
@@ -356,16 +493,17 @@
     });
 
     document.getElementById("btn-confirm-send").addEventListener("click", async function() {
-      const modal = document.getElementById("preview-modal");
+      const modal   = document.getElementById("preview-modal");
       const sendBtn = document.getElementById("btn-confirm-send");
-      sendBtn.disabled = true;
-      sendBtn.textContent = "Sending…";
+      sendBtn.disabled    = true;
+      sendBtn.innerHTML   = '<span class="spinner"></span> Sending…';
       try {
         const result = await api.sendDraft(profileId, currentDraftId);
         modal.classList.add("hidden");
         sendResult.innerHTML =
-          '<p class="badge-sent">✓ Email sent successfully!</p>' +
-          (result.sent_at ? '<p class="meta">Sent at: ' + esc(result.sent_at) + '</p>' : '');
+          '<p class="badge-sent">Email sent successfully.</p>' +
+          (result.sent_at ? '<p class="meta">Sent at: ' + esc(result.sent_at) + '</p>' : '') +
+          '<p style="margin-top:.5rem"><a href="/outreach/history-view" style="font-size:.875rem">View in Outreach History &rarr;</a></p>';
         sendResult.classList.remove("hidden");
         showStatus("Email sent.");
       } catch(err) {
@@ -374,42 +512,45 @@
         sendResult.classList.remove("hidden");
         showStatus(err.message || "Send failed.", "error");
       } finally {
-        sendBtn.disabled = false;
-        sendBtn.textContent = "Send Email";
+        sendBtn.disabled  = false;
+        sendBtn.innerHTML = "Send Email";
       }
     });
 
-    // ── Email type toggle ────────────────────────────────────────────────
+    /* ── Type toggle ────────────────────────────────────────────────── */
     document.querySelectorAll(".type-toggle button").forEach(function(btn) {
       btn.addEventListener("click", function() {
         currentEmailType = btn.getAttribute("data-type");
         document.querySelectorAll(".type-toggle button").forEach(function(b) {
           const active = b.getAttribute("data-type") === currentEmailType;
           b.setAttribute("aria-pressed", active ? "true" : "false");
-          b.className = active ? "" : "secondary";
+          b.className = active ? "" : "";
+          if (!active) b.setAttribute("aria-pressed", "false");
         });
       });
     });
 
-    document.getElementById("btn-generate").addEventListener("click", generate);
+    document.getElementById("btn-generate").addEventListener("click",   generate);
     document.getElementById("btn-regenerate").addEventListener("click", generate);
-    document.getElementById("btn-save").addEventListener("click", save);
+    document.getElementById("btn-save").addEventListener("click",       save);
     subjectField.addEventListener("input", markUnsaved);
     bodyField.addEventListener("input", function() { markUnsaved(); updateWordCount(); });
 
+    /* ── Professor info ─────────────────────────────────────────────── */
     function loadProfessorInfo() {
       fetch("/professors/" + encodeURIComponent(professorId))
         .then(function(r){ return r.ok ? r.json() : null; })
         .then(function(prof) {
           if (!prof) return;
           document.getElementById("prof-name").textContent = prof.name || "Professor";
-          const uni = (prof.university && prof.university.name) || "";
-          const dept = (prof.department && prof.department.name) || "";
+          const uni  = (prof.university  && prof.university.name)  || "";
+          const dept = (prof.department  && prof.department.name)  || "";
           document.getElementById("prof-affiliation").textContent = [uni, dept].filter(Boolean).join(" · ");
           document.getElementById("professor-section").classList.remove("hidden");
         });
     }
 
+    /* ── Start ──────────────────────────────────────────────────────── */
     (async function start() {
       if (!profileId || !professorId || professorId === "compose") {
         noProfileSection.classList.remove("hidden");
@@ -425,6 +566,8 @@
         }
         loadProfessorInfo();
         draftSection.classList.remove("hidden");
+        // Load gmail status early so the header widget updates
+        loadGmailStatus();
       } catch(err) {
         noProfileSection.classList.remove("hidden");
         showStatus(err.message || "Unable to load profile.", "error");
