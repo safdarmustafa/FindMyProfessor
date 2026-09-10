@@ -28,11 +28,13 @@ def _draft(**overrides):
 
 
 def test_generate_draft_requires_profile(client):
+    # Production hardening: no Supabase session and no X-Profile-Id is
+    # genuinely unauthenticated, so this is now 401 (was 400) — app/auth.py.
     res = client.post(
         "/outreach/drafts/generate",
         json={"professor_id": PROFESSOR_ID, "email_type": "research"},
     )
-    assert res.status_code == 400
+    assert res.status_code == 401
     assert "X-Profile-Id" in res.json()["detail"]
 
 

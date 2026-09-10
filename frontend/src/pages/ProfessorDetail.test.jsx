@@ -61,6 +61,22 @@ describe('Professor detail page', () => {
     expect(link).toHaveAttribute('href', `/outreach/compose/${PROF_ID}`);
   });
 
+  it('renders professor info without waiting for the slow matches re-scan', async () => {
+    // fetchMatches({limit:100}) re-scores every professor just to find this
+    // one's match evidence — it must never block the page's core content
+    // (name/header/Prepare Email link), which only needs the fast,
+    // targeted fetchProfessor call.
+    matching.fetchMatches.mockReturnValue(new Promise(() => {})); // never resolves
+    renderDetail();
+    expect(await screen.findByRole('heading', { name: 'Jane Smith' })).toBeInTheDocument();
+    expect(await screen.findByRole('link', { name: /Prepare Personalized Email/i })).toHaveAttribute(
+      'href',
+      `/outreach/compose/${PROF_ID}`,
+    );
+    // Match-dependent content correctly stays absent until it resolves.
+    expect(screen.queryByText('Why You Match')).not.toBeInTheDocument();
+  });
+
   it('shows an error if the professor is not found', async () => {
     matching.fetchProfessor.mockResolvedValue(null);
     matching.fetchMatches.mockResolvedValue({ matches: [] });

@@ -324,11 +324,13 @@ def test_health_docs_and_pages():
     assert client.get("/docs").status_code == 200
     assert client.get("/onboarding").status_code == 404
     assert client.get("/matches").status_code == 404
+    # Production hardening: no Supabase session and no X-Profile-Id is
+    # genuinely unauthenticated, so this is now 401 (was 400) — app/auth.py.
     missing = client.get("/matching/professors")
-    assert missing.status_code == 400
+    assert missing.status_code == 401
     research = client.get("/matching/professors", params={"mode": "research"})
     opportunity = client.get("/matching/professors", params={"mode": "opportunity"})
     both = client.get("/matching/professors", params={"mode": "both"})
-    assert research.status_code == 400
-    assert opportunity.status_code == 400
-    assert both.status_code == 400
+    assert research.status_code == 401
+    assert opportunity.status_code == 401
+    assert both.status_code == 401

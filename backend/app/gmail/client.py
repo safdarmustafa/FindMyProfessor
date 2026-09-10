@@ -15,7 +15,6 @@ import mimetypes
 from email.mime.application import MIMEApplication
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-from pathlib import Path
 from typing import Any
 
 logger = logging.getLogger(__name__)
@@ -41,7 +40,7 @@ def build_mime_message(
     to_addr: str,
     subject: str,
     body: str,
-    attachment_path: Path,
+    attachment_bytes: bytes,
     attachment_display_name: str,
 ) -> dict[str, str]:
     """
@@ -53,8 +52,10 @@ def build_mime_message(
     email is not available. Omitting From is safe — Gmail overwrites it with
     the authenticated account when userId='me' is used in messages.send.
 
-    The attachment is read from disk server-side; the path is never exposed
-    to the caller. attachment_display_name is the user-visible filename.
+    The attachment is passed in as raw bytes, already resolved server-side
+    from whichever storage backend is active (local disk or Supabase
+    Storage); this function never touches the filesystem or a storage path.
+    attachment_display_name is the user-visible filename.
     """
     msg = MIMEMultipart()
     if from_addr:
@@ -64,7 +65,6 @@ def build_mime_message(
 
     msg.attach(MIMEText(body, "plain", "utf-8"))
 
-    attachment_bytes = attachment_path.read_bytes()
     mime_type, _ = mimetypes.guess_type(attachment_display_name)
     if not mime_type:
         mime_type = "application/octet-stream"

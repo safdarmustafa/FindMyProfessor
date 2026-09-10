@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
@@ -10,6 +11,36 @@ from app.supabase_client import supabase
 
 STATIC_DIR = Path(__file__).resolve().parent / "static"
 
+# Known production frontend origin, kept as a safety-net default alongside
+# FRONTEND_URL so a misconfigured/missing Render env var can't silently
+# break the deployed SPA. Not a secret — the same URL is already public in
+# frontend/.env.production and OAuth redirect handling (app/routers/gmail.py).
+_PRODUCTION_FRONTEND_ORIGIN = "https://findmyprofessor.online"
+_DEV_FRONTEND_ORIGINS = ("http://localhost:5173", "http://127.0.0.1:5173")
+
+
+def _cors_allowed_origins() -> list[str]:
+    """
+    Explicit origin allow-list instead of "*".
+
+    "*" combined with allow_credentials=True lets ANY website's JavaScript
+    make authenticated cross-origin calls against this API (e.g. probing
+    endpoints with a guessed X-Profile-Id) and read the response — CORS is
+    the browser's only barrier here since auth is header-based, not cookie
+    based. Restrict it to our own frontend origins: the configured
+    FRONTEND_URL, the known production origin, and local dev servers.
+    """
+    origins = {_PRODUCTION_FRONTEND_ORIGIN, *_DEV_FRONTEND_ORIGINS}
+    frontend_url = os.getenv("FRONTEND_URL", "").strip().rstrip("/")
+    if frontend_url:
+        origins.add(frontend_url)
+    extra = os.getenv("CORS_EXTRA_ORIGINS", "")
+    for origin in extra.split(","):
+        origin = origin.strip().rstrip("/")
+        if origin:
+            origins.add(origin)
+    return sorted(origins)
+
 
 app = FastAPI(
     title="FindMyProfessor API",
@@ -19,7 +50,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=_cors_allowed_origins(),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

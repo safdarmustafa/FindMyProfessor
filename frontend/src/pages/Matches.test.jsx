@@ -118,11 +118,30 @@ describe('Matches page', () => {
     expect(await screen.findByText('Jane Smith')).toBeInTheDocument();
   });
 
-  it('shows an error state if the API fails', async () => {
+  it('shows an error state only after both the initial attempt and the automatic retry fail', async () => {
     matching.fetchMatches.mockRejectedValue(new Error('Matching service down.'));
+    const callsBefore = matching.fetchMatches.mock.calls.length;
     renderMatches();
-    expect(await screen.findByText('Failed to load matches')).toBeInTheDocument();
+    expect(await screen.findByText('Failed to load matches', {}, { timeout: 3000 })).toBeInTheDocument();
     expect(screen.getByText('Matching service down.')).toBeInTheDocument();
+    expect(matching.fetchMatches.mock.calls.length - callsBefore).toBe(2);
+  });
+
+  it('recovers automatically from a single transient matching failure — no user action needed', async () => {
+    // Production is a real cross-origin request to a cold-startable Render
+    // backend: the first request can fail even though the service is fine.
+    // This is the "matching needs multiple attempts" report — the fix is a
+    // single bounded automatic retry, not asking the user to click again.
+    let calls = 0;
+    matching.fetchMatches.mockImplementation(() => {
+      calls += 1;
+      if (calls === 1) return Promise.reject(new Error('cold start'));
+      return Promise.resolve(matchingResponse);
+    });
+    renderMatches();
+    expect(await screen.findByText('Jane Smith', {}, { timeout: 3000 })).toBeInTheDocument();
+    expect(screen.queryByText('Failed to load matches')).not.toBeInTheDocument();
+    expect(calls).toBe(2);
   });
 
   describe('profile completeness check', () => {

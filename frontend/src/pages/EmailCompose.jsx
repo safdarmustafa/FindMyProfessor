@@ -97,6 +97,7 @@ export default function EmailCompose() {
   const [cvLoading, setCvLoading] = useState(false);
   const [cvAttaching, setCvAttaching] = useState(false);
   const [cvAttached, setCvAttached] = useState(false);
+  const [cvAttachError, setCvAttachError] = useState(null);
 
   // Step 4: preview + send
   const [showPreview, setShowPreview] = useState(false);
@@ -177,19 +178,33 @@ export default function EmailCompose() {
     if (!professorId) return;
     setProfLoading(true);
     setProfError(null);
-    Promise.all([
-      fetchProfessor(professorId).catch(() => null),
-      fetchMatches({ limit: 100 })
-        .then(d => (d.matches || []).find(m => {
-          const p = m.professor || {};
-          return String(p.id) === String(professorId) || String(p.professor_id) === String(professorId);
-        }))
-        .catch(() => null),
-    ]).then(([profData, matchData]) => {
-      setProf(profData || matchData?.professor);
-      setMatch(matchData);
-    }).catch(e => setProfError(e.message))
+
+    // fetchProfessor is the fast, required lookup for this page's core
+    // content. fetchMatches({limit:100}) is only used for the optional
+    // "why this match" evidence box below — it re-scores every professor
+    // and is measurably slow. Blocking the whole page on it (via
+    // Promise.all) made navigating here feel broken: the page would sit on
+    // a loading screen for several seconds even though the professor data
+    // itself was ready almost immediately, which is what produced the
+    // "Prepare Email needs multiple clicks" report — the first click
+    // worked, but nothing appeared to happen for seconds afterward.
+    fetchProfessor(professorId)
+      .then(profData => { if (profData) setProf(profData); })
+      .catch(e => setProfError(e.message))
       .finally(() => setProfLoading(false));
+
+    fetchMatches({ limit: 100 })
+      .then(d => (d.matches || []).find(m => {
+        const p = m.professor || {};
+        return String(p.id) === String(professorId) || String(p.professor_id) === String(professorId);
+      }))
+      .then(matchData => {
+        if (matchData) {
+          setMatch(matchData);
+          setProf(prev => prev || matchData.professor || null);
+        }
+      })
+      .catch(() => {});
   }, [professorId]);
 
   useEffect(() => {
@@ -253,11 +268,17 @@ export default function EmailCompose() {
   const handleAttachCv = async () => {
     if (!draft?.draft_id || !selectedCv) return;
     setCvAttaching(true);
+    setCvAttachError(null);
     try {
       await attachCv(draft.draft_id, selectedCv);
       setCvAttached(true);
     } catch (e) {
-      // ignore
+      // Previously silently ignored — a failure (e.g. the stored CV file
+      // being unavailable) left the button just reverting to "Attach CV"
+      // with zero feedback, which is what made this "sometimes fail" for
+      // no apparent reason. Surface it so the user knows to retry or
+      // re-upload instead of assuming the app is just flaky.
+      setCvAttachError(e.message || 'Could not attach this CV. Please try again.');
     } finally {
       setCvAttaching(false);
     }
@@ -631,7 +652,7 @@ export default function EmailCompose() {
                       <select
                         className="form-select"
                         value={selectedCv}
-                        onChange={e => setSelectedCv(e.target.value)}
+                        onChange={e => { setSelectedCv(e.target.value); setCvAttachError(null); }}
                         style={{ flex: '1 0 200px' }}
                       >
                         <option value="">Select CV version…</option>
@@ -657,6 +678,11 @@ export default function EmailCompose() {
                       >
                         {cvAttaching ? <><Spinner size={13} /> Attaching…</> : cvAttached ? '✓ Attached' : 'Attach CV'}
                       </button>
+                      {cvAttachError && (
+                        <div className="banner banner-error" style={{ width: '100%', marginTop: '.4rem' }}>
+                          {cvAttachError}
+                        </div>
+                      )}
                     </div>
                   )}
                 </StepCard>

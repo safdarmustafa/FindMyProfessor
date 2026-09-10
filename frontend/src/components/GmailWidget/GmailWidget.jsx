@@ -8,6 +8,7 @@ export default function GmailWidget({ professorId, returnPath, draftId, onBefore
   const { status, loading, refetch } = useGmailStatus();
   const [disconnecting, setDisconnecting] = React.useState(false);
   const [connecting, setConnecting] = React.useState(false);
+  const [disconnectError, setDisconnectError] = React.useState(null);
 
   const handleConnect = async () => {
     const profileId = getProfileId();
@@ -24,12 +25,16 @@ export default function GmailWidget({ professorId, returnPath, draftId, onBefore
 
   const handleDisconnect = async () => {
     setDisconnecting(true);
+    setDisconnectError(null);
     try {
       await disconnectGmail();
       await refetch();
       if (onStatusChange) onStatusChange(false);
     } catch (e) {
-      // ignore
+      // Previously silently ignored — a failed disconnect just reverted the
+      // button with no feedback, leaving the user unsure whether Gmail was
+      // actually disconnected or not.
+      setDisconnectError(e.message || 'Could not disconnect Gmail. Please try again.');
     } finally {
       setDisconnecting(false);
     }
@@ -58,26 +63,33 @@ export default function GmailWidget({ professorId, returnPath, draftId, onBefore
       );
     }
     return (
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: '.75rem',
-        padding: '.65rem 1rem',
-        background: 'var(--green-bg)',
-        border: '1px solid var(--green-bdr)',
-        borderRadius: 'var(--r-md)',
-        fontSize: '.875rem',
-      }}>
-        <span className="status-dot green" />
-        <span style={{ color: 'var(--green)', flex: 1, fontWeight: 500 }}>{label}</span>
-        <button
-          onClick={handleDisconnect}
-          disabled={disconnecting}
-          className="btn btn-sm"
-          style={{ background: 'none', border: '1px solid var(--green-bdr)', color: 'var(--green)', padding: '.2rem .6rem', fontSize: '.75rem' }}
-        >
-          {disconnecting ? 'Disconnecting…' : 'Disconnect'}
-        </button>
+      <div>
+        <div style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: '.75rem',
+          padding: '.65rem 1rem',
+          background: 'var(--green-bg)',
+          border: '1px solid var(--green-bdr)',
+          borderRadius: 'var(--r-md)',
+          fontSize: '.875rem',
+        }}>
+          <span className="status-dot green" />
+          <span style={{ color: 'var(--green)', flex: 1, fontWeight: 500 }}>{label}</span>
+          <button
+            onClick={handleDisconnect}
+            disabled={disconnecting}
+            className="btn btn-sm"
+            style={{ background: 'none', border: '1px solid var(--green-bdr)', color: 'var(--green)', padding: '.2rem .6rem', fontSize: '.75rem' }}
+          >
+            {disconnecting ? 'Disconnecting…' : 'Disconnect'}
+          </button>
+        </div>
+        {disconnectError && (
+          <div className="banner banner-error" style={{ marginTop: '.5rem' }}>
+            {disconnectError}
+          </div>
+        )}
       </div>
     );
   }

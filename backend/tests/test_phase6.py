@@ -34,6 +34,7 @@ from pathlib import Path
 from unittest.mock import MagicMock, patch
 from uuid import uuid4
 
+import httpx
 import pytest
 from fastapi.testclient import TestClient
 
@@ -313,6 +314,172 @@ def test_oauth_state_cannot_be_reused():
 def test_oauth_state_invalid_returns_none():
     result = gmail_oauth.consume_state("invalid-state-token")
     assert result is None
+
+
+def test_oauth_state_expires_after_ttl(monkeypatch):
+    """A state token older than the TTL must be rejected, not just a
+    never-created one."""
+    profile_id = str(uuid4())
+    state = gmail_oauth.create_state(profile_id)
+    # Fast-forward past expiry without waiting 10 real minutes.
+    from datetime import datetime, timedelta, timezone
+    future = datetime.now(timezone.utc) + timedelta(seconds=gmail_oauth._STATE_TTL_SECONDS + 5)
+
+    class _FakeDatetime(datetime):
+        @classmethod
+        def now(cls, tz=None):
+            return future
+
+    monkeypatch.setattr("app.gmail.oauth.datetime", _FakeDatetime)
+    result = gmail_oauth.consume_state(state)
+    assert result is None
+
+
+def test_oauth_state_survives_process_boundary_simulation(monkeypatch):
+    """
+    Proves the real (non-test-mode) path is genuinely database-backed, not
+    reliant on any in-process Python state — i.e. it would survive a Render
+    restart or be visible to a different worker process. Simulated by
+    disabling the in-memory test override and backing `execute` with a
+    plain dict standing in for the database table, then verifying
+    consume_state can read back a row it did not itself just write to any
+    Python-level cache.
+    """
+    gmail_oauth.disable_test_mode()
+    try:
+        fake_table: dict[str, dict] = {}
+
+        class _Result:
+            def __init__(self, data):
+                self.data = data
+
+        class _Query:
+            def __init__(self, op, **kw):
+                self.op = op
+                self.kw = kw
+
+            def eq(self, field, value):
+                self.kw[field] = value
+                return self
+
+            def limit(self, n):
+                return self
+
+            def execute(self):
+                if self.op == "insert":
+                    row = dict(self.kw["_payload"])
+                    fake_table[row["token"]] = row
+                    return _Result([row])
+                if self.op == "select":
+                    token = self.kw.get("token")
+                    row = fake_table.get(token)
+                    return _Result([row] if row else [])
+                if self.op == "delete":
+                    token = self.kw.get("token")
+                    row = fake_table.pop(token, None)
+                    return _Result([row] if row else [])
+                if self.op == "delete_expired":
+                    return _Result([])
+                raise AssertionError(f"unexpected op {self.op}")
+
+        class _Table:
+            def insert(self, payload):
+                return _Query("insert", _payload=payload)
+
+            def select(self, *_a, **_kw):
+                return _Query("select")
+
+            def delete(self):
+                return _Query("delete")
+
+        class _FakeSupabase:
+            def table(self, name):
+                assert name == "gmail_oauth_states"
+                return _Table()
+
+        monkeypatch.setattr("app.gmail.oauth.supabase", _FakeSupabase())
+        monkeypatch.setattr("app.gmail.oauth.execute", lambda q: q.execute())
+
+        profile_id = str(uuid4())
+        state = gmail_oauth.create_state(profile_id, "/outreach/compose/prof-9")
+        assert state in fake_table  # actually landed in the "table", not a Python dict cache
+
+        result = gmail_oauth.consume_state(state)
+        assert result == {"profile_id": profile_id, "return_to": "/outreach/compose/prof-9"}
+        assert state not in fake_table  # consumed row removed from the "table"
+    finally:
+        gmail_oauth.clear()  # restore autouse test-mode for subsequent tests
+
+
+def test_oauth_state_concurrent_consumption_only_one_wins(monkeypatch):
+    """
+    If two requests race to consume the same state token (e.g. a
+    double-fired callback), only one may succeed — the delete-on-read
+    behavior of the real path guarantees this even without an explicit
+    lock, since only the delete that actually removes a row may proceed.
+    """
+    gmail_oauth.disable_test_mode()
+    try:
+        fake_table: dict[str, dict] = {}
+
+        class _Result:
+            def __init__(self, data):
+                self.data = data
+
+        class _Query:
+            def __init__(self, op, **kw):
+                self.op = op
+                self.kw = kw
+
+            def eq(self, field, value):
+                self.kw[field] = value
+                return self
+
+            def limit(self, n):
+                return self
+
+            def execute(self):
+                if self.op == "insert":
+                    row = dict(self.kw["_payload"])
+                    fake_table[row["token"]] = row
+                    return _Result([row])
+                if self.op == "select":
+                    token = self.kw.get("token")
+                    row = fake_table.get(token)
+                    return _Result([row] if row else [])
+                if self.op == "delete":
+                    token = self.kw.get("token")
+                    row = fake_table.pop(token, None)
+                    return _Result([row] if row else [])
+                raise AssertionError(f"unexpected op {self.op}")
+
+        class _Table:
+            def insert(self, payload):
+                return _Query("insert", _payload=payload)
+
+            def select(self, *_a, **_kw):
+                return _Query("select")
+
+            def delete(self):
+                return _Query("delete")
+
+        class _FakeSupabase:
+            def table(self, name):
+                return _Table()
+
+        monkeypatch.setattr("app.gmail.oauth.supabase", _FakeSupabase())
+        monkeypatch.setattr("app.gmail.oauth.execute", lambda q: q.execute())
+
+        profile_id = str(uuid4())
+        state = gmail_oauth.create_state(profile_id)
+
+        first = gmail_oauth.consume_state(state)
+        second = gmail_oauth.consume_state(state)
+
+        assert first is not None and first["profile_id"] == profile_id
+        assert second is None
+    finally:
+        gmail_oauth.clear()
 
 
 def test_oauth_state_missing_authorization_code():
@@ -714,11 +881,9 @@ def _setup_send_test(monkeypatch, *, status="ready", professor_email="prof@uni.e
             "storage_path": "fake/cv.pdf",
         }]})(),
     )
-    # Also mock resolve_storage_path and file existence to avoid fs errors
-    import tempfile, pathlib
-    _tmp = pathlib.Path(tempfile.mktemp(suffix=".pdf"))
-    _tmp.write_bytes(b"fake")
-    monkeypatch.setattr("app.outreach.service.resolve_storage_path", lambda p: _tmp)
+    # Also mock CV file existence/content to avoid touching real storage
+    monkeypatch.setattr("app.outreach.service.cv_file_exists", lambda p: True)
+    monkeypatch.setattr("app.outreach.service.read_cv_bytes", lambda p: b"fake")
     return profile_id, r.draft_id, cv_id
 
 
@@ -865,9 +1030,10 @@ def test_successful_send(monkeypatch, tmp_path):
             "storage_path": "fake/path.pdf",
         }]})(),
     )
+    monkeypatch.setattr("app.outreach.service.cv_file_exists", lambda p: True)
     monkeypatch.setattr(
-        "app.outreach.service.resolve_storage_path",
-        lambda path: cv_file,
+        "app.outreach.service.read_cv_bytes",
+        lambda path: cv_file.read_bytes(),
     )
     monkeypatch.setattr(
         "app.outreach.service.get_valid_access_token",
@@ -928,7 +1094,8 @@ def test_gmail_api_failure_marks_draft_failed(monkeypatch, tmp_path):
             "storage_path": "fake/path.pdf",
         }]})(),
     )
-    monkeypatch.setattr("app.outreach.service.resolve_storage_path", lambda p: cv_file)
+    monkeypatch.setattr("app.outreach.service.cv_file_exists", lambda p: True)
+    monkeypatch.setattr("app.outreach.service.read_cv_bytes", lambda p: cv_file.read_bytes())
     monkeypatch.setattr("app.outreach.service.get_valid_access_token", lambda pid: "tok")
     monkeypatch.setattr("app.outreach.service.build_mime_message", lambda **kw: {"raw": "x"})
     monkeypatch.setattr(
@@ -974,7 +1141,8 @@ def test_double_send_protection(monkeypatch, tmp_path):
             "description": '{"original_filename":"cv.pdf"}', "storage_path": "fake/p.pdf",
         }]})(),
     )
-    monkeypatch.setattr("app.outreach.service.resolve_storage_path", lambda p: cv_file)
+    monkeypatch.setattr("app.outreach.service.cv_file_exists", lambda p: True)
+    monkeypatch.setattr("app.outreach.service.read_cv_bytes", lambda p: cv_file.read_bytes())
     monkeypatch.setattr("app.outreach.service.get_valid_access_token", lambda pid: "tok")
     monkeypatch.setattr("app.outreach.service.build_mime_message", lambda **kw: {"raw": "x"})
     monkeypatch.setattr(
@@ -995,15 +1163,12 @@ def test_double_send_protection(monkeypatch, tmp_path):
 # ─────────────────────────────────────────────────────────────────────────────
 
 def test_mime_correct_headers(tmp_path):
-    cv_file = tmp_path / "My_CV.pdf"
-    cv_file.write_bytes(b"fake pdf content")
-
     mime = build_mime_message(
         from_addr="student@gmail.com",
         to_addr="prof@uni.edu",
         subject="Research Inquiry",
         body="Dear Professor Smith,\n\nBody.\n\nRegards,\nAisha",
-        attachment_path=cv_file,
+        attachment_bytes=b"fake pdf content",
         attachment_display_name="My_CV.pdf",
     )
     raw_bytes = base64.urlsafe_b64decode(mime["raw"] + "==")
@@ -1016,15 +1181,13 @@ def test_mime_correct_headers(tmp_path):
 
 def test_mime_attachment_present(tmp_path):
     cv_bytes = b"PDF file content here"
-    cv_file = tmp_path / "thesis_CV.pdf"
-    cv_file.write_bytes(cv_bytes)
 
     mime = build_mime_message(
         from_addr="s@g.com",
         to_addr="p@u.edu",
         subject="Hi",
         body="Body text",
-        attachment_path=cv_file,
+        attachment_bytes=cv_bytes,
         attachment_display_name="thesis_CV.pdf",
     )
     raw_bytes = base64.urlsafe_b64decode(mime["raw"] + "==")
@@ -1037,15 +1200,13 @@ def test_mime_attachment_present(tmp_path):
 
 
 def test_mime_body_text(tmp_path):
-    cv_file = tmp_path / "cv.pdf"
-    cv_file.write_bytes(b"pdf")
     body_text = "Dear Professor,\n\nHello.\n\nBest,\nStudent"
     mime = build_mime_message(
         from_addr="a@b.com",
         to_addr="c@d.edu",
         subject="S",
         body=body_text,
-        attachment_path=cv_file,
+        attachment_bytes=b"pdf",
         attachment_display_name="cv.pdf",
     )
     raw_bytes = base64.urlsafe_b64decode(mime["raw"] + "==")
@@ -1114,6 +1275,71 @@ def test_token_refresh_failure_raises_401(monkeypatch):
     with pytest.raises(HTTPException) as exc:
         gmail_service.get_valid_access_token(profile_id)
     assert exc.value.status_code == 401
+
+
+def _expired_connection_row(profile_id: str) -> dict:
+    expired_at = (datetime.now(timezone.utc) - timedelta(seconds=120)).isoformat()
+    return {
+        "id": str(uuid4()),
+        "profile_id": profile_id,
+        "provider": "google",
+        "provider_account_email": "s@gmail.com",
+        "access_token_encrypted": gmail_crypto.encrypt("old"),
+        "refresh_token_encrypted": gmail_crypto.encrypt("refresh"),
+        "token_expires_at": expired_at,
+        "scopes": gmail_oauth.GMAIL_SEND_SCOPE,
+        "revoked_at": None,
+    }
+
+
+def test_token_refresh_rejected_by_google_marks_connection_unusable(monkeypatch):
+    """
+    Bug 7: when Google definitively rejects the refresh_token (invalid_grant
+    — revoked by the user, or the 7-day refresh-token expiry Google imposes
+    on OAuth apps still in "Testing" publishing status), the connection must
+    be marked unusable so a later /gmail/status check stops claiming
+    "connected" for a credential that can no longer actually send.
+    """
+    from fastapi import HTTPException
+    profile_id = str(uuid4())
+    monkeypatch.setattr(
+        "app.gmail.service.execute",
+        lambda q: type("R", (), {"data": [_expired_connection_row(profile_id)]})(),
+    )
+    request = httpx.Request("POST", "https://oauth2.googleapis.com/token")
+    response = httpx.Response(400, request=request, json={"error": "invalid_grant"})
+    monkeypatch.setattr(
+        "app.gmail.service.refresh_access_token",
+        lambda rt: (_ for _ in ()).throw(
+            httpx.HTTPStatusError("invalid_grant", request=request, response=response)
+        ),
+    )
+
+    with patch("app.gmail.service._mark_connection_unusable") as mock_mark:
+        with pytest.raises(HTTPException) as exc:
+            gmail_service.get_valid_access_token(profile_id)
+        assert exc.value.status_code == 401
+        mock_mark.assert_called_once_with(profile_id)
+
+
+def test_token_refresh_transient_failure_does_not_mark_connection_unusable(monkeypatch):
+    """A network/timeout hiccup must not destroy a possibly-still-valid connection."""
+    from fastapi import HTTPException
+    profile_id = str(uuid4())
+    monkeypatch.setattr(
+        "app.gmail.service.execute",
+        lambda q: type("R", (), {"data": [_expired_connection_row(profile_id)]})(),
+    )
+    monkeypatch.setattr(
+        "app.gmail.service.refresh_access_token",
+        lambda rt: (_ for _ in ()).throw(httpx.ConnectError("network down")),
+    )
+
+    with patch("app.gmail.service._mark_connection_unusable") as mock_mark:
+        with pytest.raises(HTTPException) as exc:
+            gmail_service.get_valid_access_token(profile_id)
+        assert exc.value.status_code == 401
+        mock_mark.assert_not_called()
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -1236,10 +1462,12 @@ def test_invalid_professor_email_rejected(monkeypatch):
 # ─────────────────────────────────────────────────────────────────────────────
 
 def test_send_endpoint_requires_profile_id():
+    # Production hardening: no Supabase session and no X-Profile-Id is
+    # genuinely unauthenticated, so this is now 401 (was 400) — app/auth.py.
     from app.main import app
     client = TestClient(app)
     resp = client.post(f"/outreach/drafts/{uuid4()}/send", json={"confirmed": True})
-    assert resp.status_code == 400
+    assert resp.status_code == 401
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -1360,7 +1588,7 @@ def test_send_draft_succeeds_with_null_gmail_email(monkeypatch, tmp_path):
         "app.outreach.service.send_message",
         lambda **kw: GmailSendResult(message_id="msg_id_123", thread_id="thr_1"),
     )
-    monkeypatch.setattr("app.outreach.service.resolve_storage_path", lambda p: Path(p))
+    monkeypatch.setattr("app.outreach.service.read_cv_bytes", lambda p: Path(p).read_bytes())
 
     result = outreach_service.send_draft(profile_id=profile_id, draft_id=r.draft_id, confirmed=True)
     assert result.status == "sent"
@@ -1397,6 +1625,37 @@ def test_validate_for_send_rejects_disconnected_not_missing_email(monkeypatch):
         outreach_service.send_draft(profile_id=profile_id, draft_id=r.draft_id, confirmed=True)
     assert exc.value.status_code == 400
     assert "not connected" in exc.value.detail.lower()
+
+
+def test_attach_cv_fails_cleanly_when_stored_file_is_missing(monkeypatch):
+    """
+    CV files live on local disk (app/cv/storage.py), not a persistent object
+    store — on Render this directory does not survive a redeploy/restart, so
+    a cv_versions DB row can outlive its file. attach_cv must reject this
+    with a clear, catchable error rather than crash or silently succeed;
+    this is the exact production condition behind "CV attachment sometimes
+    fails" (the row exists, the file underneath it does not).
+    """
+    db_store.clear()
+    profile_id = str(uuid4())
+    cv_id = str(uuid4())
+    draft = _make_record(profile_id=profile_id)
+    db_store.put(draft.draft_id, draft)
+
+    monkeypatch.setattr(
+        "app.outreach.service._load_cv_row",
+        lambda cv_version_id, pid: {
+            "_storage_path": f"{profile_id}/{cv_id}/resume.pdf",  # well-formed but never written
+            "file_name": "resume.pdf",
+            "original_filename": "resume.pdf",
+        },
+    )
+
+    from fastapi import HTTPException
+    with pytest.raises(HTTPException) as exc:
+        outreach_service.attach_cv(profile_id=profile_id, draft_id=draft.draft_id, cv_version_id=cv_id)
+    assert exc.value.status_code == 400
+    assert "not available" in exc.value.detail.lower()
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -1511,7 +1770,7 @@ def test_gmail_api_error_marks_draft_failed(monkeypatch, tmp_path):
     monkeypatch.setattr("app.outreach.service._validate_cv_file", lambda row: None)
     monkeypatch.setattr("app.outreach.service._cv_display_name", lambda row: "cv.pdf")
     monkeypatch.setattr("app.outreach.service.get_valid_access_token", lambda pid: "tok")
-    monkeypatch.setattr("app.outreach.service.resolve_storage_path", lambda p: Path(p))
+    monkeypatch.setattr("app.outreach.service.read_cv_bytes", lambda p: Path(p).read_bytes())
     monkeypatch.setattr(
         "app.outreach.service.send_message",
         lambda **kw: (_ for _ in ()).throw(GmailApiError("invalid credentials", code="http_401")),
@@ -1562,15 +1821,12 @@ def test_build_authorization_url_uses_only_gmail_send_scope(monkeypatch):
 
 def test_build_mime_message_from_addr_none(tmp_path):
     """build_mime_message must not raise when from_addr is None."""
-    cv_file = tmp_path / "cv.pdf"
-    cv_file.write_bytes(b"%PDF-test")
-
     msg = build_mime_message(
         from_addr=None,
         to_addr="prof@uni.edu",
         subject="Hello",
         body="Dear Professor,",
-        attachment_path=cv_file,
+        attachment_bytes=b"%PDF-test",
         attachment_display_name="cv.pdf",
     )
     assert "raw" in msg
@@ -1582,15 +1838,12 @@ def test_build_mime_message_from_addr_none(tmp_path):
 
 def test_build_mime_message_from_addr_empty_string(tmp_path):
     """build_mime_message must not raise when from_addr is empty string."""
-    cv_file = tmp_path / "cv.pdf"
-    cv_file.write_bytes(b"%PDF-test")
-
     msg = build_mime_message(
         from_addr="",
         to_addr="prof@uni.edu",
         subject="Subject",
         body="Body",
-        attachment_path=cv_file,
+        attachment_bytes=b"%PDF-test",
         attachment_display_name="cv.pdf",
     )
     assert "raw" in msg

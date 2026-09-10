@@ -8,6 +8,10 @@ import { fetchMatches, fetchUniversities } from '../services/matching.js';
 import { fetchProfile } from '../services/profile.js';
 import { getProfileId } from '../services/api.js';
 
+// Delay before the single automatic retry on a failed matches load — long
+// enough for a cold-starting Render instance to finish waking up.
+const MATCHES_RETRY_DELAY_MS = 1500;
+
 const MODE_OPTIONS = [
   { value: 'research', label: 'Research Match' },
   { value: 'opportunity', label: 'Opportunity First' },
@@ -92,7 +96,19 @@ export default function Matches() {
       const data = await fetchMatches({ mode, limit: 25, ...filters });
       setMatches(data.matches || []);
     } catch (e) {
-      setError(e.message);
+      // Production is a real cross-origin request to a Render backend that
+      // can cold-start after a period of inactivity — the very first
+      // request can fail even though the service is healthy and every
+      // later request would succeed. One bounded, delayed retry absorbs
+      // that automatically instead of requiring the user to notice the
+      // failure and click "Try again" themselves.
+      await new Promise(resolve => setTimeout(resolve, MATCHES_RETRY_DELAY_MS));
+      try {
+        const data = await fetchMatches({ mode, limit: 25, ...filters });
+        setMatches(data.matches || []);
+      } catch (e2) {
+        setError(e2.message);
+      }
     } finally {
       setLoading(false);
     }

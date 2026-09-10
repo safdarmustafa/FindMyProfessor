@@ -139,6 +139,15 @@
   position: relative;
 }
 
+.app-nav-avatar-placeholder {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: var(--line-light);
+  flex-shrink: 0;
+}
+
 .app-account-avatar {
   width: 30px;
   height: 30px;

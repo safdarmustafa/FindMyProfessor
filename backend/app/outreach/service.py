@@ -34,7 +34,7 @@ from typing import Any
 from fastapi import HTTPException
 
 from app.cv.extraction.schema import ExtractedStudentProfile
-from app.cv.storage import resolve_storage_path
+from app.cv.storage import cv_file_exists, read_cv_bytes
 from app.gmail.client import GmailApiError, build_mime_message, send_message
 from app.gmail.service import get_status, get_valid_access_token
 from app.matching.scoring import score_professor
@@ -287,8 +287,12 @@ def send_draft(*, profile_id: str, draft_id: str, confirmed: bool) -> SendDraftR
     # Refresh the record after atomic update
     record = store.get(draft_id)
 
-    # Resolve CV file (server-side; never expose path to browser)
-    cv_path = resolve_storage_path(cv_meta["storage_path"])
+    # Resolve CV file (server-side; never expose path/bytes to browser)
+    try:
+        cv_bytes = read_cv_bytes(cv_meta["storage_path"])
+    except FileNotFoundError:
+        _mark_failed(record, "cv_unavailable", "CV file is not available.")
+        raise HTTPException(status_code=400, detail="CV file is not available.")
 
     # Get valid access token (refreshes if needed)
     try:
@@ -305,7 +309,7 @@ def send_draft(*, profile_id: str, draft_id: str, confirmed: bool) -> SendDraftR
             to_addr=prof["email"],
             subject=record.subject,
             body=record.body,
-            attachment_path=cv_path,
+            attachment_bytes=cv_bytes,
             attachment_display_name=cv_meta["display_name"],
         )
     except Exception as exc:
@@ -659,15 +663,11 @@ def _cv_display_name(cv_row: dict[str, Any]) -> str:
 
 
 def _validate_cv_file(cv_row: dict[str, Any]) -> None:
-    """Verify that the CV file exists and is within the storage root."""
+    """Verify that the CV file exists in whichever storage backend is active."""
     storage_path = cv_row.get("_storage_path")
     if not storage_path:
         raise HTTPException(status_code=400, detail="CV version has no storage path.")
-    try:
-        path = resolve_storage_path(storage_path)
-    except ValueError as exc:
-        raise HTTPException(status_code=400, detail="CV storage path is invalid.") from exc
-    if not path.exists():
+    if not cv_file_exists(storage_path):
         raise HTTPException(status_code=400, detail="CV file is not available.")
 
 

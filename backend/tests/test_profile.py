@@ -6,8 +6,11 @@ from tests.conftest import PROFILE_ID
 
 
 def test_get_profile_requires_header(client):
+    # Production hardening: a request with neither a Supabase session nor
+    # X-Profile-Id is genuinely unauthenticated, so this is now 401 (was
+    # 400) — see app/auth.py.
     res = client.get("/profile")
-    assert res.status_code == 400
+    assert res.status_code == 401
     assert "X-Profile-Id" in res.json()["detail"]
 
 

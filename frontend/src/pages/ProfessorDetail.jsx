@@ -56,19 +56,31 @@ export default function ProfessorDetail() {
     setLoading(true);
     setError(null);
 
-    Promise.all([
-      fetchProfessor(id).catch(() => null),
-      fetchMatches({ limit: 100 })
-        .then(d => (d.matches || []).find(m => {
-          const p = m.professor || {};
-          return String(p.id) === String(id) || String(p.professor_id) === String(id);
-        }))
-        .catch(() => null),
-    ]).then(([profData, matchData]) => {
-      setProf(profData || matchData?.professor);
-      setMatch(matchData);
-    }).catch(e => setError(e.message))
+    // fetchProfessor is the fast, required lookup for this page's core
+    // content. fetchMatches({limit:100}) is only used to find this one
+    // professor's match evidence (Why You Match, opportunities) — it
+    // re-scores every professor and is measurably slow. Blocking the whole
+    // page on it made this page (and the "Prepare Email" click that
+    // follows it) feel broken/unresponsive. The match-dependent sections
+    // below already render conditionally on `match`, so they simply
+    // appear a moment later instead of holding up the whole page.
+    fetchProfessor(id)
+      .then(profData => { if (profData) setProf(profData); })
+      .catch(e => setError(e.message))
       .finally(() => setLoading(false));
+
+    fetchMatches({ limit: 100 })
+      .then(d => (d.matches || []).find(m => {
+        const p = m.professor || {};
+        return String(p.id) === String(id) || String(p.professor_id) === String(id);
+      }))
+      .then(matchData => {
+        if (matchData) {
+          setMatch(matchData);
+          setProf(prev => prev || matchData.professor || null);
+        }
+      })
+      .catch(() => {});
   }, [id]);
 
   if (loading) return <AppShell><LoadingState message="Loading professor profile…" fullPage /></AppShell>;

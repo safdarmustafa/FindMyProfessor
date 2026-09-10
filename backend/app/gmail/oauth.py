@@ -20,22 +20,46 @@ proper session authentication.
 import logging
 import os
 import secrets
-import time
+from datetime import datetime, timedelta, timezone
 from typing import Any
 from urllib.parse import urlencode
 
 import httpx
 
+from app.services.query import execute
+from app.supabase_client import supabase
+
 logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
 # Server-side OAuth state store
-# Maps state_token → {profile_id, expires_at}
-# Lost on restart — acceptable for a 10-minute OAuth window.
+#
+# Persisted in the `gmail_oauth_states` table (see migrations/) instead of an
+# in-memory dict. An in-memory store does not survive a Render restart or
+# redeploy, and breaks entirely under more than one worker/instance, since a
+# request handled by one process cannot see state created by another.
+#
+# TEST MODE: mirrors app/outreach/db_store.py's pattern — call clear() at the
+# start of a test to activate an in-memory dict override and avoid needing a
+# real database connection; call disable_test_mode() to revert.
 # ---------------------------------------------------------------------------
-_state_store: dict[str, dict[str, Any]] = {}
+TABLE = "gmail_oauth_states"
+
+_test_store: dict[str, dict[str, Any]] | None = None
 
 _STATE_TTL_SECONDS = 600  # 10 minutes
+
+
+def clear() -> None:
+    """Activate test mode and clear the in-memory override."""
+    global _test_store
+    _test_store = {}
+
+
+def disable_test_mode() -> None:
+    """Deactivate test mode and re-enable Supabase-backed storage."""
+    global _test_store
+    _test_store = None
 
 GMAIL_SEND_SCOPE = "https://www.googleapis.com/auth/gmail.send"
 GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth"
@@ -68,14 +92,29 @@ def create_state(profile_id: str, return_to: str | None = None) -> str:
     """
     Create a cryptographically random state token bound to a profile_id and,
     optionally, the frontend path the browser should return to once the
-    OAuth round trip completes.
+    OAuth round trip completes. Persisted so the token survives a restart
+    and is visible across worker processes/instances.
     """
+    _expire_old_states()
     token = secrets.token_urlsafe(32)
-    _state_store[token] = {
-        "profile_id": profile_id,
-        "return_to": return_to,
-        "expires_at": time.monotonic() + _STATE_TTL_SECONDS,
-    }
+    expires_at = datetime.now(timezone.utc) + timedelta(seconds=_STATE_TTL_SECONDS)
+
+    if _test_store is not None:
+        _test_store[token] = {
+            "profile_id": profile_id,
+            "return_to": return_to,
+            "expires_at": expires_at,
+        }
+        return token
+
+    execute(
+        supabase.table(TABLE).insert({
+            "token": token,
+            "profile_id": profile_id,
+            "return_to": return_to,
+            "expires_at": expires_at.isoformat(),
+        })
+    )
     return token
 
 
@@ -83,24 +122,66 @@ def consume_state(token: str) -> dict[str, Any] | None:
     """
     Verify and consume a state token.
     Returns {"profile_id": str, "return_to": str | None}, or None if
-    invalid/expired. Consumed tokens cannot be reused.
+    invalid/expired. Consumed tokens cannot be reused — the row is deleted
+    as part of consuming it, so a concurrent/repeat consume of the same
+    token can never succeed twice.
     """
-    _expire_old_states()
-    entry = _state_store.pop(token, None)
-    if not entry:
+    now = datetime.now(timezone.utc)
+
+    if _test_store is not None:
+        entry = _test_store.pop(token, None)
+        if not entry:
+            logger.warning("OAuth state token not found.")
+            return None
+        if now > entry["expires_at"]:
+            logger.warning("OAuth state token expired.")
+            return None
+        return {"profile_id": entry["profile_id"], "return_to": entry.get("return_to")}
+
+    rows = execute(
+        supabase.table(TABLE).select("*").eq("token", token).limit(1)
+    ).data or []
+    if not rows:
         logger.warning("OAuth state token not found.")
         return None
-    if time.monotonic() > entry["expires_at"]:
+    entry = rows[0]
+
+    # Delete immediately on read — this is what makes the token single-use
+    # even if two requests race to consume it at the same instant: only the
+    # request whose delete actually removes a row may proceed.
+    deleted = execute(
+        supabase.table(TABLE).delete().eq("token", token)
+    ).data or []
+    if not deleted:
+        logger.warning("OAuth state token already consumed.")
+        return None
+
+    expires_at = entry.get("expires_at")
+    try:
+        expires_dt = datetime.fromisoformat(str(expires_at).replace("Z", "+00:00"))
+    except (TypeError, ValueError):
+        expires_dt = None
+    if expires_dt is None or now > expires_dt:
         logger.warning("OAuth state token expired.")
         return None
+
     return {"profile_id": entry["profile_id"], "return_to": entry.get("return_to")}
 
 
 def _expire_old_states() -> None:
-    now = time.monotonic()
-    expired = [k for k, v in _state_store.items() if now > v["expires_at"]]
-    for k in expired:
-        del _state_store[k]
+    """Best-effort cleanup of stale rows. Not required for correctness —
+    consume_state already rejects expired tokens on read — but keeps the
+    table from growing unboundedly with abandoned OAuth attempts."""
+    now = datetime.now(timezone.utc)
+    if _test_store is not None:
+        expired = [k for k, v in _test_store.items() if now > v["expires_at"]]
+        for k in expired:
+            del _test_store[k]
+        return
+    try:
+        execute(supabase.table(TABLE).delete().lt("expires_at", now.isoformat()))
+    except Exception:
+        logger.warning("Could not clean up expired OAuth state rows.")
 
 
 def authorization_url(profile_id: str, return_to: str | None = None) -> str:

@@ -20,6 +20,7 @@ import logging
 from datetime import datetime, timezone, timedelta
 from typing import Any
 
+import httpx
 from fastapi import HTTPException
 
 from app.gmail.crypto import decrypt, encrypt
@@ -152,8 +153,24 @@ def get_valid_access_token(profile_id: str) -> str:
             )
         try:
             token_response = refresh_access_token(conn.refresh_token)
+        except httpx.HTTPStatusError as exc:
+            # Google rejected the refresh_token itself (e.g. invalid_grant —
+            # revoked by the user, or the 7-day refresh-token expiry Google
+            # imposes on OAuth apps still in "Testing" publishing status).
+            # This is a definitive "must reconnect" state, not a transient
+            # hiccup — mark it so /gmail/status stops reporting "connected"
+            # for a credential that can no longer actually send.
+            if exc.response is not None and exc.response.status_code in (400, 401):
+                _mark_connection_unusable(profile_id)
+            logger.warning("Token refresh failed (rejected by Google).")
+            raise HTTPException(
+                status_code=401,
+                detail="Gmail access token could not be refreshed. Please reconnect.",
+            ) from exc
         except Exception as exc:
-            logger.warning("Token refresh failed.")
+            # Network/timeout/5xx — don't destroy a possibly-still-valid
+            # connection over a momentary failure reaching Google.
+            logger.warning("Token refresh failed (transient).")
             raise HTTPException(
                 status_code=401,
                 detail="Gmail access token could not be refreshed. Please reconnect.",
@@ -185,6 +202,27 @@ def get_valid_access_token(profile_id: str) -> str:
 # Helpers
 # ---------------------------------------------------------------------------
 
+
+
+def _mark_connection_unusable(profile_id: str) -> None:
+    """
+    Mark a Gmail connection as no longer usable after a definitive refresh
+    rejection from Google, so /gmail/status stops reporting "connected" for
+    a credential that can no longer send. Does not attempt to revoke with
+    Google — the token is already invalid there.
+    """
+    try:
+        execute(
+            supabase.table(TABLE)
+            .update({
+                "revoked_at": datetime.now(timezone.utc).isoformat(),
+                "updated_at": datetime.now(timezone.utc).isoformat(),
+            })
+            .eq("profile_id", profile_id)
+            .eq("provider", "google")
+        )
+    except Exception:
+        logger.warning("Could not mark unusable Gmail connection as revoked.")
 
 
 def _fetch_row(profile_id: str) -> dict[str, Any] | None:

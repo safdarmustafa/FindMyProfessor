@@ -91,6 +91,18 @@ describe('Email compose page', () => {
     expect(screen.queryByText('[object Object]')).not.toBeInTheDocument();
   });
 
+  it('renders professor info and lets the user start composing without waiting for the slow matches re-scan', async () => {
+    // fetchMatches({limit:100}) re-scores every professor just to find this
+    // one's match evidence — it must never block Generate Draft, which only
+    // needs the fast, targeted fetchProfessor call. Blocking the whole page
+    // on it produced the "Prepare Email needs multiple clicks" report: the
+    // click worked, but this page then sat blank for several seconds.
+    matching.fetchMatches.mockReturnValue(new Promise(() => {})); // never resolves
+    renderCompose();
+    expect(await screen.findByText('Jane Smith')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Generate Draft/i })).toBeInTheDocument();
+  });
+
   it('toggles email type between Research Outreach and Research + Opportunity', async () => {
     const user = userEvent.setup();
     renderCompose();
@@ -247,6 +259,24 @@ describe('Email compose page', () => {
     expect(await screen.findByRole('option', { name: /Resume.pdf/ })).toBeInTheDocument();
   });
 
+  it('shows a clear error instead of silently failing when CV attachment fails', async () => {
+    // Previously a failed attachCv() (e.g. the stored file being
+    // unavailable) was swallowed entirely — the button just reset with no
+    // feedback, which is what made attachment look like it "randomly
+    // failed" with no explanation.
+    outreach.attachCv.mockRejectedValue(new Error('CV file is not available.'));
+    const user = userEvent.setup();
+    renderCompose();
+    await generateDraftInUi(user);
+    await screen.findByRole('option', { name: /Resume.pdf/ });
+
+    await user.selectOptions(screen.getByRole('combobox'), 'cv-1');
+    await user.click(screen.getByRole('button', { name: /Attach CV/i }));
+
+    expect(await screen.findByText('CV file is not available.')).toBeInTheDocument();
+    expect(screen.queryByText('✓ Attached')).not.toBeInTheDocument();
+  });
+
   it('restores the draft left by GmailConnected instead of showing a blank Generate Draft screen', async () => {
     // Simulates landing back on this page after the Gmail OAuth round-trip:
     // GmailConnected reads the intent to decide where to send the browser,
@@ -263,6 +293,25 @@ describe('Email compose page', () => {
     expect(outreach.getDraft).toHaveBeenCalledWith('draft-1');
     expect(outreach.generateDraft.mock.calls.length).toBe(generateCallsBefore);
     expect(getPendingIntent()).toBeNull();
+  });
+
+  it('restores CV selection and email type, not just subject/body, after Gmail OAuth', async () => {
+    // Bug 3: the generated draft — including which CV was attached and
+    // which email type was chosen — must survive the round trip intact,
+    // not just the subject/body text.
+    savePendingIntent(PROF_ID, `/outreach/compose/${PROF_ID}`, 'draft-cv-1');
+    outreach.getDraft.mockResolvedValue({
+      ...draftResponse,
+      draft_id: 'draft-cv-1',
+      email_type: 'research_opportunity',
+      cv_version_id: 'cv-1',
+    });
+
+    renderCompose();
+
+    await screen.findByDisplayValue(draftResponse.subject);
+    expect(outreach.getDraft).toHaveBeenCalledWith('draft-cv-1');
+    expect(await screen.findByText('✓ Attached')).toBeInTheDocument();
   });
 
   it('shows a clear error when draft generation fails', async () => {

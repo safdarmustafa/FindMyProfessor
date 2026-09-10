@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { apiFetch, apiUrl, getProfileId, setProfileId } from './api.js';
+import { supabase } from '../lib/supabase.js';
 
 describe('apiFetch', () => {
   beforeEach(() => {
@@ -21,6 +22,28 @@ describe('apiFetch', () => {
     expect(fetch).toHaveBeenCalledWith(apiUrl('/profile'), expect.objectContaining({
       headers: expect.objectContaining({ 'X-Profile-Id': 'p1' }),
     }));
+  });
+
+  it('attaches the Supabase session token as Authorization when signed in', async () => {
+    // Production hardening: the backend now verifies this token to derive
+    // the authoritative profile_id instead of trusting X-Profile-Id alone
+    // (app/auth.py). Without this, an authenticated user's own requests
+    // would never actually exercise that verification.
+    supabase.auth.getSession.mockResolvedValueOnce({
+      data: { session: { access_token: 'real-jwt-token' } },
+    });
+    fetch.mockResolvedValue({ ok: true, json: async () => ({ ok: true }) });
+    await apiFetch('/profile');
+    expect(fetch).toHaveBeenCalledWith(apiUrl('/profile'), expect.objectContaining({
+      headers: expect.objectContaining({ Authorization: 'Bearer real-jwt-token' }),
+    }));
+  });
+
+  it('omits Authorization when there is no session', async () => {
+    fetch.mockResolvedValue({ ok: true, json: async () => ({ ok: true }) });
+    await apiFetch('/profile');
+    const [, options] = fetch.mock.calls.at(-1);
+    expect(options.headers.Authorization).toBeUndefined();
   });
 
   it('throws a string detail from FastAPI 4xx errors', async () => {

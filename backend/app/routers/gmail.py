@@ -14,9 +14,10 @@ import os
 from datetime import datetime, timezone, timedelta
 from urllib.parse import quote
 
-from fastapi import APIRouter, Header, HTTPException, Query
+from fastapi import APIRouter, Depends, Header, HTTPException, Query
 from fastapi.responses import RedirectResponse, JSONResponse
 
+from app import auth
 from app.gmail import oauth as gmail_oauth
 from app.gmail import service as gmail_service
 
@@ -45,15 +46,6 @@ def _frontend_url() -> str:
             "Refusing to fall back to a localhost redirect."
         )
     return "http://localhost:5173"
-
-
-def _require_profile(x_profile_id: str | None) -> str:
-    if not x_profile_id:
-        raise HTTPException(
-            status_code=400,
-            detail="X-Profile-Id header is required.",
-        )
-    return x_profile_id
 
 
 def _sanitize_return_to(return_to: str | None) -> str | None:
@@ -88,6 +80,18 @@ def gmail_connect(
     or as the X-Profile-Id header. The state token binds the OAuth flow to the
     profile server-side, and — if provided — the originating frontend path
     the browser should return to once the callback completes.
+
+    NOTE ON OWNERSHIP: this endpoint is reached via a full-page browser
+    navigation (window.location.href), which cannot carry a custom
+    Authorization header — there is no way to verify a Supabase session
+    here the way auth.require_profile_id does elsewhere. The worst case of
+    trusting the given profile_id is that a Gmail account ends up attached
+    to the wrong (but still server-verified-to-exist, via ensure_profile
+    downstream) profile — it does not expose another profile's private data,
+    since nothing is read here. Closing this fully would require passing a
+    short-lived signed token instead of a bare profile_id in the query
+    string; flagged as a follow-up, not done here to keep this change
+    surgical.
     """
     pid = x_profile_id or profile_id
     if not pid:
@@ -203,10 +207,9 @@ def gmail_callback(
 
 @router.get("/status")
 def gmail_status(
-    x_profile_id: str | None = Header(default=None, alias="X-Profile-Id"),
+    profile_id: str = Depends(auth.require_profile_id),
 ):
     """Return safe connection status. Never returns tokens."""
-    profile_id = _require_profile(x_profile_id)
     status = gmail_service.get_status(profile_id)
     return {"connected": status.connected, "email": status.email}
 
@@ -217,7 +220,7 @@ def gmail_status(
 
 @router.post("/disconnect")
 def gmail_disconnect(
-    x_profile_id: str | None = Header(default=None, alias="X-Profile-Id"),
+    profile_id: str = Depends(auth.require_profile_id),
 ):
     """
     Disconnect Gmail.
@@ -225,6 +228,5 @@ def gmail_disconnect(
     - Clears stored tokens.
     - Preserves historical sent draft records.
     """
-    profile_id = _require_profile(x_profile_id)
     gmail_service.disconnect(profile_id)
     return {"disconnected": True, "message": "Gmail disconnected."}

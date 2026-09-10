@@ -9,7 +9,7 @@ function initialsFor(email) {
   return email.trim()[0].toUpperCase();
 }
 
-function AccountMenu({ user, signOut }) {
+function AccountMenu({ user, loading, signOut }) {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const rootRef = useRef(null);
@@ -21,6 +21,15 @@ function AccountMenu({ user, signOut }) {
     document.addEventListener('mousedown', onDocClick);
     return () => document.removeEventListener('mousedown', onDocClick);
   }, []);
+
+  // While the session is still hydrating (supabase.auth.getSession() is
+  // async, so `user` is briefly null on every fresh load/refresh even for
+  // an already-authenticated visitor), show a neutral placeholder instead
+  // of assuming "no user" means "signed out" — that false negative is what
+  // flashes "Sign in" for an already-logged-in production user.
+  if (loading) {
+    return <span className="app-nav-avatar-placeholder" aria-hidden="true" />;
+  }
 
   if (!user) {
     return (
@@ -66,7 +75,7 @@ function AccountMenu({ user, signOut }) {
 
 export default function AppShell({ children }) {
   const { status } = useGmailStatus();
-  const { user, signOut } = useAuth();
+  const { user, loading: authLoading, signOut } = useAuth();
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -119,7 +128,7 @@ export default function AppShell({ children }) {
               </div>
             )}
             <span className="app-nav-divider" aria-hidden="true" />
-            <AccountMenu user={user} signOut={signOut} />
+            <AccountMenu user={user} loading={authLoading} signOut={signOut} />
           </div>
 
           <button
@@ -153,7 +162,7 @@ export default function AppShell({ children }) {
                 <span>{gmailLabel}</span>
               </div>
             )}
-            {user ? (
+            {authLoading ? null : user ? (
               <>
                 <div className="app-nav-mobile-email">{user.email}</div>
                 <button type="button" className="app-nav-mobile-link app-nav-mobile-signout" onClick={handleMobileSignOut}>

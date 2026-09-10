@@ -6,8 +6,10 @@ from app.gmail import oauth as gmail_oauth
 
 
 def test_gmail_status_requires_profile(client):
+    # Production hardening: no Supabase session and no X-Profile-Id is
+    # genuinely unauthenticated, so this is now 401 (was 400) — app/auth.py.
     res = client.get("/gmail/status")
-    assert res.status_code == 400
+    assert res.status_code == 401
     assert "X-Profile-Id" in res.json()["detail"]
 
 

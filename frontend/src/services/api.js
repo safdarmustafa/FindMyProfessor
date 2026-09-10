@@ -1,3 +1,5 @@
+import { supabase } from '../lib/supabase.js';
+
 const PROFILE_KEY = 'fmp_profile_id';
 
 // Base URL for the FastAPI backend. Empty string keeps requests relative
@@ -24,6 +26,18 @@ export async function apiFetch(url, options = {}) {
   if (profileId) headers['X-Profile-Id'] = profileId;
   if (!(options.body instanceof FormData) && !headers['Content-Type'] && options.body) {
     headers['Content-Type'] = 'application/json';
+  }
+  // Attach the Supabase session token when signed in, so the backend can
+  // verify who is actually making this request instead of trusting
+  // X-Profile-Id alone (app/auth.py). getSession() reads the persisted
+  // session locally — no network round trip on the common path.
+  try {
+    const { data } = await supabase.auth.getSession();
+    const token = data?.session?.access_token;
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+  } catch {
+    // No session available — proceed unauthenticated (legacy X-Profile-Id
+    // path on the backend), never block the request over this.
   }
   const response = await fetch(apiUrl(url), { ...options, headers });
   const data = await response.json().catch(() => ({}));

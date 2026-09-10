@@ -38,8 +38,10 @@ def _match_payload(ids):
 
 
 def test_matching_requires_profile_header(client):
+    # Production hardening: no Supabase session and no X-Profile-Id is
+    # genuinely unauthenticated, so this is now 401 (was 400) — app/auth.py.
     res = client.get("/matching/professors")
-    assert res.status_code == 400
+    assert res.status_code == 401
     assert "X-Profile-Id" in res.json()["detail"]
 
 

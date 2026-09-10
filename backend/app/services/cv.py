@@ -11,7 +11,7 @@ from app.cv.extraction.factory import get_extraction_provider
 from app.cv.extraction.schema import ExtractedStudentProfile
 from app.cv.parsers.base import ParseError
 from app.cv.parsers.registry import extract_normalized_text
-from app.cv.storage import resolve_storage_path, save_cv_bytes
+from app.cv.storage import read_cv_bytes, save_cv_bytes
 from app.cv.validation import CvTooLargeError, UnsupportedCvError, detect_cv_type
 from app.services.query import execute
 from app.supabase_client import supabase
@@ -60,7 +60,7 @@ def _load_meta(row: dict[str, Any]) -> dict[str, Any]:
     return {}
 
 
-def ensure_profile(profile_id: str | None) -> str:
+def ensure_profile(profile_id: str | None, user_id: str | None = None) -> str:
     if profile_id:
         existing = execute(
             supabase.table("profiles").select("id").eq("id", profile_id).limit(1)
@@ -68,6 +68,30 @@ def ensure_profile(profile_id: str | None) -> str:
         if existing:
             return profile_id
         raise HTTPException(status_code=404, detail="Profile not found.")
+    if user_id:
+        # An authenticated Supabase user with no profile yet: use their real
+        # auth user id directly as the new profile's id, instead of
+        # fabricating a disconnected synthetic identity for them. This is
+        # what makes a profile created through this path already "owned" by
+        # them for app/auth.py's ownership checks, with no separate linking
+        # step required.
+        existing = execute(
+            supabase.table("profiles").select("id").eq("id", user_id).limit(1)
+        ).data
+        if existing:
+            return user_id
+        try:
+            execute(
+                supabase.table("profiles").insert(
+                    {"id": user_id, "full_name": "Student", "linked_user_id": user_id}
+                )
+            )
+        except HTTPException as exc:
+            raise HTTPException(
+                status_code=503,
+                detail="Could not create a student profile for this account.",
+            ) from exc
+        return user_id
     new_id = _provision_auth_user()
     existing = execute(
         supabase.table("profiles").select("id").eq("id", new_id).limit(1)
@@ -150,6 +174,7 @@ def upload_and_parse(
     filename: str,
     content: bytes,
     declared_mime: str | None,
+    user_id: str | None = None,
 ) -> dict[str, Any]:
     try:
         detected = detect_cv_type(filename, content, declared_mime)
@@ -158,7 +183,7 @@ def upload_and_parse(
     except UnsupportedCvError as exc:
         raise HTTPException(status_code=415, detail=str(exc)) from exc
 
-    resolved_profile = ensure_profile(profile_id)
+    resolved_profile = ensure_profile(profile_id, user_id=user_id)
     relative, _path = save_cv_bytes(resolved_profile, filename, content)
     version = _next_version(resolved_profile)
     _clear_default(resolved_profile)
@@ -218,8 +243,10 @@ def public_cv(payload: dict[str, Any]) -> dict[str, Any]:
 
 def parse_cv(cv_id: str, profile_id: str | None) -> dict[str, Any]:
     payload = get_cv(cv_id, profile_id)
-    path = resolve_storage_path(payload["_storage_path"])
-    content = path.read_bytes()
+    try:
+        content = read_cv_bytes(payload["_storage_path"])
+    except FileNotFoundError as exc:
+        raise HTTPException(status_code=400, detail="CV file is not available.") from exc
     meta = payload["_meta"]
     try:
         text = extract_normalized_text(meta.get("file_type") or "txt", content)
