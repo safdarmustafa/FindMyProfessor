@@ -103,9 +103,15 @@ export default function Matches() {
       setLoading(false);
       return;
     }
+    // A failed /profile request (network, CORS, timeout, cold start, etc.)
+    // does NOT mean the profile is incomplete — only an actual `confirmed:
+    // false` response does. Leaving profileConfirmed untouched on failure
+    // avoids a false "Complete your profile" loop; loadMatches() below runs
+    // independently and already surfaces its own retryable error state if
+    // the backend is genuinely unreachable.
     fetchProfile()
       .then(p => setProfileConfirmed(p.confirmed))
-      .catch(() => setProfileConfirmed(false));
+      .catch(() => {});
 
     fetchUniversities()
       .then(d => setUniversities(d.universities || []))

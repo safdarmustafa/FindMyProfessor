@@ -19,7 +19,7 @@ export default function GmailWidget({ professorId, returnPath, draftId, onBefore
     if (professorId && returnPath) {
       savePendingIntent(professorId, returnPath, draftId);
     }
-    window.location.href = gmailConnectUrl(profileId);
+    window.location.href = gmailConnectUrl(profileId, returnPath);
   };
 
   const handleDisconnect = async () => {

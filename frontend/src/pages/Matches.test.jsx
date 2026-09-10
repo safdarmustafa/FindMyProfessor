@@ -124,4 +124,39 @@ describe('Matches page', () => {
     expect(await screen.findByText('Failed to load matches')).toBeInTheDocument();
     expect(screen.getByText('Matching service down.')).toBeInTheDocument();
   });
+
+  describe('profile completeness check', () => {
+    it('a genuine confirmed:false response shows the incomplete-profile state', async () => {
+      profile.fetchProfile.mockResolvedValue({ confirmed: false });
+      renderMatches();
+      expect(await screen.findByText('Confirm your CV profile')).toBeInTheDocument();
+    });
+
+    it('confirmed:true renders the normal matches page', async () => {
+      profile.fetchProfile.mockResolvedValue({ confirmed: true });
+      renderMatches();
+      expect(await screen.findByText('Jane Smith')).toBeInTheDocument();
+      expect(screen.queryByText('Confirm your CV profile')).not.toBeInTheDocument();
+    });
+
+    it('a failed /profile request does NOT show the incomplete-profile state — matches still render', async () => {
+      // This is the exact production scenario: /matching/professors succeeds
+      // independently while /profile happens to fail for an unrelated
+      // transient reason (network, CORS, cold start). The page must not
+      // punish a working request with an incorrect "complete your profile".
+      profile.fetchProfile.mockRejectedValue(new Error('Network error'));
+      renderMatches();
+      expect(await screen.findByText('Jane Smith')).toBeInTheDocument();
+      expect(screen.queryByText('Confirm your CV profile')).not.toBeInTheDocument();
+    });
+
+    it('an already-completed profile does not enter a "complete your profile" loop after a failed re-check', async () => {
+      profile.fetchProfile.mockRejectedValue(new Error('Network error'));
+      renderMatches();
+      await screen.findByText('Jane Smith');
+      // profileConfirmed was never actually set to false, so nothing can
+      // flip the page into the incomplete-profile empty state later.
+      expect(screen.queryByText('Confirm your CV profile')).not.toBeInTheDocument();
+    });
+  });
 });

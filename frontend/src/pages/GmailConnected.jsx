@@ -1,21 +1,39 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { getPendingIntent } from '../services/gmail.js';
 import Spinner from '../components/Spinner.jsx';
 
+function sanitizeReturnTo(value) {
+  if (!value) return null;
+  if (!value.startsWith('/') || value.startsWith('//')) return null;
+  if (value.includes('://')) return null;
+  return value;
+}
+
 export default function GmailConnected() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   // getPendingIntent() only reads localStorage — safe to call more than once,
   // including React 18 StrictMode's double-invoke of a lazy useState
   // initialiser in development.
+  //
+  // The return path is now carried two ways: primarily through ?return_to=
+  // on this URL, which the backend attaches from the OAuth state token
+  // (survives the round trip even if localStorage doesn't — a different
+  // tab, private browsing, storage partitioning). localStorage remains the
+  // fallback, and is still the sole source for the draft_id EmailCompose
+  // needs to restore the in-progress draft.
   //
   // This page deliberately does NOT clear the pending intent. The compose
   // page it hands off to (EmailCompose) needs the intent's draft_id to
   // restore the in-progress draft, and is the sole owner of clearing it —
   // if this page cleared it first, the compose page would find it already
   // gone by the time it mounts.
-  const [returnPath] = useState(() => getPendingIntent()?.return_path ?? null);
+  const [returnPath] = useState(() => {
+    const fromQuery = sanitizeReturnTo(new URLSearchParams(location.search).get('return_to'));
+    return fromQuery || getPendingIntent()?.return_path || null;
+  });
 
   const redirecting = returnPath !== null;
 

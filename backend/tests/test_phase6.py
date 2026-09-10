@@ -298,7 +298,8 @@ def test_oauth_state_create_and_consume():
     state = gmail_oauth.create_state(profile_id)
     assert len(state) > 20
     result = gmail_oauth.consume_state(state)
-    assert result == profile_id
+    assert result["profile_id"] == profile_id
+    assert result["return_to"] is None
 
 
 def test_oauth_state_cannot_be_reused():

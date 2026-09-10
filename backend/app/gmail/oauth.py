@@ -64,21 +64,26 @@ def _redirect_uri() -> str:
     return value
 
 
-def create_state(profile_id: str) -> str:
-    """Create a cryptographically random state token bound to a profile_id."""
+def create_state(profile_id: str, return_to: str | None = None) -> str:
+    """
+    Create a cryptographically random state token bound to a profile_id and,
+    optionally, the frontend path the browser should return to once the
+    OAuth round trip completes.
+    """
     token = secrets.token_urlsafe(32)
     _state_store[token] = {
         "profile_id": profile_id,
+        "return_to": return_to,
         "expires_at": time.monotonic() + _STATE_TTL_SECONDS,
     }
     return token
 
 
-def consume_state(token: str) -> str | None:
+def consume_state(token: str) -> dict[str, Any] | None:
     """
     Verify and consume a state token.
-    Returns the bound profile_id, or None if invalid/expired.
-    Consumed tokens cannot be reused.
+    Returns {"profile_id": str, "return_to": str | None}, or None if
+    invalid/expired. Consumed tokens cannot be reused.
     """
     _expire_old_states()
     entry = _state_store.pop(token, None)
@@ -88,7 +93,7 @@ def consume_state(token: str) -> str | None:
     if time.monotonic() > entry["expires_at"]:
         logger.warning("OAuth state token expired.")
         return None
-    return entry["profile_id"]
+    return {"profile_id": entry["profile_id"], "return_to": entry.get("return_to")}
 
 
 def _expire_old_states() -> None:
@@ -98,9 +103,9 @@ def _expire_old_states() -> None:
         del _state_store[k]
 
 
-def authorization_url(profile_id: str) -> str:
+def authorization_url(profile_id: str, return_to: str | None = None) -> str:
     """Build the Google authorization URL for the OAuth flow."""
-    state = create_state(profile_id)
+    state = create_state(profile_id, return_to)
     params = {
         "client_id": _client_id(),
         "redirect_uri": _redirect_uri(),

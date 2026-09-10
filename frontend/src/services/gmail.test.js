@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import {
   getGmailStatus,
+  gmailConnectUrl,
   savePendingIntent,
   getPendingIntent,
   clearPendingIntent,
@@ -33,6 +34,16 @@ describe('gmail service', () => {
       json: async () => ({ detail: 'X-Profile-Id header is required.' }),
     });
     await expect(getGmailStatus()).rejects.toThrow('X-Profile-Id header is required.');
+  });
+
+  it('gmailConnectUrl includes return_to when provided', () => {
+    const url = gmailConnectUrl('p1', '/outreach/compose/prof-9');
+    expect(url).toBe(apiUrl('/gmail/connect?profile_id=p1&return_to=%2Foutreach%2Fcompose%2Fprof-9'));
+  });
+
+  it('gmailConnectUrl omits return_to when not provided', () => {
+    const url = gmailConnectUrl('p1');
+    expect(url).toBe(apiUrl('/gmail/connect?profile_id=p1'));
   });
 
   it('pending intent is stored, read, and cleared', () => {

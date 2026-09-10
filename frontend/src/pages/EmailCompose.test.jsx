@@ -220,6 +220,26 @@ describe('Email compose page', () => {
     expect(screen.getAllByText(/Connect Gmail/i).length).toBeGreaterThan(0);
   });
 
+  it('preserves the originating compose path when Connect Gmail is clicked', async () => {
+    useGmailStatus.mockReturnValue({
+      status: { connected: false, email: null },
+      loading: false,
+      error: null,
+      refetch: vi.fn(),
+    });
+    const user = userEvent.setup();
+    renderCompose();
+    await generateDraftInUi(user);
+
+    const [connectButton] = screen.getAllByRole('button', { name: 'Connect Gmail' });
+    await user.click(connectButton);
+
+    expect(getPendingIntent()).toMatchObject({
+      professor_id: PROF_ID,
+      return_path: `/outreach/compose/${PROF_ID}`,
+    });
+  });
+
   it('CV attachment dropdown lists available CVs', async () => {
     const user = userEvent.setup();
     renderCompose();
@@ -252,5 +272,42 @@ describe('Email compose page', () => {
     await screen.findByText('Jane Smith');
     await user.click(screen.getByRole('button', { name: /Generate Draft/i }));
     expect(await screen.findByText(/email_type must be research/i)).toBeInTheDocument();
+  });
+
+  describe('profile completeness check', () => {
+    it('a genuine confirmed:false response shows the incomplete-profile state', async () => {
+      profile.fetchProfile.mockResolvedValue({ confirmed: false });
+      renderCompose();
+      expect(await screen.findByText('Confirm your profile first')).toBeInTheDocument();
+    });
+
+    it('confirmed:true renders the normal compose workspace', async () => {
+      profile.fetchProfile.mockResolvedValue({ confirmed: true });
+      renderCompose();
+      expect(await screen.findByText('Jane Smith')).toBeInTheDocument();
+      expect(screen.queryByText('Confirm your profile first')).not.toBeInTheDocument();
+    });
+
+    it('a failed /profile request does NOT show the incomplete-profile state', async () => {
+      profile.fetchProfile.mockRejectedValue(new Error('Network error'));
+      renderCompose();
+      expect(await screen.findByText("Couldn't check your profile status")).toBeInTheDocument();
+      expect(screen.queryByText('Confirm your profile first')).not.toBeInTheDocument();
+    });
+
+    it('an already-completed profile recovers via retry instead of looping', async () => {
+      profile.fetchProfile
+        .mockRejectedValueOnce(new Error('Network error'))
+        .mockResolvedValueOnce({ confirmed: true });
+      const user = userEvent.setup();
+      renderCompose();
+
+      await screen.findByText("Couldn't check your profile status");
+      await user.click(screen.getByRole('button', { name: /Try again/i }));
+
+      expect(await screen.findByText('Jane Smith')).toBeInTheDocument();
+      expect(screen.queryByText('Confirm your profile first')).not.toBeInTheDocument();
+      expect(screen.queryByText("Couldn't check your profile status")).not.toBeInTheDocument();
+    });
   });
 });

@@ -8,8 +8,12 @@ export async function disconnectGmail() {
   return apiFetch('/gmail/disconnect', { method: 'POST' });
 }
 
-export function gmailConnectUrl(profileId) {
-  return apiUrl('/gmail/connect?profile_id=' + encodeURIComponent(profileId));
+export function gmailConnectUrl(profileId, returnTo) {
+  let url = apiUrl('/gmail/connect?profile_id=' + encodeURIComponent(profileId));
+  if (returnTo) {
+    url += '&return_to=' + encodeURIComponent(returnTo);
+  }
+  return url;
 }
 
 const PENDING_KEY = 'fmp_pending_outreach';

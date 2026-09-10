@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import AppShell from '../components/AppShell/AppShell.jsx';
 import GmailWidget from '../components/GmailWidget/GmailWidget.jsx';
@@ -78,6 +78,7 @@ export default function EmailCompose() {
   const [profError, setProfError] = useState(null);
 
   const [profileConfirmed, setProfileConfirmed] = useState(null);
+  const [profileCheckError, setProfileCheckError] = useState(false);
 
   // Step 1: draft generation
   const [emailType, setEmailType] = useState('research');
@@ -158,12 +159,19 @@ export default function EmailCompose() {
     }).catch(() => {});
   }, []);
 
-  useEffect(() => {
+  const checkProfile = useCallback(() => {
     if (!profileId) return;
+    setProfileCheckError(false);
+    // A failed /profile request (network, CORS, timeout, cold start, etc.)
+    // does NOT mean the profile is incomplete — only an actual `confirmed:
+    // false` response does. Track the failure separately so it can't be
+    // mistaken for "profile incomplete" and trigger a false onboarding loop.
     fetchProfile()
       .then(p => setProfileConfirmed(p.confirmed))
-      .catch(() => setProfileConfirmed(false));
+      .catch(() => setProfileCheckError(true));
   }, [profileId]);
+
+  useEffect(() => { checkProfile(); }, [checkProfile]);
 
   useEffect(() => {
     if (!professorId) return;
@@ -290,8 +298,9 @@ export default function EmailCompose() {
     if (!profileId) return;
     setConnectingGmail(true);
     await saveBeforeGmailRedirect();
-    savePendingIntent(professorId, `/outreach/compose/${professorId}`, draft?.draft_id || null);
-    window.location.href = gmailConnectUrl(profileId);
+    const returnPath = `/outreach/compose/${professorId}`;
+    savePendingIntent(professorId, returnPath, draft?.draft_id || null);
+    window.location.href = gmailConnectUrl(profileId, returnPath);
   };
 
   const handleSend = async () => {
@@ -350,6 +359,22 @@ export default function EmailCompose() {
             </Link>
           </div>
         </div>
+      </AppShell>
+    );
+  }
+
+  // Only reached when /profile has never successfully responded AND the
+  // last attempt failed — distinct from profileConfirmed === false above,
+  // which requires an actual server response. Retrying re-runs the same
+  // check without assuming the profile is incomplete.
+  if (profileConfirmed === null && profileCheckError) {
+    return (
+      <AppShell>
+        <ErrorState
+          title="Couldn't check your profile status"
+          message="This is usually a temporary connection issue — your profile itself hasn't changed."
+          onRetry={checkProfile}
+        />
       </AppShell>
     );
   }

@@ -2,6 +2,7 @@ from unittest.mock import MagicMock, patch
 from types import SimpleNamespace
 
 from tests.conftest import PROFILE_ID
+from app.gmail import oauth as gmail_oauth
 
 
 def test_gmail_status_requires_profile(client):
@@ -38,6 +39,33 @@ def test_gmail_connect_requires_profile(client):
     assert res.status_code == 400
 
 
+def test_gmail_connect_passes_return_to_to_authorization_url(client):
+    with patch(
+        "app.routers.gmail.gmail_oauth.authorization_url",
+        return_value="https://accounts.google.com/o/oauth2/v2/auth?x=1",
+    ) as mock_auth_url:
+        res = client.get(
+            "/gmail/connect",
+            params={"profile_id": PROFILE_ID, "return_to": "/outreach/compose/prof-123"},
+        )
+    assert res.status_code == 302
+    mock_auth_url.assert_called_once_with(PROFILE_ID, "/outreach/compose/prof-123")
+
+
+def test_gmail_connect_rejects_unsafe_return_to(client):
+    """An absolute or protocol-relative return_to must never reach authorization_url."""
+    with patch(
+        "app.routers.gmail.gmail_oauth.authorization_url",
+        return_value="https://accounts.google.com/o/oauth2/v2/auth?x=1",
+    ) as mock_auth_url:
+        res = client.get(
+            "/gmail/connect",
+            params={"profile_id": PROFILE_ID, "return_to": "https://evil.example.com/phish"},
+        )
+    assert res.status_code == 302
+    mock_auth_url.assert_called_once_with(PROFILE_ID, None)
+
+
 def test_gmail_callback_denied_redirects_to_frontend_error(client):
     res = client.get("/gmail/callback", params={"error": "access_denied"})
     assert res.status_code == 302
@@ -45,7 +73,7 @@ def test_gmail_callback_denied_redirects_to_frontend_error(client):
 
 
 def test_gmail_callback_success_redirects_to_frontend(client):
-    with patch("app.routers.gmail.gmail_oauth.consume_state", return_value=PROFILE_ID), \
+    with patch("app.routers.gmail.gmail_oauth.consume_state", return_value={"profile_id": PROFILE_ID, "return_to": None}), \
          patch("app.routers.gmail.gmail_oauth.exchange_code", return_value={"access_token": "tok", "refresh_token": "r", "expires_in": 3600}), \
          patch("app.routers.gmail.gmail_oauth.get_token_email", return_value="me@gmail.com"), \
          patch("app.routers.gmail.gmail_service.upsert_connection"):
@@ -54,9 +82,60 @@ def test_gmail_callback_success_redirects_to_frontend(client):
     assert res.headers["location"] == "http://localhost:5173/outreach/gmail-connected"
 
 
+def test_gmail_callback_round_trip_preserves_return_to(client):
+    """
+    Exercises the REAL create_state/consume_state pair (only the external
+    Google/DB calls are mocked) — the originating compose path must survive
+    the full OAuth state round trip, not just localStorage.
+    """
+    state = gmail_oauth.create_state(PROFILE_ID, "/outreach/compose/prof-123")
+
+    with patch("app.routers.gmail.gmail_oauth.exchange_code", return_value={"access_token": "tok", "refresh_token": "r", "expires_in": 3600}), \
+         patch("app.routers.gmail.gmail_oauth.get_token_email", return_value="me@gmail.com"), \
+         patch("app.routers.gmail.gmail_service.upsert_connection"):
+        res = client.get("/gmail/callback", params={"code": "abc", "state": state})
+
+    assert res.status_code == 302
+    assert res.headers["location"] == (
+        "http://localhost:5173/outreach/gmail-connected?return_to=%2Foutreach%2Fcompose%2Fprof-123"
+    )
+
+
+def test_gmail_callback_no_return_to_omits_query_param(client):
+    """When /gmail/connect was called without return_to, the redirect stays bare."""
+    state = gmail_oauth.create_state(PROFILE_ID)
+
+    with patch("app.routers.gmail.gmail_oauth.exchange_code", return_value={"access_token": "tok", "refresh_token": "r", "expires_in": 3600}), \
+         patch("app.routers.gmail.gmail_oauth.get_token_email", return_value="me@gmail.com"), \
+         patch("app.routers.gmail.gmail_service.upsert_connection"):
+        res = client.get("/gmail/callback", params={"code": "abc", "state": state})
+
+    assert res.status_code == 302
+    assert res.headers["location"] == "http://localhost:5173/outreach/gmail-connected"
+
+
+def test_gmail_callback_invalid_state_redirects_to_error_safely(client):
+    """An unrecognized/expired state token must fail safely, not crash."""
+    with patch("app.routers.gmail.gmail_oauth.consume_state", return_value=None):
+        res = client.get("/gmail/callback", params={"code": "abc", "state": "not-a-real-token"})
+    assert res.status_code == 302
+    assert res.headers["location"] == "http://localhost:5173/outreach/gmail-callback-error?reason=invalid_state"
+
+
 def test_gmail_disconnect(client, auth_headers):
     with patch("app.routers.gmail.gmail_service.disconnect") as mock_disc:
         res = client.post("/gmail/disconnect", headers=auth_headers)
     assert res.status_code == 200
     assert res.json()["disconnected"] is True
     mock_disc.assert_called_once_with(PROFILE_ID)
+
+
+def test_gmail_callback_refuses_localhost_fallback_in_production(client, monkeypatch):
+    """
+    In production, a missing FRONTEND_URL must fail loudly (500) rather than
+    silently redirect a real user's browser to a localhost URL.
+    """
+    monkeypatch.delenv("FRONTEND_URL", raising=False)
+    monkeypatch.setenv("ENVIRONMENT", "production")
+    res = client.get("/gmail/callback", params={"code": "abc", "state": "whatever"})
+    assert res.status_code == 500
