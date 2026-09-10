@@ -162,7 +162,10 @@ def get_valid_access_token(profile_id: str) -> str:
             # for a credential that can no longer actually send.
             if exc.response is not None and exc.response.status_code in (400, 401):
                 _mark_connection_unusable(profile_id)
-            logger.warning("Token refresh failed (rejected by Google).")
+            logger.warning(
+                "Token refresh failed (rejected by Google): %s",
+                _safe_google_error(exc),
+            )
             raise HTTPException(
                 status_code=401,
                 detail="Gmail access token could not be refreshed. Please reconnect.",
@@ -202,6 +205,30 @@ def get_valid_access_token(profile_id: str) -> str:
 # Helpers
 # ---------------------------------------------------------------------------
 
+
+def _safe_google_error(exc: httpx.HTTPStatusError) -> dict[str, Any]:
+    """
+    Extract the real, diagnosable reason Google rejected a token refresh —
+    HTTP status plus Google's own `error`/`error_description` fields (e.g.
+    "invalid_grant" / "Token has been expired or revoked.") — for logging.
+
+    NEVER includes the refresh/access token, the authorization code, or the
+    client secret: none of those appear in Google's error response body,
+    and this function does not touch the request that was sent.
+    """
+    status = exc.response.status_code if exc.response is not None else None
+    body: dict[str, Any] = {}
+    if exc.response is not None:
+        try:
+            parsed = exc.response.json()
+            if isinstance(parsed, dict):
+                body = {
+                    "error": parsed.get("error"),
+                    "error_description": parsed.get("error_description"),
+                }
+        except Exception:
+            pass
+    return {"status": status, **body}
 
 
 def _mark_connection_unusable(profile_id: str) -> None:

@@ -27,6 +27,7 @@ from __future__ import annotations
 
 import base64
 import email as email_lib
+import logging
 import os
 import tempfile
 from datetime import datetime, timezone, timedelta
@@ -1320,6 +1321,91 @@ def test_token_refresh_rejected_by_google_marks_connection_unusable(monkeypatch)
             gmail_service.get_valid_access_token(profile_id)
         assert exc.value.status_code == 401
         mock_mark.assert_called_once_with(profile_id)
+
+
+def test_safe_google_error_extracts_real_status_and_error_code():
+    """
+    Production hardening: diagnosing a real Gmail token-refresh failure
+    requires the actual HTTP status and Google's error code/description
+    (e.g. "invalid_grant" / "Token has been expired or revoked.") — not
+    just a vague "rejected by Google" log line with no detail.
+    """
+    request = httpx.Request("POST", "https://oauth2.googleapis.com/token")
+    response = httpx.Response(
+        400,
+        request=request,
+        json={"error": "invalid_grant", "error_description": "Token has been expired or revoked."},
+    )
+    exc = httpx.HTTPStatusError("invalid_grant", request=request, response=response)
+
+    result = gmail_service._safe_google_error(exc)
+
+    assert result["status"] == 400
+    assert result["error"] == "invalid_grant"
+    assert result["error_description"] == "Token has been expired or revoked."
+
+
+def test_safe_google_error_never_includes_token_values():
+    """The extracted error must never carry the refresh/access token, the
+    authorization code, or the client secret — only Google's own safe
+    error/error_description fields."""
+    request = httpx.Request(
+        "POST", "https://oauth2.googleapis.com/token",
+        data={
+            "refresh_token": "super-secret-refresh-token",
+            "client_secret": "super-secret-client-secret",
+        },
+    )
+    response = httpx.Response(400, request=request, json={"error": "invalid_grant"})
+    exc = httpx.HTTPStatusError("invalid_grant", request=request, response=response)
+
+    result = gmail_service._safe_google_error(exc)
+
+    serialized = str(result)
+    assert "super-secret-refresh-token" not in serialized
+    assert "super-secret-client-secret" not in serialized
+
+
+def test_safe_google_error_handles_non_json_response_gracefully():
+    request = httpx.Request("POST", "https://oauth2.googleapis.com/token")
+    response = httpx.Response(503, request=request, text="Service Unavailable")
+    exc = httpx.HTTPStatusError("error", request=request, response=response)
+
+    result = gmail_service._safe_google_error(exc)
+
+    assert result["status"] == 503
+
+
+def test_token_refresh_rejection_is_logged_with_real_google_error(monkeypatch, caplog):
+    """The real Google error (status/code) must appear in server logs even
+    though the client only ever sees the generic 'could not be refreshed'
+    message — this is what makes a real (vs. hypothetical) refresh failure
+    diagnosable without guessing."""
+    profile_id = str(uuid4())
+    monkeypatch.setattr(
+        "app.gmail.service.execute",
+        lambda q: type("R", (), {"data": [_expired_connection_row(profile_id)]})(),
+    )
+    request = httpx.Request("POST", "https://oauth2.googleapis.com/token")
+    response = httpx.Response(
+        400, request=request, json={"error": "invalid_grant", "error_description": "Token has been expired or revoked."}
+    )
+    monkeypatch.setattr(
+        "app.gmail.service.refresh_access_token",
+        lambda rt: (_ for _ in ()).throw(
+            httpx.HTTPStatusError("invalid_grant", request=request, response=response)
+        ),
+    )
+
+    from fastapi import HTTPException
+    with patch("app.gmail.service._mark_connection_unusable"):
+        with caplog.at_level(logging.WARNING, logger="app.gmail.service"):
+            with pytest.raises(HTTPException):
+                gmail_service.get_valid_access_token(profile_id)
+
+    logged = "\n".join(r.getMessage() for r in caplog.records)
+    assert "invalid_grant" in logged
+    assert "expired or revoked" in logged.lower()
 
 
 def test_token_refresh_transient_failure_does_not_mark_connection_unusable(monkeypatch):

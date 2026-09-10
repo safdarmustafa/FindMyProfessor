@@ -13,6 +13,10 @@ export async function getDraft(draftId) {
   return apiFetch(`/outreach/drafts/${draftId}`);
 }
 
+export async function listDrafts() {
+  return apiFetch('/outreach/drafts');
+}
+
 export async function saveDraft(draftId, subject, body, status) {
   return apiFetch(`/outreach/drafts/${draftId}`, {
     method: 'PATCH',

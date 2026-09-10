@@ -11,7 +11,7 @@ import { fetchProfile } from '../services/profile.js';
 import { fetchProfessor, fetchMatches } from '../services/matching.js';
 import {
   generateDraft, saveDraft, listCvVersions, attachCv,
-  getSendPreview, sendDraft, getDraft,
+  getSendPreview, sendDraft, getDraft, listDrafts,
 } from '../services/outreach.js';
 import { clearPendingIntent, getPendingIntent, gmailConnectUrl, savePendingIntent } from '../services/gmail.js';
 import { useGmailStatus } from '../hooks/useGmailStatus.js';
@@ -26,6 +26,37 @@ function wordCount(text) {
   if (!text) return 0;
   return text.trim().split(/\s+/).filter(Boolean).length;
 }
+
+// Matches the single-bounded-retry pattern already used for the matches
+// load on Matches.jsx (MATCHES_RETRY_DELAY_MS): production is a real
+// cross-origin request to a Render backend that can cold-start after a
+// period of inactivity, so the very first request can fail even though the
+// service is healthy and every later request would succeed.
+//
+// Unlike that existing retry, this one is status-aware: it only retries a
+// network-level failure (no `status` — fetch() itself failed) or a 5xx
+// response. A 401/403/4xx is a deterministic result — retrying it would
+// hide a genuine bug (e.g. a real ownership rejection) rather than recover
+// from a transient one, so those are rethrown immediately without retrying.
+const PROFILE_CHECK_RETRY_DELAY_MS = 1500;
+
+async function withBoundedRetry(fn, { retries = 1, delayMs = PROFILE_CHECK_RETRY_DELAY_MS } = {}) {
+  let lastError;
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      return await fn();
+    } catch (e) {
+      lastError = e;
+      const status = e?.status;
+      const isRetryable = status === undefined || status >= 500;
+      if (!isRetryable || attempt === retries) throw e;
+      await new Promise(resolve => setTimeout(resolve, delayMs));
+    }
+  }
+  throw lastError;
+}
+
+const DRAFT_READY_STATUSES = ['ready', 'edited'];
 
 /* ── Step card header ─────────────────────────────────── */
 function StepCard({ number, title, done, children }) {
@@ -103,6 +134,7 @@ export default function EmailCompose() {
   const [showPreview, setShowPreview] = useState(false);
   const [preview, setPreview] = useState(null);
   const [previewLoading, setPreviewLoading] = useState(false);
+  const [previewError, setPreviewError] = useState(null);
   const [sending, setSending] = useState(false);
   const [sendResult, setSendResult] = useState(null);
   const [sendError, setSendError] = useState(null);
@@ -117,33 +149,75 @@ export default function EmailCompose() {
   const [restoredNotice, setRestoredNotice] = useState(false);
   const resumedRef = useRef(false);
 
+  // Applies a persisted draft (from either restore path below) to local
+  // state. Shared so both paths stay in exact sync with what the backend
+  // actually stored — the database record is the source of truth, not
+  // whatever React happened to hold before the page was reloaded.
+  const applyRestoredDraft = useCallback((data) => {
+    setDraft(data);
+    setDraftSubject(data.subject || '');
+    setDraftBody(data.body || '');
+    setEmailType(data.email_type || 'research');
+    setUnsaved(false);
+    if (data.cv_version_id) {
+      setSelectedCv(data.cv_version_id);
+      setCvAttached(true);
+    }
+  }, []);
+
+  // Finds the most recent, not-yet-sent draft for this professor directly
+  // from the backend. This is the fallback (and, for a plain page
+  // load/refresh, the ONLY) way the compose page recovers existing work —
+  // it does not depend on localStorage or any OAuth-specific bookkeeping,
+  // because that state can be lost (different tab, cleared storage, OAuth
+  // intent referencing a draft that no longer resolves) while the actual
+  // draft in the database is still perfectly fine.
+  const restoreLatestDraftForProfessor = useCallback(() => {
+    return listDrafts()
+      .then(drafts => (drafts || []).find(d =>
+        String(d.professor_id) === String(professorId) && d.generation_status !== 'sent'
+      ))
+      .then(data => {
+        if (!data) return false;
+        applyRestoredDraft(data);
+        return true;
+      })
+      .catch(() => false);
+  }, [professorId, applyRestoredDraft]);
+
   useEffect(() => {
     if (resumedRef.current || !professorId) return;
     resumedRef.current = true;
 
     const intent = getPendingIntent();
     clearPendingIntent();
-    if (!intent || String(intent.professor_id) !== String(professorId) || !intent.draft_id) {
+    const cameFromOAuth = !!(intent && String(intent.professor_id) === String(professorId) && intent.draft_id);
+
+    if (!cameFromOAuth) {
+      // Not returning from Gmail OAuth — still check the database for an
+      // existing draft (covers a plain browser refresh or simply
+      // revisiting this compose page). No dedicated "restoring" screen for
+      // this path: it resolves quickly and silently, exactly as if the
+      // state had never left.
+      restoreLatestDraftForProfessor();
       return;
     }
 
     setRestoring(true);
     getDraft(intent.draft_id)
       .then(data => {
-        setDraft(data);
-        setDraftSubject(data.subject || '');
-        setDraftBody(data.body || '');
-        setEmailType(data.email_type || 'research');
-        setUnsaved(false);
-        if (data.cv_version_id) {
-          setSelectedCv(data.cv_version_id);
-          setCvAttached(true);
-        }
+        applyRestoredDraft(data);
         setRestoredNotice(true);
       })
-      .catch(() => {})
+      .catch(() =>
+        // The specific draft referenced by the OAuth intent couldn't be
+        // loaded — fall back to the database lookup rather than leaving
+        // the user on a blank compose page for a draft that may still
+        // genuinely exist.
+        restoreLatestDraftForProfessor().then(found => { if (found) setRestoredNotice(true); })
+      )
       .finally(() => setRestoring(false));
-  }, [professorId]);
+  }, [professorId, applyRestoredDraft, restoreLatestDraftForProfessor]);
 
   // Auto-hide the "restored" banner, but only once it's actually visible
   // (profLoading can outlast the draft fetch, so the countdown must not
@@ -167,7 +241,11 @@ export default function EmailCompose() {
     // does NOT mean the profile is incomplete — only an actual `confirmed:
     // false` response does. Track the failure separately so it can't be
     // mistaken for "profile incomplete" and trigger a false onboarding loop.
-    fetchProfile()
+    // A bounded retry absorbs a single transient failure (e.g. a backend
+    // cold start) automatically — the same recovery "Try again" already
+    // provided manually — without retrying a genuine 401/403/4xx, which
+    // would just hide a real bug instead of fixing one.
+    withBoundedRetry(() => fetchProfile())
       .then(p => setProfileConfirmed(p.confirmed))
       .catch(() => setProfileCheckError(true));
   }, [profileId]);
@@ -213,12 +291,21 @@ export default function EmailCompose() {
     listCvVersions()
       .then(data => {
         setCvVersions(data || []);
-        const def = (data || []).find(v => v.is_default);
-        if (def) setSelectedCv(def.cv_version_id);
+        // The CV already attached to this draft (server-side truth) always
+        // wins over guessing the account's default CV — restoring a draft
+        // must never silently swap the selection back to something the
+        // user didn't choose for this specific outreach email.
+        if (draft.cv_version_id) {
+          setSelectedCv(draft.cv_version_id);
+          setCvAttached(true);
+        } else {
+          const def = (data || []).find(v => v.is_default);
+          if (def) setSelectedCv(def.cv_version_id);
+        }
       })
       .catch(() => {})
       .finally(() => setCvLoading(false));
-  }, [draft?.draft_id]);
+  }, [draft?.draft_id, draft?.cv_version_id]);
 
   const handleGenerate = async () => {
     if (!profileId || !professorId) return;
@@ -272,6 +359,10 @@ export default function EmailCompose() {
     try {
       await attachCv(draft.draft_id, selectedCv);
       setCvAttached(true);
+      // Keep local draft state in sync with what the backend now has, so
+      // any later re-render (or the CV-versions effect above) sees the
+      // real attached CV rather than a stale/undefined value.
+      setDraft(prev => prev ? { ...prev, cv_version_id: selectedCv } : prev);
     } catch (e) {
       // Previously silently ignored — a failure (e.g. the stored CV file
       // being unavailable) left the button just reverting to "Attach CV"
@@ -289,6 +380,7 @@ export default function EmailCompose() {
     if (gmailStatus?.connected !== true) return;
     setPreviewLoading(true);
     setSendError(null);
+    setPreviewError(null);
     const localPreview = {
       to_address: prof?.email || '',
       from_address: gmailStatus?.email || userEmail || null,
@@ -298,6 +390,21 @@ export default function EmailCompose() {
       gmail_account: gmailStatus?.email || userEmail || null,
     };
     try {
+      // The backend only allows preview/send for a draft saved as "ready"
+      // (or "edited") — the single lifecycle is generate -> save -> ready
+      // -> preview -> send. Previously, a preview request for a
+      // still-"generated" (never explicitly saved) draft failed on the
+      // backend, and that failure was silently swallowed below, showing a
+      // preview built from local state anyway — so Preview looked fine but
+      // the identical validation then failed Send with "Draft status is
+      // 'generated'. Save as 'ready' before sending." Save first so
+      // Preview and Send always agree, with no extra click required.
+      const currentStatus = draft.status || draft.generation_status;
+      if (unsaved || !DRAFT_READY_STATUSES.includes(currentStatus)) {
+        const saved = await saveDraft(draft.draft_id, draftSubject, draftBody, 'ready');
+        setDraft(prev => prev ? { ...prev, status: saved?.status || 'ready', generation_status: saved?.status || 'ready' } : prev);
+        setUnsaved(false);
+      }
       const data = await getSendPreview(draft.draft_id);
       setPreview({
         ...localPreview,
@@ -305,11 +412,14 @@ export default function EmailCompose() {
         from_address: data?.from_address || localPreview.from_address,
         gmail_account: data?.gmail_account || localPreview.gmail_account,
       });
-    } catch {
-      // Never surface preview-endpoint errors (including Gmail) in Section 4.
-      setPreview(localPreview);
+      setShowPreview(true);
+    } catch (e) {
+      // A real backend validation failure must be surfaced, not hidden
+      // behind a client-reconstructed preview that Send would then fail
+      // on anyway — that "fake success" is exactly what produced the
+      // confusing preview-looks-fine-but-send-fails experience.
+      setPreviewError(e.message || 'Could not load preview. Please try again.');
     }
-    setShowPreview(true);
     setPreviewLoading(false);
   };
 
@@ -704,22 +814,29 @@ export default function EmailCompose() {
               {draft && (
                 <StepCard number="4" title="Preview & Send" done={false}>
                   {isGmailConnected ? (
-                    <button
-                      onClick={handlePreview}
-                      disabled={previewLoading}
-                      style={{
-                        width: '100%',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '.5rem',
-                        padding: '.75rem',
-                        background: 'var(--navy)', color: '#fff',
-                        border: 'none', borderRadius: 'var(--r-md)',
-                        fontSize: '.9375rem', fontWeight: 700,
-                        cursor: previewLoading ? 'not-allowed' : 'pointer',
-                        opacity: previewLoading ? .7 : 1,
-                      }}
-                    >
-                      {previewLoading ? <><Spinner size={15} color="#fff" /> Loading preview…</> : 'Preview Email'}
-                    </button>
+                    <>
+                      <button
+                        onClick={handlePreview}
+                        disabled={previewLoading}
+                        style={{
+                          width: '100%',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '.5rem',
+                          padding: '.75rem',
+                          background: 'var(--navy)', color: '#fff',
+                          border: 'none', borderRadius: 'var(--r-md)',
+                          fontSize: '.9375rem', fontWeight: 700,
+                          cursor: previewLoading ? 'not-allowed' : 'pointer',
+                          opacity: previewLoading ? .7 : 1,
+                        }}
+                      >
+                        {previewLoading ? <><Spinner size={15} color="#fff" /> Loading preview…</> : 'Preview Email'}
+                      </button>
+                      {previewError && (
+                        <div className="banner banner-error" style={{ marginTop: '.75rem' }}>
+                          {previewError}
+                        </div>
+                      )}
+                    </>
                   ) : (
                     <button
                       type="button"
