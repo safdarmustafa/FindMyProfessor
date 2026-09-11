@@ -179,7 +179,8 @@ export default function Team() {
             <Link to="/login" style={{
               color: 'var(--muted)',
               fontSize: '.875rem',
-              padding: '.35rem .7rem',
+              lineHeight: 1,
+              padding: '.5rem .7rem',
               borderRadius: 'var(--r-sm)',
               textDecoration: 'none',
               fontWeight: 500,
@@ -191,29 +192,33 @@ export default function Team() {
               Login
             </Link>
             <Link to="/login" style={{
-              background: 'var(--navy)',
-              color: '#fff',
+              color: 'var(--muted)',
               fontSize: '.875rem',
-              padding: '.45rem 1.1rem',
-              borderRadius: 'var(--r-md)',
+              lineHeight: 1,
+              padding: '.5rem .7rem',
+              borderRadius: 'var(--r-sm)',
               textDecoration: 'none',
-              fontWeight: 600,
-              boxShadow: '0 1px 2px rgba(26,39,68,.15)',
-              transition: 'background .12s, box-shadow .12s',
+              fontWeight: 500,
+              transition: 'color .12s',
             }}
-            onMouseEnter={e => { e.currentTarget.style.background = '#233260'; e.currentTarget.style.boxShadow = '0 4px 14px rgba(26,39,68,.28)'; }}
-            onMouseLeave={e => { e.currentTarget.style.background = 'var(--navy)'; e.currentTarget.style.boxShadow = '0 1px 2px rgba(26,39,68,.15)'; }}
+            onMouseEnter={e => e.currentTarget.style.color = 'var(--navy)'}
+            onMouseLeave={e => e.currentTarget.style.color = 'var(--muted)'}
             >
               Get Started
             </Link>
-            <Link to="/team" aria-current="page" style={{
-              color: 'var(--navy)',
+            <Link to="/team" style={{
+              color: 'var(--muted)',
               fontSize: '.875rem',
-              padding: '.35rem .7rem',
+              lineHeight: 1,
+              padding: '.5rem .7rem',
               borderRadius: 'var(--r-sm)',
               textDecoration: 'none',
-              fontWeight: 600,
-            }}>
+              fontWeight: 500,
+              transition: 'color .12s',
+            }}
+            onMouseEnter={e => e.currentTarget.style.color = 'var(--navy)'}
+            onMouseLeave={e => e.currentTarget.style.color = 'var(--muted)'}
+            >
               About Us
             </Link>
           </nav>
