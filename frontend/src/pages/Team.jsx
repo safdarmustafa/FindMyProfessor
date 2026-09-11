@@ -51,10 +51,9 @@ const MENTOR = {
   photo: '/team/shahab-saquib-sohail.jpg',
   alt: 'Portrait of Dr. Shahab Saquib Sohail, Faculty Mentor & Academic Advisor of FindMyProfessor',
   paragraphs: [
-    'Dr. Shahab Saquib Sohail is currently an Assistant Professor in the Department of Computer Science & Engineering at Jamia Hamdard, New Delhi. He was previously a Senior Assistant Professor at VIT Bhopal University and holds a Ph.D. in Computer Science from Aligarh Muslim University.',
-    'He is recognized among the top 5 researchers globally in the Scopus database for publications on ChatGPT and related AI topics, and is listed among the top 2% researchers in the field of AI and CV, in the list curated by Stanford and Elsevier.',
-    'He has published over 125 SCI-indexed journal papers, including 70 in Q1 and Q2 journals, with his work featured in venues such as Nature Machine Intelligence, Information Fusion, IEEE Transactions on Big Data, and WIRE DMKD, as well as core rank conferences including INTERSPEECH, IJCNN, ICASSP, and the ICDM workshop. His research focuses on computational intelligence, recommender systems, and computational social science, with over 4,000 citations on Google Scholar.',
-    'He is an active mentor, having guided students to achievements including international scholarships, and collaborates with researchers around the world on international projects in artificial intelligence and machine learning.',
+    'Dr. Shahab Saquib Sohail is an Assistant Professor of Computer Science & Engineering at Jamia Hamdard, New Delhi, with a Ph.D. in Computer Science from Aligarh Muslim University.',
+    'His research focuses on AI, computational intelligence, recommender systems, and computational social science. He has 125+ SCI indexed publications and 4,000+ Google Scholar citations, with recognition among the top 2% of AI and computer vision researchers by Stanford and Elsevier.',
+    'He actively mentors students and collaborates internationally in artificial intelligence and machine learning.',
   ],
   closing: 'Academic guidance like this helps keep the platform grounded in how research and mentorship actually work.',
 };
