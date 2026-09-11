@@ -139,5 +139,37 @@ def test_gmail_callback_refuses_localhost_fallback_in_production(client, monkeyp
     """
     monkeypatch.delenv("FRONTEND_URL", raising=False)
     monkeypatch.setenv("ENVIRONMENT", "production")
+    monkeypatch.delenv("RENDER", raising=False)
     res = client.get("/gmail/callback", params={"code": "abc", "state": "whatever"})
     assert res.status_code == 500
+
+
+def test_gmail_callback_refuses_localhost_fallback_on_render_even_without_environment_var(client, monkeypatch):
+    """
+    Live production bug: every user's first Gmail connect succeeded (the
+    token exchange completed and the connection was saved), but the final
+    redirect after success landed on http://localhost:5173 — "no internet"
+    on the user's device — because FRONTEND_URL was unset on Render AND
+    ENVIRONMENT was never set to "production" either, so the old guard
+    (gated only on ENVIRONMENT=="production") silently returned the
+    localhost fallback instead of failing loudly. Render injects RENDER=true
+    into every deployed service automatically, so checking that too closes
+    this gap even when ENVIRONMENT is left unset — exactly this scenario.
+    """
+    monkeypatch.delenv("FRONTEND_URL", raising=False)
+    monkeypatch.delenv("ENVIRONMENT", raising=False)
+    monkeypatch.setenv("RENDER", "true")
+    res = client.get("/gmail/callback", params={"code": "abc", "state": "whatever"})
+    assert res.status_code == 500
+
+
+def test_gmail_callback_still_falls_back_to_localhost_for_real_local_development(client, monkeypatch):
+    """Neither ENVIRONMENT=production nor RENDER set (a developer's own
+    machine) must keep working exactly as before — this is not weakened."""
+    monkeypatch.delenv("FRONTEND_URL", raising=False)
+    monkeypatch.delenv("ENVIRONMENT", raising=False)
+    monkeypatch.delenv("RENDER", raising=False)
+    with patch("app.routers.gmail.gmail_oauth.consume_state", return_value=None):
+        res = client.get("/gmail/callback", params={"code": "abc", "state": "not-a-real-token"})
+    assert res.status_code == 302
+    assert res.headers["location"].startswith("http://localhost:5173")

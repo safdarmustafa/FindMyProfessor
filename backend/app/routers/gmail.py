@@ -28,22 +28,45 @@ router = APIRouter(prefix="/gmail", tags=["gmail"])
 SCOPES_STRING = gmail_oauth.GMAIL_SEND_SCOPE
 
 
+def _is_hosted_environment() -> bool:
+    """
+    True when this process is running on a real hosting platform, not a
+    developer's own machine — WITHOUT depending on anyone having remembered
+    to set ENVIRONMENT=production themselves.
+
+    Bug found live in production: every new user's first Gmail connect
+    succeeded (the token exchange completed and the connection was saved),
+    but the final post-callback redirect landed on http://localhost:5173,
+    which doesn't exist on the user's device ("no internet"). Root cause:
+    FRONTEND_URL was not set on Render, and ENVIRONMENT was never set to
+    "production" either, so the old guard below (gated only on
+    ENVIRONMENT=="production") never triggered and silently returned the
+    localhost fallback instead of failing loudly. Render (like most hosts)
+    injects its own RENDER=true into every deployed service's environment
+    automatically — checking that too means this can't silently recur just
+    because ENVIRONMENT was left unset.
+    """
+    if os.getenv("ENVIRONMENT", "").strip().lower() in ("production", "prod"):
+        return True
+    return os.getenv("RENDER", "").strip().lower() in ("true", "1")
+
+
 def _frontend_url() -> str:
     """
     React frontend base URL — override with the FRONTEND_URL env var.
     All post-OAuth browser redirects must land on the React SPA, not FastAPI.
 
-    In production this must never silently fall back to localhost: if
-    FRONTEND_URL is unset while ENVIRONMENT=production, fail loudly instead
-    of redirecting a real user's browser to a URL that doesn't exist for them.
+    On a real hosted deployment this must never silently fall back to
+    localhost: if FRONTEND_URL is unset there, fail loudly instead of
+    redirecting a real user's browser to a URL that doesn't exist for them.
     """
     value = os.getenv("FRONTEND_URL", "").strip().rstrip("/")
     if value:
         return value
-    if os.getenv("ENVIRONMENT", "development").strip().lower() == "production":
+    if _is_hosted_environment():
         raise RuntimeError(
-            "FRONTEND_URL environment variable is not set in production. "
-            "Refusing to fall back to a localhost redirect."
+            "FRONTEND_URL environment variable is not set in this hosted "
+            "environment. Refusing to fall back to a localhost redirect."
         )
     return "http://localhost:5173"
 
