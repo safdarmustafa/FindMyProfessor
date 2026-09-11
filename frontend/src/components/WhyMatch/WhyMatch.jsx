@@ -5,11 +5,11 @@ function renderEvidenceItem(item) {
   const area = item.area || item.research_area || '';
 
   if (type === 'shared_research_area') {
-    return `${area} — from your explicit research interest`;
+    return `${area} (from your explicit research interest)`;
   }
   if (type === 'artifact_research_area') {
     const artifact = item.artifact_name || item.artifact || '';
-    return `${area} — project "${artifact}"`;
+    return `${area} (project "${artifact}")`;
   }
   if (type === 'professor_summary_mentions_area') {
     return `Supporting evidence: professor's research mentions ${area}`;

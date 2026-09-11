@@ -29,7 +29,7 @@ const FEATURES = [
       </svg>
     ),
     title: 'Research alignment scoring',
-    desc: 'We score research overlap between your profile and faculty based on shared interests, methodology, and publication areas — not just keyword matching.',
+    desc: 'We score research overlap between your profile and faculty based on shared interests, methodology, and publication areas, not just keyword matching.',
   },
   {
     icon: (
@@ -252,7 +252,7 @@ export default function Home() {
               maxWidth: '480px',
             }}>
               Upload your CV, get a personalized research profile, and discover faculty
-              whose work aligns with yours — then send targeted, evidence-based outreach emails.
+              whose work aligns with yours, then send targeted, evidence-based outreach emails.
             </p>
 
             <div style={{ display: 'flex', gap: '.85rem', flexWrap: 'wrap', marginBottom: '2.25rem' }}>
@@ -331,7 +331,7 @@ export default function Home() {
               From CV to inbox, in five steps.
             </h2>
             <p style={{ color: 'var(--muted)', fontSize: '.9375rem', lineHeight: 1.65 }}>
-              No manual searching through faculty pages — the whole path from your CV
+              No manual searching through faculty pages: the whole path from your CV
               to a sent, evidence-backed email happens in one place.
             </p>
           </div>
@@ -479,7 +479,7 @@ export default function Home() {
           onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 14px 32px -8px rgba(201,164,99,.7)'; }}
           onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 10px 28px -8px rgba(201,164,99,.55)'; }}
           >
-            Get Started — It's Free
+            Get Started: It's Free
           </Link>
         </div>
       </section>
@@ -514,7 +514,7 @@ export default function Home() {
             </div>
           </div>
           <nav style={{ display: 'flex', gap: '1.5rem' }}>
-            {[['Privacy', '/privacy'], ['Terms', '/terms'], ['Login', '/login']].map(([label, to]) => (
+            {[['Team', '/team'], ['Privacy', '/privacy'], ['Terms', '/terms'], ['Login', '/login']].map(([label, to]) => (
               <Link key={label} to={to} style={{ color: 'var(--muted)', textDecoration: 'none', fontSize: '.875rem' }}
                 onMouseEnter={e => e.currentTarget.style.color = 'var(--navy)'}
                 onMouseLeave={e => e.currentTarget.style.color = 'var(--muted)'}

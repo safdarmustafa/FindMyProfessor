@@ -503,7 +503,7 @@ export default function EmailCompose() {
       <AppShell>
         <ErrorState
           title="Couldn't check your profile status"
-          message="This is usually a temporary connection issue — your profile itself hasn't changed."
+          message="This is usually a temporary connection issue; your profile itself hasn't changed."
           onRetry={checkProfile}
         />
       </AppShell>
@@ -559,7 +559,7 @@ export default function EmailCompose() {
             <>
               {restoredNotice && (
                 <div className="banner banner-success" style={{ marginBottom: '1rem' }}>
-                  <span>✓ Welcome back — your draft was restored right where you left off.</span>
+                  <span>✓ Welcome back, your draft was restored right where you left off.</span>
                 </div>
               )}
 

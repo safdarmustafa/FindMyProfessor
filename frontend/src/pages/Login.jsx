@@ -26,9 +26,9 @@ function LockIcon() {
 }
 
 const TRUST_POINTS = [
-  { title: 'Research-aligned matching', desc: 'Faculty ranked by genuine overlap with your work — not keyword search.' },
+  { title: 'Research-aligned matching', desc: 'Faculty ranked by genuine overlap with your work, not keyword search.' },
   { title: 'Evidence-based outreach', desc: 'Every drafted email cites the specific research it references.' },
-  { title: 'Direct Gmail integration', desc: 'Send from your own inbox — we never see your other mail.' },
+  { title: 'Direct Gmail integration', desc: 'Send from your own inbox; we never see your other mail.' },
 ];
 
 export default function Login() {

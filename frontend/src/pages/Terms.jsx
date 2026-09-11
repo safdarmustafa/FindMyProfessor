@@ -41,7 +41,7 @@ export default function Terms() {
           FindMyProfessor is a research discovery and outreach assistance platform. It
           helps students explore potentially relevant professors and research opportunities,
           understand possible research alignment, and prepare personalized outreach emails.
-          FindMyProfessor is an assistance tool — it does not guarantee any outcomes,
+          FindMyProfessor is an assistance tool; it does not guarantee any outcomes,
           placements, admissions, funding, or professor responses.
         </p>
         <p>

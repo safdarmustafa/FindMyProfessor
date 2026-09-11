@@ -32,8 +32,8 @@ export default function Privacy() {
         <p>
           You can sign in to FindMyProfessor using your Google account through{' '}
           <a href="https://supabase.com" target="_blank" rel="noopener">Supabase Auth</a>.
-          When you sign in with Google, we receive authentication information — including
-          your Google account email address — sufficient to create and maintain your
+          When you sign in with Google, we receive authentication information, including
+          your Google account email address, sufficient to create and maintain your
           FindMyProfessor account and session. We do not receive your Google account password.
         </p>
 
@@ -118,11 +118,11 @@ export default function Privacy() {
         <p>FindMyProfessor currently uses the following third-party services:</p>
         <ul>
           <li>
-            <strong>Supabase</strong> — for authentication, session management, and database
+            <strong>Supabase</strong>: for authentication, session management, and database
             storage. See <a href="https://supabase.com/privacy" target="_blank" rel="noopener">Supabase's Privacy Policy</a>.
           </li>
           <li>
-            <strong>Google APIs</strong> — for Google Sign-In (via Supabase Auth) and Gmail
+            <strong>Google APIs</strong>: for Google Sign-In (via Supabase Auth) and Gmail
             sending. See <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Google's Privacy Policy</a>.
           </li>
         </ul>
@@ -137,7 +137,7 @@ export default function Privacy() {
         </p>
         <ul>
           <li>Authentication and session controls to restrict access to your account data</li>
-          <li>Server-side handling of sensitive OAuth tokens — tokens are never sent to the browser</li>
+          <li>Server-side handling of sensitive OAuth tokens; tokens are never sent to the browser</li>
           <li>Encryption of stored Gmail OAuth tokens at rest</li>
           <li>Access controls intended to keep each user's data separated from others</li>
         </ul>
