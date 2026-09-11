@@ -186,6 +186,20 @@ export default function Home() {
             >
               Get Started
             </Link>
+            <Link to="/team" style={{
+              color: 'var(--muted)',
+              fontSize: '.875rem',
+              padding: '.35rem .7rem',
+              borderRadius: 'var(--r-sm)',
+              textDecoration: 'none',
+              fontWeight: 500,
+              transition: 'color .12s',
+            }}
+            onMouseEnter={e => e.currentTarget.style.color = 'var(--navy)'}
+            onMouseLeave={e => e.currentTarget.style.color = 'var(--muted)'}
+            >
+              About Us
+            </Link>
           </nav>
         </div>
       </header>
@@ -514,7 +528,7 @@ export default function Home() {
             </div>
           </div>
           <nav style={{ display: 'flex', gap: '1.5rem' }}>
-            {[['Team', '/team'], ['Privacy', '/privacy'], ['Terms', '/terms'], ['Login', '/login']].map(([label, to]) => (
+            {[['Privacy', '/privacy'], ['Terms', '/terms'], ['Login', '/login']].map(([label, to]) => (
               <Link key={label} to={to} style={{ color: 'var(--muted)', textDecoration: 'none', fontSize: '.875rem' }}
                 onMouseEnter={e => e.currentTarget.style.color = 'var(--navy)'}
                 onMouseLeave={e => e.currentTarget.style.color = 'var(--muted)'}

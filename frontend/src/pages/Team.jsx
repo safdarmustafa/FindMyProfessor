@@ -51,8 +51,10 @@ const MENTOR = {
   photo: '/team/shahab-saquib-sohail.jpg',
   alt: 'Portrait of Dr. Shahab Saquib Sohail, Faculty Mentor & Academic Advisor of FindMyProfessor',
   paragraphs: [
-    'FindMyProfessor is also shaped through academic mentorship and guidance. As a faculty mentor and academic advisor, Dr. Shahab Saquib Sohail provides academic perspective and guidance as the product develops.',
-    'His involvement represents an important connection between the student-built technology and the academic environment the platform is designed to serve.',
+    'Dr. Shahab Saquib Sohail is currently an Assistant Professor in the Department of Computer Science & Engineering at Jamia Hamdard, New Delhi. He was previously a Senior Assistant Professor at VIT Bhopal University and holds a Ph.D. in Computer Science from Aligarh Muslim University.',
+    'He is recognized among the top 5 researchers globally in the Scopus database for publications on ChatGPT and related AI topics, and is listed among the top 2% researchers in the field of AI and CV, in the list curated by Stanford and Elsevier.',
+    'He has published over 125 SCI-indexed journal papers, including 70 in Q1 and Q2 journals, with his work featured in venues such as Nature Machine Intelligence, Information Fusion, IEEE Transactions on Big Data, and WIRE DMKD, as well as core rank conferences including INTERSPEECH, IJCNN, ICASSP, and the ICDM workshop. His research focuses on computational intelligence, recommender systems, and computational social science, with over 4,000 citations on Google Scholar.',
+    'He is an active mentor, having guided students to achievements including international scholarships, and collaborates with researchers around the world on international projects in artificial intelligence and machine learning.',
   ],
   closing: 'Academic guidance like this helps keep the platform grounded in how research and mentorship actually work.',
 };
@@ -174,7 +176,7 @@ export default function Team() {
             FindMyProfessor
           </Link>
           <nav style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
-            <Link to="/" style={{
+            <Link to="/login" style={{
               color: 'var(--muted)',
               fontSize: '.875rem',
               padding: '.35rem .7rem',
@@ -186,7 +188,7 @@ export default function Team() {
             onMouseEnter={e => e.currentTarget.style.color = 'var(--navy)'}
             onMouseLeave={e => e.currentTarget.style.color = 'var(--muted)'}
             >
-              Home
+              Login
             </Link>
             <Link to="/login" style={{
               background: 'var(--navy)',
@@ -203,6 +205,16 @@ export default function Team() {
             onMouseLeave={e => { e.currentTarget.style.background = 'var(--navy)'; e.currentTarget.style.boxShadow = '0 1px 2px rgba(26,39,68,.15)'; }}
             >
               Get Started
+            </Link>
+            <Link to="/team" aria-current="page" style={{
+              color: 'var(--navy)',
+              fontSize: '.875rem',
+              padding: '.35rem .7rem',
+              borderRadius: 'var(--r-sm)',
+              textDecoration: 'none',
+              fontWeight: 600,
+            }}>
+              About Us
             </Link>
           </nav>
         </div>
@@ -287,7 +299,7 @@ export default function Team() {
           <SectionIntro
             eyebrow="Guidance"
             title="Academic Mentorship"
-            desc="A separate pillar of FindMyProfessor, independent of the founding and technical team, providing academic perspective and credibility to the project."
+            desc="A pillar of FindMyProfessor in its own right, bringing academic perspective, credibility, and guidance that shape the project's vision."
           />
 
           <div className="mentor-panel" style={{
