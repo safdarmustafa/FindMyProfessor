@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import NetworkMotif from '../components/NetworkMotif.jsx';
 
@@ -143,6 +143,7 @@ function ProfileRow({ person, reverse }) {
 }
 
 export default function Team() {
+  const [menuOpen, setMenuOpen] = useState(false);
   return (
     <div style={{ minHeight: '100vh', background: '#fff' }}>
 
@@ -175,54 +176,33 @@ export default function Team() {
           }}>
             FindMyProfessor
           </Link>
-          <nav style={{ display: 'flex', alignItems: 'center', gap: '.5rem' }}>
-            <Link to="/login" style={{
-              color: 'var(--muted)',
-              fontSize: '.875rem',
-              lineHeight: 1,
-              padding: '.5rem .7rem',
-              borderRadius: 'var(--r-sm)',
-              textDecoration: 'none',
-              fontWeight: 500,
-              transition: 'color .12s',
-            }}
-            onMouseEnter={e => e.currentTarget.style.color = 'var(--navy)'}
-            onMouseLeave={e => e.currentTarget.style.color = 'var(--muted)'}
-            >
-              Login
-            </Link>
-            <Link to="/login" style={{
-              color: 'var(--muted)',
-              fontSize: '.875rem',
-              lineHeight: 1,
-              padding: '.5rem .7rem',
-              borderRadius: 'var(--r-sm)',
-              textDecoration: 'none',
-              fontWeight: 500,
-              transition: 'color .12s',
-            }}
-            onMouseEnter={e => e.currentTarget.style.color = 'var(--navy)'}
-            onMouseLeave={e => e.currentTarget.style.color = 'var(--muted)'}
-            >
-              Get Started
-            </Link>
-            <Link to="/team" style={{
-              color: 'var(--muted)',
-              fontSize: '.875rem',
-              lineHeight: 1,
-              padding: '.5rem .7rem',
-              borderRadius: 'var(--r-sm)',
-              textDecoration: 'none',
-              fontWeight: 500,
-              transition: 'color .12s',
-            }}
-            onMouseEnter={e => e.currentTarget.style.color = 'var(--navy)'}
-            onMouseLeave={e => e.currentTarget.style.color = 'var(--muted)'}
-            >
-              About Us
-            </Link>
+          <nav className="public-nav-links">
+            <Link to="/login" className="public-nav-link">Login</Link>
+            <Link to="/login" className="public-nav-link">Get Started</Link>
+            <Link to="/team" className="public-nav-link">About Us</Link>
           </nav>
+          <button
+            type="button"
+            className="public-nav-hamburger"
+            onClick={() => setMenuOpen(v => !v)}
+            aria-label="Toggle menu"
+            aria-expanded={menuOpen}
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              {menuOpen
+                ? <path d="M18 6L6 18M6 6l12 12"/>
+                : <path d="M3 12h18M3 6h18M3 18h18"/>
+              }
+            </svg>
+          </button>
         </div>
+        {menuOpen && (
+          <div className="public-nav-mobile-menu">
+            <Link to="/login" className="public-nav-mobile-link" onClick={() => setMenuOpen(false)}>Login</Link>
+            <Link to="/login" className="public-nav-mobile-link" onClick={() => setMenuOpen(false)}>Get Started</Link>
+            <Link to="/team" className="public-nav-mobile-link" onClick={() => setMenuOpen(false)}>About Us</Link>
+          </div>
+        )}
       </header>
 
       {/* ── Hero ─────────────────────────────────────── */}

@@ -335,7 +335,7 @@ input, textarea, select {
 .doc-body ul { padding-left: 1.4rem; margin: .6rem 0; }
 .doc-body li { line-height: 1.7; margin-bottom: .35rem; }
 .doc-body a { color: var(--accent); }
-.doc-body code { background: var(--line-light); padding: .1rem .3rem; border-radius: var(--r-xs); font-size: .85em; }
+.doc-body code { background: var(--line-light); padding: .1rem .3rem; border-radius: var(--r-xs); font-size: .85em; word-break: break-word; }
 .doc-footer {
   border-top: 1px solid var(--line);
   padding: 1.5rem;
@@ -399,4 +399,65 @@ input, textarea, select {
 }
 @media (max-width: 900px) {
   .hide-tablet { display: none !important; }
+}
+
+/* Public header (Home, Team) — Login / Get Started / About Us as one nav group */
+.public-nav-links {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.public-nav-link {
+  color: var(--muted);
+  font-size: .875rem;
+  line-height: 1;
+  padding: .5rem .7rem;
+  border-radius: var(--r-sm);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color .12s;
+}
+.public-nav-link:hover {
+  color: var(--navy);
+  text-decoration: none;
+}
+
+.public-nav-hamburger {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--muted);
+  padding: .4rem;
+  border-radius: var(--r-sm);
+  margin-left: .25rem;
+}
+.public-nav-hamburger:hover { color: var(--navy); background: var(--line-light); }
+
+.public-nav-mobile-menu {
+  background: #ffffff;
+  border-top: 1px solid var(--line);
+  padding: .5rem 1rem .75rem;
+  display: flex;
+  flex-direction: column;
+  gap: .15rem;
+}
+.public-nav-mobile-link {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: .9rem;
+  font-weight: 500;
+  padding: .5rem .6rem;
+  border-radius: var(--r-sm);
+  display: block;
+  transition: color .12s, background .12s;
+}
+.public-nav-mobile-link:hover { color: var(--navy); background: var(--line-light); text-decoration: none; }
+
+@media (max-width: 640px) {
+  .public-nav-links { display: none; }
+  .public-nav-hamburger { display: inline-flex; align-items: center; justify-content: center; }
+}
+@media (min-width: 641px) {
+  .public-nav-mobile-menu { display: none !important; }
 }
