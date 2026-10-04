@@ -34,7 +34,7 @@ from typing import Any
 from fastapi import HTTPException
 
 from app.cv.extraction.schema import ExtractedStudentProfile
-from app.cv.storage import cv_file_exists, read_cv_bytes
+from app.cv.storage import CV_FILE_MISSING, available_paths, cv_file_exists, read_cv_bytes
 from app.gmail.client import GmailApiError, build_mime_message, send_message
 from app.gmail.service import get_status, get_valid_access_token
 from app.matching.scoring import score_professor
@@ -164,11 +164,12 @@ def list_cv_versions(*, profile_id: str) -> list[CvVersionMeta]:
     """
     rows = execute(
         supabase.table("cv_versions")
-        .select("id, file_name, description, is_default, version_number, created_at")
+        .select("id, file_name, description, is_default, version_number, created_at, storage_path")
         .eq("profile_id", profile_id)
         .order("version_number", desc=True)
     ).data or []
 
+    present = available_paths([row.get("storage_path") or "" for row in rows])
     result: list[CvVersionMeta] = []
     for row in rows:
         import json as _json
@@ -186,6 +187,7 @@ def list_cv_versions(*, profile_id: str) -> list[CvVersionMeta]:
             created_at=str(row.get("created_at") or ""),
             is_default=bool(row.get("is_default")),
             confirmed=bool(meta.get("confirmed")),
+            file_available=(row.get("storage_path") or "") in present,
         ))
     return result
 
@@ -291,8 +293,8 @@ def send_draft(*, profile_id: str, draft_id: str, confirmed: bool) -> SendDraftR
     try:
         cv_bytes = read_cv_bytes(cv_meta["storage_path"])
     except FileNotFoundError:
-        _mark_failed(record, "cv_unavailable", "CV file is not available.")
-        raise HTTPException(status_code=400, detail="CV file is not available.")
+        _mark_failed(record, "cv_unavailable", CV_FILE_MISSING)
+        raise HTTPException(status_code=400, detail=CV_FILE_MISSING)
 
     # Get valid access token (refreshes if needed)
     try:
@@ -441,7 +443,7 @@ def _validate_for_send(
         raise HTTPException(status_code=409, detail="This draft has already been sent.")
     if record.generation_status == "sending":
         raise HTTPException(status_code=409, detail="This draft is currently being sent.")
-    if record.generation_status not in ("ready", "edited"):
+    if record.generation_status not in ("ready", "edited", "failed"):
         raise HTTPException(
             status_code=400,
             detail=f"Draft status is '{record.generation_status}'. Save as 'ready' before sending.",
@@ -455,7 +457,10 @@ def _validate_for_send(
     if not prof_email or not _valid_email(prof_email):
         raise HTTPException(
             status_code=400,
-            detail="Professor does not have a verified email address.",
+            detail=(
+                "No email address is listed for this professor, so this email cannot be sent "
+                "from FindMyProfessor. Copy the draft and contact them through their faculty page."
+            ),
         )
 
     # 5. CV version selected
@@ -592,6 +597,7 @@ def _build_match_context(
         shared_interest_areas=shared_interests,
         artifact_evidence=artifacts,
         corroborated_areas=corroborated,
+        related_areas=list(result.related_areas),
     )
 
 
@@ -668,7 +674,7 @@ def _validate_cv_file(cv_row: dict[str, Any]) -> None:
     if not storage_path:
         raise HTTPException(status_code=400, detail="CV version has no storage path.")
     if not cv_file_exists(storage_path):
-        raise HTTPException(status_code=400, detail="CV file is not available.")
+        raise HTTPException(status_code=400, detail=CV_FILE_MISSING)
 
 
 def _valid_email(email: str) -> bool:

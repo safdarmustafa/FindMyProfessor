@@ -4,6 +4,7 @@ import AppShell from '../components/AppShell/AppShell.jsx';
 import GmailWidget from '../components/GmailWidget/GmailWidget.jsx';
 import Modal from '../components/Modal.jsx';
 import Spinner from '../components/Spinner.jsx';
+import SendCelebration from '../components/SendCelebration/SendCelebration.jsx';
 import LoadingState from '../components/LoadingState.jsx';
 import ErrorState from '../components/ErrorState.jsx';
 import { getProfileId } from '../services/api.js';
@@ -129,6 +130,7 @@ export default function EmailCompose() {
   const [cvAttaching, setCvAttaching] = useState(false);
   const [cvAttached, setCvAttached] = useState(false);
   const [cvAttachError, setCvAttachError] = useState(null);
+  const usableCvs = cvVersions.filter(v => v.file_available !== false);
 
   // Step 4: preview + send
   const [showPreview, setShowPreview] = useState(false);
@@ -138,9 +140,10 @@ export default function EmailCompose() {
   const [sending, setSending] = useState(false);
   const [sendResult, setSendResult] = useState(null);
   const [sendError, setSendError] = useState(null);
+  const [celebrating, setCelebrating] = useState(false);
   const [userEmail, setUserEmail] = useState(null);
 
-  const { status: gmailStatus, loading: gmailLoading } = useGmailStatus();
+  const { status: gmailStatus, loading: gmailLoading, refetch: refetchGmailStatus } = useGmailStatus();
   const gmailConnected = gmailStatus?.connected === true;
   const isGmailConnected = gmailStatus?.connected === true;
 
@@ -290,17 +293,21 @@ export default function EmailCompose() {
     setCvLoading(true);
     listCvVersions()
       .then(data => {
-        setCvVersions(data || []);
+        const all = data || [];
+        setCvVersions(all);
+        // Only CVs whose file is actually stored can be attached.
+        const usable = all.filter(v => v.file_available !== false);
         // The CV already attached to this draft (server-side truth) always
         // wins over guessing the account's default CV — restoring a draft
         // must never silently swap the selection back to something the
         // user didn't choose for this specific outreach email.
-        if (draft.cv_version_id) {
+        if (draft.cv_version_id && usable.some(v => v.cv_version_id === draft.cv_version_id)) {
           setSelectedCv(draft.cv_version_id);
           setCvAttached(true);
         } else {
-          const def = (data || []).find(v => v.is_default);
-          if (def) setSelectedCv(def.cv_version_id);
+          const def = usable.find(v => v.is_default) || usable[0];
+          setSelectedCv(def ? def.cv_version_id : '');
+          setCvAttached(false);
         }
       })
       .catch(() => {})
@@ -442,8 +449,12 @@ export default function EmailCompose() {
       const result = await sendDraft(draft.draft_id);
       setSendResult(result);
       setShowPreview(false);
+      setCelebrating(true);
     } catch (e) {
       setSendError(e.message || 'Send failed.');
+      // A 401 means the Gmail connection can't be used: refresh its status so
+      // the page switches to "Reconnect Gmail" instead of a dead Send button.
+      if (e.status === 401) refetchGmailStatus?.();
     } finally {
       setSending(false);
     }
@@ -453,6 +464,21 @@ export default function EmailCompose() {
     ? [prof.first_name, prof.last_name].filter(Boolean).join(' ') || prof.name || 'Professor'
     : '…';
   const profDeptUniv = [prof?.department?.name, prof?.university?.name].filter(Boolean).join(', ');
+  // Many directory listings publish no email. Say so up front instead of
+  // letting the student write, attach and only then fail at preview.
+  const noProfessorEmail = Boolean(prof) && !prof.email;
+  const profWebsite = prof?.website_url || prof?.website || prof?.source_url || '';
+  const [copied, setCopied] = useState(false);
+  const handleCopyEmail = async () => {
+    const text = `Subject: ${draftSubject || draft?.subject || ''}\n\n${draftBody || draft?.body || ''}`;
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2500);
+    } catch {
+      setCopied(false);
+    }
+  };
   const fromAddress = preview?.from_address
     || preview?.gmail_account
     || gmailStatus?.email
@@ -557,10 +583,29 @@ export default function EmailCompose() {
 
           {!profLoading && !restoring && (
             <>
+              {noProfessorEmail && !sendResult && (
+                <div className="banner banner-warning" role="status" style={{ marginBottom: '1rem', display: 'block' }}>
+                  <strong>No email address is listed for {profName}.</strong>{' '}
+                  You can still write and personalise this email, then copy it and contact them through
+                  {profWebsite ? (
+                    <> their <a href={profWebsite} target="_blank" rel="noopener noreferrer" style={{ fontWeight: 600 }}>faculty page</a></>
+                  ) : ' their university faculty page'}. Sending through Gmail needs a verified address, so it is turned off for this professor.
+                </div>
+              )}
               {restoredNotice && (
                 <div className="banner banner-success" style={{ marginBottom: '1rem' }}>
                   <span>✓ Welcome back, your draft was restored right where you left off.</span>
                 </div>
+              )}
+
+              {celebrating && sendResult && (
+                <SendCelebration
+                  professorName={profName}
+                  toAddress={preview?.to_address || prof?.email}
+                  cvName={preview?.cv_display_name}
+                  sentAt={sendResult.sent_at}
+                  onClose={() => setCelebrating(false)}
+                />
               )}
 
               {/* ── Sent success ─────────────────────── */}
@@ -581,7 +626,7 @@ export default function EmailCompose() {
                   }}>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--green)" strokeWidth="2.5"><path d="M20 6L9 17l-5-5"/></svg>
                   </div>
-                  <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--navy)', marginBottom: '.4rem', fontFamily: 'var(--font-serif)' }}>Email sent!</h2>
+                  <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: 'var(--navy)', marginBottom: '.4rem', fontFamily: 'var(--font-serif)' }}>Email sent successfully</h2>
                   <p style={{ color: 'var(--muted)', fontSize: '.875rem', marginBottom: '1.25rem' }}>
                     Your email to {profName} has been sent successfully.
                   </p>
@@ -755,8 +800,13 @@ export default function EmailCompose() {
                     <div style={{ display: 'flex', alignItems: 'center', gap: '.4rem', fontSize: '.875rem', color: 'var(--muted)' }}>
                       <Spinner size={14} /> Loading CV versions…
                     </div>
-                  ) : cvVersions.length === 0 ? (
-                    <p style={{ color: 'var(--muted)', fontSize: '.875rem', margin: 0 }}>No CV versions available. Upload a CV first.</p>
+                  ) : usableCvs.length === 0 ? (
+                    <div className="banner banner-warning" style={{ margin: 0 }}>
+                      {cvVersions.length === 0
+                        ? 'You have not uploaded a CV yet.'
+                        : 'Your saved CV files are no longer stored on the server.'}{' '}
+                      <Link to="/onboarding" style={{ fontWeight: 600 }}>Upload your CV on the My CV page</Link>, then come back to attach it.
+                    </div>
                   ) : (
                     <div style={{ display: 'flex', gap: '.65rem', alignItems: 'center', flexWrap: 'wrap' }}>
                       <select
@@ -765,10 +815,10 @@ export default function EmailCompose() {
                         onChange={e => { setSelectedCv(e.target.value); setCvAttachError(null); }}
                         style={{ flex: '1 0 200px' }}
                       >
-                        <option value="">Select CV version…</option>
-                        {cvVersions.map(v => (
+                        <option value="">Select a CV…</option>
+                        {usableCvs.map(v => (
                           <option key={v.cv_version_id} value={v.cv_version_id}>
-                            {v.display_name}{v.is_default ? ' (default)' : ''}{v.confirmed ? ' ✓' : ''}
+                            {v.display_name}{v.is_default ? ' (active)' : ''}
                           </option>
                         ))}
                       </select>
@@ -812,8 +862,30 @@ export default function EmailCompose() {
 
               {/* ── Step 4: Preview & Send ────────────── */}
               {draft && (
-                <StepCard number="4" title="Preview & Send" done={false}>
-                  {isGmailConnected ? (
+                <StepCard number="4" title={noProfessorEmail ? 'Copy & Send Yourself' : 'Preview & Send'} done={false}>
+                  {noProfessorEmail ? (
+                    <>
+                      <button
+                        type="button"
+                        onClick={handleCopyEmail}
+                        style={{
+                          width: '100%',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '.5rem',
+                          padding: '.75rem',
+                          background: 'var(--navy)', color: '#fff',
+                          border: 'none', borderRadius: 'var(--r-md)',
+                          fontSize: '.9375rem', fontWeight: 700, cursor: 'pointer',
+                        }}
+                      >
+                        {copied ? '✓ Copied to clipboard' : 'Copy email (subject and body)'}
+                      </button>
+                      <p style={{ color: 'var(--muted)', fontSize: '.8125rem', margin: '.6rem 0 0', lineHeight: 1.5 }}>
+                        Find the professor's address on their {profWebsite
+                          ? <a href={profWebsite} target="_blank" rel="noopener noreferrer">faculty page</a>
+                          : 'faculty page'}, then paste this into a new email and attach your CV.
+                      </p>
+                    </>
+                  ) : isGmailConnected ? (
                     <>
                       <button
                         onClick={handlePreview}

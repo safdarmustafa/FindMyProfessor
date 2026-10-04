@@ -615,7 +615,7 @@
       "lab": null,
       "name": "Pratyusha Sharma",
       "title": "Assistant Professor of Computer Science",
-      "email": null,
+      "email": "p.sharma@nyu.edu",
       "website_url": "https://cs.nyu.edu/dynamic/people/faculty/type/1/?area=Machine+Learning",
       "linkedin_url": null,
       "biography": "Official NYU Courant / AI@NYU faculty listing names Pratyusha Sharma as Assistant Professor of Computer Science.",
@@ -635,7 +635,8 @@
         "AI for Science",
         "Machine Learning",
         "Artificial Intelligence"
-      ]
+      ],
+      "email_source_url": "https://pratyushasharma.github.io"
     }
   ]
 }

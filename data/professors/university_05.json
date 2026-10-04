@@ -425,7 +425,7 @@
       "lab": null,
       "name": "Maarten Sap",
       "title": "Assistant Professor",
-      "email": null,
+      "email": "maartensap@cmu.edu",
       "website_url": "https://www.lti.cs.cmu.edu/people/faculty/index.html",
       "linkedin_url": null,
       "biography": "Official LTI Core Faculty index lists Maarten Sap as Assistant Professor. An individual official profile email was not fetched on this pass.",
@@ -440,7 +440,8 @@
       "source_url": "https://www.lti.cs.cmu.edu/people/faculty/index.html",
       "research_areas": [
         "Natural Language Processing"
-      ]
+      ],
+      "email_source_url": "http://maartensap.com/contact.html"
     },
     {
       "id": "emma-strubell",
@@ -523,7 +524,7 @@
       "lab": null,
       "name": "Daniel Fried",
       "title": "Assistant Professor",
-      "email": null,
+      "email": "dfried@cs.cmu.edu",
       "website_url": "https://www.lti.cs.cmu.edu/people/faculty/index.html",
       "linkedin_url": null,
       "biography": "Official LTI Core Faculty index lists Daniel Fried as Assistant Professor. An individual official profile email was not fetched on this pass.",
@@ -538,7 +539,8 @@
       "source_url": "https://www.lti.cs.cmu.edu/people/faculty/index.html",
       "research_areas": [
         "Natural Language Processing"
-      ]
+      ],
+      "email_source_url": "https://dpfried.github.io/"
     },
     {
       "id": "daphne-ippolito",
@@ -646,7 +648,7 @@
       "lab": null,
       "name": "Louis-Philippe Morency",
       "title": "Leonardo Associate Professor of Computer Science",
-      "email": null,
+      "email": "morency@cs.cmu.edu",
       "website_url": "https://www.lti.cs.cmu.edu/people/faculty/index.html",
       "linkedin_url": null,
       "biography": "Official LTI Core Faculty index lists Louis-Philippe Morency as Leonardo Associate Professor of Computer Science. An individual official profile email was not fetched on this pass.",
@@ -662,7 +664,8 @@
       "research_areas": [
         "Multimodal Learning",
         "Natural Language Processing"
-      ]
+      ],
+      "email_source_url": "http://www.cs.cmu.edu/~morency/"
     },
     {
       "id": "mona-diab",

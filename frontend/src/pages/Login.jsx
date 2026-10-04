@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { supabase } from '../lib/supabase.js';
+import { clearProfileId } from '../services/api.js';
 import NetworkMotif from '../components/NetworkMotif.jsx';
 
 const DISPLAY = "'Fraunces', Georgia, 'Times New Roman', Times, serif";
@@ -74,6 +75,7 @@ export default function Login() {
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
+    clearProfileId();
     setSession(null);
   };
 

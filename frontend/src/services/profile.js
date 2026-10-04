@@ -23,3 +23,16 @@ export async function uploadCV(file) {
     body: formData,
   });
 }
+
+// ── CV library (My CV page) ─────────────────────────────
+export async function listCVs() {
+  return apiFetch('/cv');
+}
+
+export async function setActiveCV(cvId) {
+  return apiFetch(`/cv/${encodeURIComponent(cvId)}/default`, { method: 'POST' });
+}
+
+export async function deleteCV(cvId) {
+  return apiFetch(`/cv/${encodeURIComponent(cvId)}`, { method: 'DELETE' });
+}

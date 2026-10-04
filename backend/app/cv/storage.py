@@ -22,6 +22,11 @@ STORAGE_ROOT = Path(__file__).resolve().parents[2] / "var" / "cv_uploads"
 # bucket yet, working exactly as before.
 SUPABASE_CV_BUCKET = os.getenv("SUPABASE_CV_BUCKET")
 
+CV_FILE_MISSING = (
+    "This CV file is no longer stored on the server. "
+    "Please upload your CV again on the My CV page, then attach it here."
+)
+
 
 def _bucket():
     from app.supabase_client import supabase
@@ -106,3 +111,54 @@ def cv_file_exists(storage_path: str) -> bool:
     except ValueError:
         return False
     return path.exists()
+
+
+def delete_cv_file(storage_path: str | None) -> None:
+    """Remove a stored CV file. A file that is already gone is not an error."""
+    if not storage_path:
+        return
+    if SUPABASE_CV_BUCKET:
+        try:
+            _bucket().remove([storage_path])
+        except Exception:
+            pass
+        return
+    try:
+        path = resolve_storage_path(storage_path)
+    except ValueError:
+        return
+    path.unlink(missing_ok=True)
+    # Tidy the now-empty per-version directory; never fails the delete.
+    try:
+        path.parent.rmdir()
+    except OSError:
+        pass
+
+
+def available_paths(storage_paths: list[str]) -> set[str]:
+    """
+    Which of these stored CVs still have their file — with one storage call
+    per profile folder instead of one per file (paths are
+    "<profile_id>/<cv_id>/<filename>", and bucket folders only exist while
+    they contain a file).
+    """
+    paths = [p for p in storage_paths if p]
+    if not SUPABASE_CV_BUCKET:
+        return {p for p in paths if cv_file_exists(p)}
+    found: set[str] = set()
+    by_profile: dict[str, list[str]] = {}
+    for path in paths:
+        by_profile.setdefault(path.split("/", 1)[0], []).append(path)
+    for profile_folder, group in by_profile.items():
+        try:
+            listing = _bucket().list(profile_folder, {"limit": 1000})
+        except Exception:
+            continue
+        present = {item.get("name") for item in listing}
+        for path in group:
+            parts = path.split("/")
+            if len(parts) == 3 and parts[1] in present:
+                found.add(path)
+            elif len(parts) != 3 and cv_file_exists(path):
+                found.add(path)
+    return found

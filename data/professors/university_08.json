@@ -235,7 +235,7 @@
       "lab": "sri",
       "name": "Martin Vechev",
       "title": "Full Professor",
-      "email": null,
+      "email": "martin.vechev@inf.ethz.ch",
       "website_url": "https://www.sri.inf.ethz.ch/people/martin",
       "linkedin_url": null,
       "biography": "Official SRI Lab page states Martin Vechev is a Full Professor of Computer Science at ETH Zurich where he leads the Secure, Reliable, and Intelligent Systems Lab. Official D-INFK faculty list lists him as Full Professor. An email address was not captured from the fetched official HTML in this pass, so email is null.",
@@ -251,7 +251,8 @@
       "research_areas": [
         "Trustworthy AI",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://www.sri.inf.ethz.ch/people/martin"
     },
     {
       "id": "bernhard-scholkopf",

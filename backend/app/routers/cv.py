@@ -29,6 +29,28 @@ def upload_cv(
     )
 
 
+@router.get("")
+def list_cvs(profile_id: str = Depends(auth.require_profile_id)):
+    """All CV versions for the signed-in profile, newest first."""
+    return cv_service.list_versions(profile_id)
+
+
+@router.post("/{cv_id}/default")
+def set_default_cv(
+    cv_id: str,
+    profile_id: str = Depends(auth.require_profile_id),
+):
+    return cv_service.set_default_version(profile_id, cv_id)
+
+
+@router.delete("/{cv_id}")
+def delete_cv(
+    cv_id: str,
+    profile_id: str = Depends(auth.require_profile_id),
+):
+    return cv_service.delete_version(profile_id, cv_id)
+
+
 @router.get("/{cv_id}")
 def get_cv(
     cv_id: str,

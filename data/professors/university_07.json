@@ -111,7 +111,7 @@
       "lab": null,
       "name": "Mark van der Wilk",
       "title": "Associate Professor of Computer Science",
-      "email": null,
+      "email": "mark.vdwilk@cs.ox.ac.uk",
       "website_url": "https://www.cs.ox.ac.uk/people/mark.vanderwilk/",
       "linkedin_url": null,
       "biography": "Official Oxford Computer Science profile lists Mark van der Wilk as Associate Professor of Computer Science. The fetched official profile did not publish an email address.",
@@ -127,7 +127,8 @@
       "research_areas": [
         "Machine Learning",
         "AI for Science"
-      ]
+      ],
+      "email_source_url": "https://mvdw.uk"
     },
     {
       "id": "alessandro-abate",

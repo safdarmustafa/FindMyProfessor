@@ -748,11 +748,12 @@ def test_crypto_encrypt_decrypt_stable_across_simulated_reload(tmp_path, monkeyp
     assert plaintext == "my_access_token"
 
 
-def test_get_status_invalid_token_encrypted_still_returns_connected(monkeypatch):
+def test_get_status_undecryptable_token_reports_needs_reconnect(monkeypatch):
     """
-    If access_token_encrypted is corrupt (wrong key), get_status must still return
-    connected=True with email=None. No lazy fetch, no exception surfaced.
-    get_status never decrypts tokens — only get_connection/_row_to_connection does.
+    If access_token_encrypted can't be decrypted with this server's key (e.g.
+    the connection was made by another deployment sharing the database), the
+    status must NOT claim "connected" — sending would fail. It reports
+    connected=False, needs_reconnect=True, and never raises.
     """
     monkeypatch.setattr(
         "app.gmail.service.execute",
@@ -769,7 +770,8 @@ def test_get_status_invalid_token_encrypted_still_returns_connected(monkeypatch)
         }]})(),
     )
     status = gmail_service.get_status("test_pid")
-    assert status.connected is True
+    assert status.connected is False
+    assert status.needs_reconnect is True
     assert status.email is None
 
 
@@ -1741,7 +1743,7 @@ def test_attach_cv_fails_cleanly_when_stored_file_is_missing(monkeypatch):
     with pytest.raises(HTTPException) as exc:
         outreach_service.attach_cv(profile_id=profile_id, draft_id=draft.draft_id, cv_version_id=cv_id)
     assert exc.value.status_code == 400
-    assert "not available" in exc.value.detail.lower()
+    assert "upload your cv again" in exc.value.detail.lower()
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -1933,3 +1935,20 @@ def test_build_mime_message_from_addr_empty_string(tmp_path):
         attachment_display_name="cv.pdf",
     )
     assert "raw" in msg
+
+
+def test_failed_draft_can_be_retried(monkeypatch):
+    """A send that failed before reaching Gmail (e.g. token problem) must not
+    lock the draft forever: the next attempt is allowed to proceed."""
+    from app.outreach import db_store as _store
+    _store.clear()
+    try:
+        record = _make_record()
+        record.generation_status = "failed"
+        _store.put(record.draft_id, record)
+        assert _store.atomically_set_sending(record.draft_id, record.profile_id) is True
+        assert _store.get(record.draft_id).generation_status == "sending"
+        # ...but only one concurrent attempt wins.
+        assert _store.atomically_set_sending(record.draft_id, record.profile_id) is False
+    finally:
+        _store.disable_test_mode()

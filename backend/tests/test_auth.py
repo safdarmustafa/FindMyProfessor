@@ -278,17 +278,18 @@ def test_authenticated_user_whose_profile_id_equals_their_auth_id(profiles_db):
 # 3. Cannot use X-Profile-Id to impersonate another user.
 # ---------------------------------------------------------------------------
 
-def test_authenticated_user_cannot_impersonate_via_mismatched_x_profile_id(profiles_db):
+def test_mismatched_x_profile_id_resolves_to_own_profile_not_header(profiles_db):
+    """A foreign/stale X-Profile-Id is ignored: the session's own profile is
+    used, never the one named in the header."""
     user_a = str(uuid4())
     profile_a = str(uuid4())
     profile_b = str(uuid4())  # belongs to a different user, not modeled here
     profiles_db[profile_a] = {"id": profile_a, "linked_user_id": user_a}
 
     with _mock_authed_user(user_a):
-        with pytest.raises(HTTPException) as exc:
-            auth.require_profile_id(authorization="Bearer real-token", x_profile_id=profile_b)
+        result = auth.require_profile_id(authorization="Bearer real-token", x_profile_id=profile_b)
 
-    assert exc.value.status_code == 403
+    assert result == profile_a
 
 
 def test_authenticated_user_cannot_claim_a_profile_already_linked_to_someone_else(profiles_db):
@@ -301,9 +302,27 @@ def test_authenticated_user_cannot_claim_a_profile_already_linked_to_someone_els
         with pytest.raises(HTTPException) as exc:
             auth.require_profile_id(authorization="Bearer real-token", x_profile_id=victim_profile)
 
-    assert exc.value.status_code == 403
+    # Treated as "no profile yet" — and told to drop the stored id.
+    assert exc.value.status_code == 404
+    assert exc.value.headers == {"X-Profile-Id": ""}
     # And the victim's profile must remain linked to its real owner.
     assert profiles_db[victim_profile]["linked_user_id"] == user_b
+
+
+def test_stale_x_profile_id_from_another_account_lets_cv_upload_start_fresh(profiles_db):
+    """Account switch on the same browser: the new user gets a fresh profile
+    (identity with no profile) instead of a dead-end 403."""
+    user_a = str(uuid4())
+    user_b = str(uuid4())
+    old_profile = str(uuid4())
+    profiles_db[old_profile] = {"id": old_profile, "linked_user_id": user_b}
+
+    with _mock_authed_user(user_a):
+        identity = auth.resolve_identity(authorization="Bearer real-token", x_profile_id=old_profile)
+
+    assert identity.authenticated and identity.user_id == user_a
+    assert identity.profile_id is None
+    assert profiles_db[old_profile]["linked_user_id"] == user_b
 
 
 def test_first_authenticated_request_claims_a_matching_unlinked_legacy_profile(profiles_db):
@@ -405,47 +424,98 @@ def _authed_as(monkeypatch, user_id: str) -> None:
     monkeypatch.setattr("app.auth.get_authenticated_user_id", lambda _authorization: user_id)
 
 
-def test_cv_endpoint_rejects_mismatched_authenticated_user(client, profiles_db, monkeypatch):
+def test_cv_endpoint_uses_own_profile_despite_mismatched_header(client, profiles_db, monkeypatch):
     user_a = str(uuid4())
     profile_a = str(uuid4())
     other_profile = str(uuid4())
     profiles_db[profile_a] = {"id": profile_a, "linked_user_id": user_a}
     _authed_as(monkeypatch, user_a)
+    seen = _record_profile_used(monkeypatch, "app.routers.cv.cv_service.get_cv", {"id": "cv"})
+    monkeypatch.setattr("app.routers.cv.cv_service.public_cv", lambda row: row)
 
     res = client.get(
         "/cv/some-cv-id",
         headers={"Authorization": "Bearer t", "X-Profile-Id": other_profile},
     )
-    assert res.status_code == 403
+    assert res.status_code == 200
+    assert seen == [profile_a]
+    assert res.headers["X-Profile-Id"] == profile_a
 
-
-def test_outreach_drafts_endpoint_rejects_mismatched_authenticated_user(client, profiles_db, monkeypatch):
+def test_outreach_drafts_endpoint_uses_own_profile_despite_mismatched_header(client, profiles_db, monkeypatch):
     user_a = str(uuid4())
     profile_a = str(uuid4())
     other_profile = str(uuid4())
     profiles_db[profile_a] = {"id": profile_a, "linked_user_id": user_a}
     _authed_as(monkeypatch, user_a)
+    seen = _record_profile_used(monkeypatch, "app.routers.outreach.outreach_service.list_drafts", [])
 
     res = client.get(
         "/outreach/drafts",
         headers={"Authorization": "Bearer t", "X-Profile-Id": other_profile},
     )
-    assert res.status_code == 403
+    assert res.status_code == 200
+    assert seen == [profile_a]
+    assert res.headers["X-Profile-Id"] == profile_a
 
-
-def test_gmail_status_endpoint_rejects_mismatched_authenticated_user(client, profiles_db, monkeypatch):
+def test_gmail_status_endpoint_uses_own_profile_despite_mismatched_header(client, profiles_db, monkeypatch):
     user_a = str(uuid4())
     profile_a = str(uuid4())
     other_profile = str(uuid4())
     profiles_db[profile_a] = {"id": profile_a, "linked_user_id": user_a}
     _authed_as(monkeypatch, user_a)
+    seen = _record_profile_used(
+        monkeypatch,
+        "app.routers.gmail.gmail_service.get_status",
+        SimpleNamespace(connected=False, email=None),
+    )
 
     res = client.get(
         "/gmail/status",
         headers={"Authorization": "Bearer t", "X-Profile-Id": other_profile},
     )
-    assert res.status_code == 403
+    assert res.status_code == 200
+    assert seen == [profile_a]
+    assert res.headers["X-Profile-Id"] == profile_a
 
+
+def _record_profile_used(monkeypatch, target: str, result):
+    """Patch a service call and record which profile id it was given."""
+    seen: list[str] = []
+
+    def fake(*args, **kwargs):
+        seen.append(kwargs.get("profile_id", args[-1] if args else None))
+        return result
+
+    monkeypatch.setattr(target, fake)
+    return seen
+
+
+def test_authenticated_user_without_profile_is_told_to_clear_stored_id(client, profiles_db, monkeypatch):
+    user_a = str(uuid4())
+    someone_elses = str(uuid4())
+    profiles_db[someone_elses] = {"id": someone_elses, "linked_user_id": str(uuid4())}
+    _authed_as(monkeypatch, user_a)
+
+    res = client.get(
+        "/gmail/status",
+        headers={"Authorization": "Bearer t", "X-Profile-Id": someone_elses},
+    )
+    assert res.status_code == 404
+    assert res.headers["X-Profile-Id"] == ""
+
+
+def test_resolved_profile_header_is_exposed_to_the_browser(client, profiles_db, monkeypatch):
+    user_a = str(uuid4())
+    profile_a = str(uuid4())
+    profiles_db[profile_a] = {"id": profile_a, "linked_user_id": user_a}
+    _authed_as(monkeypatch, user_a)
+    _record_profile_used(monkeypatch, "app.routers.outreach.outreach_service.list_drafts", [])
+
+    res = client.get(
+        "/outreach/drafts",
+        headers={"Authorization": "Bearer t", "Origin": "http://localhost:5173"},
+    )
+    assert "x-profile-id" in res.headers.get("access-control-expose-headers", "").lower()
 
 def test_cv_endpoint_allows_correctly_authenticated_owner(client, profiles_db, monkeypatch):
     """The isolation checks above don't just reject everything — a
@@ -545,19 +615,20 @@ def test_uploaded_cv_is_listed_for_its_owning_profile(client, profiles_db, monke
     assert "storage_path" not in versions[0]
 
 
-def test_cv_versions_list_rejects_mismatched_authenticated_user(client, profiles_db, monkeypatch):
+def test_cv_versions_list_uses_own_profile_despite_mismatched_header(client, profiles_db, monkeypatch):
     user_a = str(uuid4())
     profile_a = str(uuid4())
     other_profile = str(uuid4())
     profiles_db[profile_a] = {"id": profile_a, "linked_user_id": user_a}
     _authed_as(monkeypatch, user_a)
+    seen = _record_profile_used(monkeypatch, "app.routers.outreach.outreach_service.list_cv_versions", [])
 
     res = client.get(
         "/outreach/cv-versions",
         headers={"Authorization": "Bearer t", "X-Profile-Id": other_profile},
     )
-    assert res.status_code == 403
-
+    assert res.status_code == 200
+    assert seen == [profile_a]
 
 def test_selecting_an_existing_owned_cv_succeeds(client, profiles_db, monkeypatch):
     """Selecting (attaching) a CV the authenticated user actually owns succeeds."""

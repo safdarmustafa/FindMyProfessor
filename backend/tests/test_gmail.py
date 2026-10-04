@@ -18,7 +18,7 @@ def test_gmail_status_connected_true(client, auth_headers):
     with patch("app.routers.gmail.gmail_service.get_status", return_value=status):
         res = client.get("/gmail/status", headers=auth_headers)
     assert res.status_code == 200
-    assert res.json() == {"connected": True, "email": "me@gmail.com"}
+    assert res.json() == {"connected": True, "email": "me@gmail.com", "needs_reconnect": False}
 
 
 def test_gmail_status_connected_false(client, auth_headers):
@@ -173,3 +173,10 @@ def test_gmail_callback_still_falls_back_to_localhost_for_real_local_development
         res = client.get("/gmail/callback", params={"code": "abc", "state": "not-a-real-token"})
     assert res.status_code == 302
     assert res.headers["location"].startswith("http://localhost:5173")
+
+
+def test_gmail_status_reports_needs_reconnect(client, auth_headers):
+    status = SimpleNamespace(connected=False, email=None, needs_reconnect=True)
+    with patch("app.routers.gmail.gmail_service.get_status", return_value=status):
+        res = client.get("/gmail/status", headers=auth_headers)
+    assert res.json() == {"connected": False, "email": None, "needs_reconnect": True}

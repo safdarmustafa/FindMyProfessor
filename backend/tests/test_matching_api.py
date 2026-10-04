@@ -86,7 +86,7 @@ def test_university_wide_opportunity_is_not_professor_specific(monkeypatch):
 def test_opportunity_context_uses_professor_university(monkeypatch):
     uni_a = str(uuid4())
     uni_b = str(uuid4())
-    professor = _professor_row(name="Bea", university_id=uni_a, email=None)
+    professor = _professor_row(name="Bea", university_id=uni_a, email="bea@example.com")
     student = ExtractedStudentProfile(research_interests=["Computer Vision"])
     monkeypatch.setattr(
         matching_service.cv_service,
@@ -197,7 +197,9 @@ def test_email_only_is_filter_not_score(monkeypatch):
     monkeypatch.setattr(matching_service, "_load_opportunities", lambda: [])
     all_matches = matching_service.match_professors(profile_id=str(uuid4()), email_only=False)
     filtered = matching_service.match_professors(profile_id=str(uuid4()), email_only=True)
-    assert {item.professor.name for item in all_matches.matches} == {"Dana", "Evan"}
+    # Professors without a verified email are never offered as matches,
+    # whatever the flag says, and filtering never changes anyone's score.
+    assert {item.professor.name for item in all_matches.matches} == {"Dana"}
     assert {item.professor.name for item in filtered.matches} == {"Dana"}
     assert all_matches.matches[0].research_match.score == filtered.matches[0].research_match.score
 
@@ -205,8 +207,8 @@ def test_email_only_is_filter_not_score(monkeypatch):
 def test_opportunity_mode_filters_to_universities_with_non_closed(monkeypatch):
     uni_open = str(uuid4())
     uni_closed = str(uuid4())
-    open_prof = _professor_row(name="Fay", university_id=uni_open, email=None)
-    closed_prof = _professor_row(name="Gus", university_id=uni_closed, email=None)
+    open_prof = _professor_row(name="Fay", university_id=uni_open, email="fay@example.com")
+    closed_prof = _professor_row(name="Gus", university_id=uni_closed, email="gus@example.com")
     monkeypatch.setattr(
         matching_service.cv_service,
         "get_active_profile",
@@ -262,7 +264,7 @@ def test_opportunity_mode_filters_to_universities_with_non_closed(monkeypatch):
 
 def test_both_mode_keeps_research_and_opportunity_separate(monkeypatch):
     university_id = str(uuid4())
-    professor = _professor_row(name="Hana", university_id=university_id, email=None)
+    professor = _professor_row(name="Hana", university_id=university_id, email="hana@example.com")
     monkeypatch.setattr(
         matching_service.cv_service,
         "get_active_profile",
@@ -321,7 +323,8 @@ def test_health_docs_and_pages():
 
     client = TestClient(app)
     assert client.get("/health").status_code in {200, 503}
-    assert client.get("/docs").status_code == 200
+    # Interactive API docs are intentionally disabled in production (main.py).
+    assert client.get("/docs").status_code == 404
     assert client.get("/onboarding").status_code == 404
     assert client.get("/matches").status_code == 404
     # Production hardening: no Supabase session and no X-Profile-Id is

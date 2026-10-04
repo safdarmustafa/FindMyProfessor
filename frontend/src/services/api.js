@@ -20,6 +20,22 @@ export function setProfileId(id) {
   try { localStorage.setItem(PROFILE_KEY, id); } catch {}
 }
 
+export function clearProfileId() {
+  try { localStorage.removeItem(PROFILE_KEY); } catch {}
+}
+
+// For signed-in requests the backend decides which profile is used and echoes
+// it back in an X-Profile-Id response header (app/auth.py). Keep the stored id
+// in step with it, so a stale id (old session, account switch on the same
+// browser) heals itself. An empty value means "this account has no profile
+// yet" — drop whatever is stored.
+function syncProfileId(response) {
+  const resolved = response.headers?.get?.('X-Profile-Id');
+  if (resolved == null) return;
+  if (resolved === '') clearProfileId();
+  else if (resolved !== getProfileId()) setProfileId(resolved);
+}
+
 export async function apiFetch(url, options = {}) {
   const profileId = getProfileId();
   const headers = { ...options.headers };
@@ -40,6 +56,7 @@ export async function apiFetch(url, options = {}) {
     // path on the backend), never block the request over this.
   }
   const response = await fetch(apiUrl(url), { ...options, headers });
+  syncProfileId(response);
   const data = await response.json().catch(() => ({}));
   if (!response.ok) {
     const msg = formatApiError(data.detail);

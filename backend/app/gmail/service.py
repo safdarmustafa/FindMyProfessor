@@ -57,6 +57,11 @@ def get_status(profile_id: str) -> GmailStatus:
     row = _fetch_row(profile_id)
     if not row or row.get("revoked_at"):
         return GmailStatus(connected=False, email=None)
+    if not _token_decrypts(row):
+        # The row exists but its token can't be decrypted with this server's
+        # key, so sending would fail. Report it honestly so the UI offers
+        # "Reconnect Gmail" instead of a false "connected".
+        return GmailStatus(connected=False, email=row.get("provider_account_email"), needs_reconnect=True)
     # email may legitimately be None — callers must not require it
     return GmailStatus(connected=True, email=row.get("provider_account_email"))
 
@@ -140,7 +145,7 @@ def get_valid_access_token(profile_id: str) -> str:
     if not conn:
         raise HTTPException(
             status_code=401,
-            detail="Gmail is not connected. Connect via /gmail/connect.",
+            detail="Your Gmail connection needs to be renewed. Please reconnect Gmail and try sending again.",
         )
 
     # Check expiry with 60-second buffer
@@ -261,6 +266,18 @@ def _fetch_row(profile_id: str) -> dict[str, Any] | None:
         .limit(1)
     ).data or []
     return rows[0] if rows else None
+
+
+def _token_decrypts(row: dict[str, Any]) -> bool:
+    """True unless a stored access token exists and cannot be decrypted with this server's key."""
+    encrypted = row.get("access_token_encrypted")
+    if not encrypted:
+        return True
+    try:
+        decrypt(encrypted)
+    except ValueError:
+        return False
+    return True
 
 
 def _row_to_connection(row: dict[str, Any]) -> GmailConnection | None:

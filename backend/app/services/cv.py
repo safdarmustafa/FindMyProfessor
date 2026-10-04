@@ -8,10 +8,11 @@ from typing import Any
 from fastapi import HTTPException
 
 from app.cv.extraction.factory import get_extraction_provider
+from app.cv.extraction.heuristic import PARSER_VERSION
 from app.cv.extraction.schema import ExtractedStudentProfile
 from app.cv.parsers.base import ParseError
 from app.cv.parsers.registry import extract_normalized_text
-from app.cv.storage import read_cv_bytes, save_cv_bytes
+from app.cv.storage import CV_FILE_MISSING, available_paths, delete_cv_file, read_cv_bytes, save_cv_bytes
 from app.cv.validation import CvTooLargeError, UnsupportedCvError, detect_cv_type
 from app.services.query import execute, is_missing_column_error
 from app.supabase_client import supabase
@@ -37,6 +38,7 @@ def _metadata(
 ) -> str:
     return json.dumps(
         {
+            "parser_version": PARSER_VERSION,
             "original_filename": original_filename,
             "file_type": file_type,
             "mime_type": mime_type,
@@ -262,7 +264,7 @@ def parse_cv(cv_id: str, profile_id: str | None) -> dict[str, Any]:
     try:
         content = read_cv_bytes(payload["_storage_path"])
     except FileNotFoundError as exc:
-        raise HTTPException(status_code=400, detail="CV file is not available.") from exc
+        raise HTTPException(status_code=400, detail=CV_FILE_MISSING) from exc
     meta = payload["_meta"]
     try:
         text = extract_normalized_text(meta.get("file_type") or "txt", content)
@@ -280,6 +282,8 @@ def parse_cv(cv_id: str, profile_id: str | None) -> dict[str, Any]:
             "parsing_status": status,
             "parsing_error": error,
             "extracted_profile": profile,
+            "parser_version": PARSER_VERSION,
+            "edited_by_user": False,
         }
     )
     execute(
@@ -288,6 +292,115 @@ def parse_cv(cv_id: str, profile_id: str | None) -> dict[str, Any]:
         .eq("id", cv_id)
     )
     return get_cv(cv_id, profile_id)
+
+
+# ---------------------------------------------------------------------------
+# CV version management (My CV page)
+# ---------------------------------------------------------------------------
+
+def list_versions(profile_id: str) -> list[dict[str, Any]]:
+    """Every CV version the profile owns, newest first, with file availability."""
+    rows = execute(
+        supabase.table("cv_versions")
+        .select("*")
+        .eq("profile_id", profile_id)
+        .order("version_number", desc=True)
+    ).data or []
+    present = available_paths([row.get("storage_path") or "" for row in rows])
+    versions: list[dict[str, Any]] = []
+    for row in rows:
+        payload = _cv_payload(row)
+        versions.append({
+            "cv_id": str(payload["cv_id"]),
+            "file_name": payload["original_filename"] or "CV",
+            "file_type": payload["file_type"],
+            "file_size": payload["file_size"],
+            "created_at": str(payload["created_at"] or ""),
+            "version_number": payload["version_number"],
+            "is_default": bool(payload["is_default"]),
+            "confirmed": bool(payload["_meta"].get("confirmed")),
+            "parsing_status": payload["parsing_status"],
+            "file_available": (payload["_storage_path"] or "") in present,
+        })
+    return versions
+
+
+def set_default_version(profile_id: str, cv_id: str) -> list[dict[str, Any]]:
+    """Make one of the profile's CVs the active one (used for matching and drafts)."""
+    get_cv(cv_id, profile_id)  # 404 unless it belongs to this profile
+    _clear_default(profile_id)
+    execute(
+        supabase.table("cv_versions")
+        .update({"is_default": True})
+        .eq("id", cv_id)
+        .eq("profile_id", profile_id)
+    )
+    return list_versions(profile_id)
+
+
+def delete_version(profile_id: str, cv_id: str) -> list[dict[str, Any]]:
+    """
+    Permanently delete a CV version and its stored file.
+
+    Drafts that referenced it keep working (their CV selection is cleared and
+    can be re-attached). If the active CV is deleted, the newest remaining
+    version becomes active.
+    """
+    payload = get_cv(cv_id, profile_id)  # 404 unless it belongs to this profile
+    for table in ("outreach_drafts", "outreach"):
+        try:
+            execute(supabase.table(table).update({"cv_version_id": None}).eq("cv_version_id", cv_id))
+        except HTTPException:
+            logger.warning("Could not clear %s.cv_version_id before CV delete.", table)
+    execute(supabase.table("cv_versions").delete().eq("id", cv_id).eq("profile_id", profile_id))
+    delete_cv_file(payload["_storage_path"])
+
+    if payload.get("is_default"):
+        remaining = execute(
+            supabase.table("cv_versions")
+            .select("id")
+            .eq("profile_id", profile_id)
+            .order("version_number", desc=True)
+            .limit(1)
+        ).data or []
+        if remaining:
+            execute(
+                supabase.table("cv_versions").update({"is_default": True}).eq("id", remaining[0]["id"])
+            )
+    return list_versions(profile_id)
+
+
+def _refresh_stale_parse(cv: dict[str, Any], profile_id: str) -> dict[str, Any]:
+    """
+    Re-read a CV parsed by an older parser version, so parser fixes reach
+    CVs uploaded before them. Hand-edited profiles are never touched, the
+    confirmed flag is kept, and any failure leaves the stored profile as is.
+    """
+    meta = cv["_meta"]
+    if meta.get("edited_by_user") or int(meta.get("parser_version") or 0) >= PARSER_VERSION:
+        return cv
+    if meta.get("parsing_status") not in (None, "parsed", "uploaded"):
+        return cv
+    try:
+        content = read_cv_bytes(cv["_storage_path"])
+        text = extract_normalized_text(meta.get("file_type") or "txt", content)
+        extracted = get_extraction_provider().extract(text, _catalog_labels())
+    except Exception:
+        logger.info("Stale CV re-parse skipped (file unavailable or parse failed).")
+        return cv
+    meta.update({
+        "extracted_profile": extracted.model_dump(),
+        "parsing_status": "parsed",
+        "parsing_error": None,
+        "parser_version": PARSER_VERSION,
+    })
+    execute(
+        supabase.table("cv_versions")
+        .update({"description": json.dumps(meta)})
+        .eq("id", str(cv["cv_id"]))
+        .eq("profile_id", profile_id)
+    )
+    return get_cv(str(cv["cv_id"]), profile_id)
 
 
 def get_active_profile(profile_id: str) -> dict[str, Any]:
@@ -310,7 +423,7 @@ def get_active_profile(profile_id: str) -> dict[str, Any]:
             "extracted_profile": ExtractedStudentProfile().model_dump(),
             "persisted": (persisted or [None])[0],
         }
-    cv = _cv_payload(rows[0])
+    cv = _refresh_stale_parse(_cv_payload(rows[0]), profile_id)
     profile_row = execute(
         supabase.table("profiles").select("*").eq("id", profile_id).limit(1)
     ).data
@@ -337,6 +450,7 @@ def update_extracted_profile(
     meta = cv["_meta"]
     meta["extracted_profile"] = extracted.model_dump()
     meta["confirmed"] = False
+    meta["edited_by_user"] = True  # never overwrite hand edits with a re-parse
     execute(
         supabase.table("cv_versions")
         .update({"description": json.dumps(meta)})

@@ -22,3 +22,6 @@ class GmailStatus:
     """Safe public view of the connection state — contains NO tokens."""
     connected: bool
     email: str | None
+    # A connection row exists but its tokens can't be used here (e.g. they
+    # were encrypted with a different GOOGLE_TOKEN_ENCRYPTION_KEY): reconnect.
+    needs_reconnect: bool = False

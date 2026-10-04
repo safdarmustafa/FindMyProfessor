@@ -304,14 +304,6 @@ export default function Matches() {
               <option value="closed">Closed</option>
             </select>
 
-            <label style={{
-              display: 'flex', alignItems: 'center', gap: '.4rem',
-              fontSize: '.875rem', color: 'var(--ink-2)', cursor: 'pointer', whiteSpace: 'nowrap',
-            }}>
-              <input type="checkbox" checked={filters.email_only} onChange={ff('email_only')} />
-              Email available
-            </label>
-
             <button
               onClick={loadMatches}
               style={{

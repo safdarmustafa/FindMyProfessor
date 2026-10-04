@@ -5,6 +5,7 @@ from typing import Any
 from fastapi import HTTPException
 
 from app.cv.extraction.schema import ExtractedStudentProfile
+from app.matching.ranking import area_frequencies, tiebreak
 from app.matching.scoring import MATCH_VERSION, score_professor
 from app.opportunities.evidence import university_opportunity_evidence
 from app.opportunities.models import OpportunityRecord, UniversityFitResult
@@ -50,12 +51,20 @@ def match_professors(
         opportunity_status=opportunity_status,
     )
     student_is_undergrad = is_clearly_undergraduate(student)
+    frequencies = area_frequencies(
+        areas_by_professor.get(str(row["id"]), []) for row in professors
+    )
 
     matches: list[ProfessorMatch] = []
+    tiebreaks: dict[str, tuple[float, float, int]] = {}
     seen_professors: set[str] = set()
     for row in professors:
         professor_id = str(row["id"])
         if professor_id in seen_professors:
+            continue
+        # Outreach needs a verified address: professors without one are never
+        # offered as matches (email_only is kept for API compatibility).
+        if not row.get("email"):
             continue
         seen_professors.add(professor_id)
         result = score_professor(
@@ -74,6 +83,12 @@ def match_professors(
         )
         if mode == "opportunity" and (fit.best_opportunity is None or fit.score <= 0):
             continue
+        tiebreaks[professor_id] = tiebreak(
+            result,
+            areas_by_professor.get(professor_id, []),
+            frequencies,
+            len(professors),
+        )
         evidence = list(result.evidence)
         for opportunity in related:
             evidence.append(
@@ -97,7 +112,7 @@ def match_professors(
             )
         )
 
-    matches.sort(key=lambda item: _sort_key(item, mode))
+    matches.sort(key=lambda item: _sort_key(item, mode, tiebreaks.get(str(item.professor.id))))
     matches = matches[:limit]
     return MatchingResponse(
         profile_id=profile_id,
@@ -289,15 +304,21 @@ def _fit_schema(fit: UniversityFitResult) -> UniversityOpportunityFit:
     )
 
 
-def _sort_key(item: ProfessorMatch, mode: str) -> tuple:
+def _sort_key(
+    item: ProfessorMatch,
+    mode: str,
+    tiebreak_values: tuple[float, float, int] | None = None,
+) -> tuple:
     fit_score = item.university_opportunity_fit.score if item.university_opportunity_fit else 0
     name = item.professor.name.lower()
     professor_id = str(item.professor.id)
+    specificity, focus, corroborated = tiebreak_values or (0.0, 0.0, 0)
+    ties = (-specificity, -focus, -corroborated, name, professor_id)
     if mode == "opportunity":
-        return (-fit_score, -item.research_match.score, name, professor_id)
+        return (-fit_score, -item.research_match.score, *ties)
     if mode == "both":
-        return (-item.research_match.score, -fit_score, name, professor_id)
-    return (-item.research_match.score, name, professor_id)
+        return (-item.research_match.score, -fit_score, *ties)
+    return (-item.research_match.score, *ties)
 
 
 def _date_text(value: Any) -> str | None:

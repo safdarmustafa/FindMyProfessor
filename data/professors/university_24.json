@@ -7,7 +7,7 @@
       "lab": null,
       "name": "Shivani Agarwal",
       "title": "Associate Professor",
-      "email": null,
+      "email": "ashivani@cis.upenn.edu",
       "website_url": "https://www.cis.upenn.edu/people/faculty/",
       "linkedin_url": null,
       "biography": "Official Associate Professor listing at the source university page.",
@@ -22,7 +22,8 @@
       "source_url": "https://www.cis.upenn.edu/people/faculty/",
       "research_areas": [
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://directory.engineering.upenn.edu/shivani-agarwal/"
     },
     {
       "id": "rajeev-alur",
@@ -56,7 +57,7 @@
       "lab": null,
       "name": "Osbert Bastani",
       "title": "Associate Professor",
-      "email": null,
+      "email": "obastani@seas.upenn.edu",
       "website_url": "https://www.cis.upenn.edu/people/faculty/",
       "linkedin_url": null,
       "biography": "Official Associate Professor listing at the source university page.",
@@ -72,7 +73,8 @@
       "research_areas": [
         "Trustworthy AI",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://directory.engineering.upenn.edu/osbert-bastani/"
     },
     {
       "id": "chris-callison-burch",
@@ -106,7 +108,7 @@
       "lab": null,
       "name": "Pranam Chatterjee",
       "title": "Assistant Professor, Africk-Lesley Distinguished Scholar of Innovation in Engineering",
-      "email": null,
+      "email": "pranam@seas.upenn.edu",
       "website_url": "https://www.cis.upenn.edu/people/faculty/",
       "linkedin_url": null,
       "biography": "Official Assistant Professor, Africk-Lesley Distinguished Scholar of Innovation in Engineering listing at the source university page.",
@@ -122,7 +124,8 @@
       "research_areas": [
         "Biomedical AI",
         "Computational Biology"
-      ]
+      ],
+      "email_source_url": "https://directory.engineering.upenn.edu/pranam-chatterjee/"
     },
     {
       "id": "konstantinos-daniilidis",
@@ -156,7 +159,7 @@
       "lab": null,
       "name": "Eva Dyer",
       "title": "Rachleff Associate Professor",
-      "email": null,
+      "email": "eva.dyer@seas.upenn.edu",
       "website_url": "https://www.cis.upenn.edu/people/faculty/",
       "linkedin_url": null,
       "biography": "Official Rachleff Associate Professor listing at the source university page.",
@@ -172,7 +175,8 @@
       "research_areas": [
         "Biomedical AI",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://directory.engineering.upenn.edu/eva-dyer/"
     },
     {
       "id": "eric-eaton",
@@ -181,7 +185,7 @@
       "lab": null,
       "name": "Eric Eaton",
       "title": "Research Associate Professor",
-      "email": null,
+      "email": "eeaton@seas.upenn.edu",
       "website_url": "https://www.cis.upenn.edu/people/faculty/",
       "linkedin_url": null,
       "biography": "Official Research Associate Professor listing at the source university page.",
@@ -197,7 +201,8 @@
       "research_areas": [
         "Machine Learning",
         "Artificial Intelligence"
-      ]
+      ],
+      "email_source_url": "https://directory.engineering.upenn.edu/eric-eaton/"
     },
     {
       "id": "jacob-gardner",
@@ -206,7 +211,7 @@
       "lab": null,
       "name": "Jacob Gardner",
       "title": "Assistant Professor",
-      "email": null,
+      "email": "jacobrg@seas.upenn.edu",
       "website_url": "https://www.cis.upenn.edu/people/faculty/",
       "linkedin_url": null,
       "biography": "Official Assistant Professor listing at the source university page.",
@@ -221,7 +226,8 @@
       "source_url": "https://www.cis.upenn.edu/people/faculty/",
       "research_areas": [
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://jacobrgardner.github.io/"
     },
     {
       "id": "surbhi-goel",
@@ -230,7 +236,7 @@
       "lab": null,
       "name": "Surbhi Goel",
       "title": "Magerman Term Assistant Professor",
-      "email": null,
+      "email": "surbhig@cis.upenn.edu",
       "website_url": "https://www.cis.upenn.edu/people/faculty/",
       "linkedin_url": null,
       "biography": "Official Magerman Term Assistant Professor listing at the source university page.",
@@ -245,7 +251,8 @@
       "source_url": "https://www.cis.upenn.edu/people/faculty/",
       "research_areas": [
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://www.surbhigoel.com/"
     },
     {
       "id": "jiatao-gu",
@@ -254,7 +261,7 @@
       "lab": null,
       "name": "Jiatao Gu",
       "title": "Assistant Professor",
-      "email": null,
+      "email": "jgu32@seas.upenn.edu",
       "website_url": "https://www.cis.upenn.edu/people/faculty/",
       "linkedin_url": null,
       "biography": "Official Assistant Professor listing at the source university page.",
@@ -270,7 +277,8 @@
       "research_areas": [
         "Machine Learning",
         "Natural Language Processing"
-      ]
+      ],
+      "email_source_url": "https://jiataogu.me/"
     },
     {
       "id": "sharath-guntuku",
@@ -304,7 +312,7 @@
       "lab": null,
       "name": "Meena Jagadeesan",
       "title": "Assistant Professor",
-      "email": null,
+      "email": "meenaj@cis.upenn.edu",
       "website_url": "https://www.cis.upenn.edu/people/faculty/",
       "linkedin_url": null,
       "biography": "Official Assistant Professor listing at the source university page.",
@@ -319,7 +327,8 @@
       "source_url": "https://www.cis.upenn.edu/people/faculty/",
       "research_areas": [
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://directory.engineering.upenn.edu/meena-jagadeesan/"
     },
     {
       "id": "dinesh-jayaraman",
@@ -328,7 +337,7 @@
       "lab": null,
       "name": "Dinesh Jayaraman",
       "title": "Associate Professor",
-      "email": null,
+      "email": "dineshj@seas.upenn.edu",
       "website_url": "https://www.cis.upenn.edu/people/faculty/",
       "linkedin_url": null,
       "biography": "Official Associate Professor listing at the source university page.",
@@ -345,7 +354,8 @@
         "Robotics",
         "Computer Vision",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://directory.engineering.upenn.edu/dinesh-jayaraman/"
     },
     {
       "id": "kevin-b-johnson",
@@ -405,7 +415,7 @@
       "lab": "precise",
       "name": "Insup Lee",
       "title": "Cecilia Fitler Moore Professor; Director, PRECISE Center",
-      "email": null,
+      "email": "lee@cis.upenn.edu",
       "website_url": "https://www.cis.upenn.edu/people/faculty/",
       "linkedin_url": null,
       "biography": "Official Cecilia Fitler Moore Professor; Director, PRECISE Center listing at the source university page.",
@@ -421,7 +431,8 @@
       "research_areas": [
         "Medical AI",
         "AI Systems"
-      ]
+      ],
+      "email_source_url": "https://insuplee.seas.upenn.edu/"
     },
     {
       "id": "lingjie-liu",
@@ -430,7 +441,7 @@
       "lab": null,
       "name": "Lingjie Liu",
       "title": "Aravind K. Joshi Assistant Professor",
-      "email": null,
+      "email": "lingjie.liu@seas.upenn.edu",
       "website_url": "https://www.cis.upenn.edu/people/faculty/",
       "linkedin_url": null,
       "biography": "Official Aravind K. Joshi Assistant Professor listing at the source university page.",
@@ -446,7 +457,8 @@
       "research_areas": [
         "Computer Vision",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://directory.engineering.upenn.edu/lingjie-liu/"
     },
     {
       "id": "jiayuan-mao",
@@ -505,7 +517,7 @@
       "lab": null,
       "name": "Aaron Roth",
       "title": "Henry Salvatori Professor of Computer & Cognitive Science",
-      "email": null,
+      "email": "aaroth@cis.upenn.edu",
       "website_url": "https://www.cis.upenn.edu/people/faculty/",
       "linkedin_url": null,
       "biography": "Official Henry Salvatori Professor of Computer & Cognitive Science listing at the source university page.",
@@ -521,7 +533,8 @@
       "research_areas": [
         "Trustworthy AI",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://directory.engineering.upenn.edu/aaron-roth/"
     },
     {
       "id": "jianbo-shi",
@@ -530,7 +543,7 @@
       "lab": null,
       "name": "Jianbo Shi",
       "title": "Professor",
-      "email": null,
+      "email": "jshi@cis.upenn.edu",
       "website_url": "https://www.cis.upenn.edu/people/faculty/",
       "linkedin_url": null,
       "biography": "Official Professor listing at the source university page.",
@@ -546,7 +559,8 @@
       "research_areas": [
         "Computer Vision",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://directory.engineering.upenn.edu/jianbo-shi/"
     },
     {
       "id": "camillo-jose-taylor",
@@ -555,7 +569,7 @@
       "lab": "grasp",
       "name": "Camillo Jose Taylor",
       "title": "Raymond S. Markowitz President's Distinguished Professor; Director of the GRASP Laboratory",
-      "email": null,
+      "email": "cjtaylor@seas.upenn.edu",
       "website_url": "https://www.cis.upenn.edu/people/faculty/",
       "linkedin_url": null,
       "biography": "Official Raymond S. Markowitz President's Distinguished Professor; Director of the GRASP Laboratory listing at the source university page.",
@@ -571,7 +585,8 @@
       "research_areas": [
         "Robotics",
         "Computer Vision"
-      ]
+      ],
+      "email_source_url": "https://directory.engineering.upenn.edu/camillo-jose-taylor/"
     },
     {
       "id": "lyle-ungar",
@@ -606,7 +621,7 @@
       "lab": null,
       "name": "Eric Wong",
       "title": "Assistant Professor",
-      "email": null,
+      "email": "exwong@cis.upenn.edu",
       "website_url": "https://www.cis.upenn.edu/people/faculty/",
       "linkedin_url": null,
       "biography": "Official Assistant Professor listing at the source university page.",
@@ -622,7 +637,8 @@
       "research_areas": [
         "Trustworthy AI",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://directory.engineering.upenn.edu/eric-wong/"
     },
     {
       "id": "mark-yatskar",
@@ -631,7 +647,7 @@
       "lab": null,
       "name": "Mark Yatskar",
       "title": "Assistant Professor",
-      "email": null,
+      "email": "myatskar@cis.upenn.edu",
       "website_url": "https://www.cis.upenn.edu/people/faculty/",
       "linkedin_url": null,
       "biography": "Official Assistant Professor listing at the source university page.",
@@ -647,7 +663,8 @@
       "research_areas": [
         "Natural Language Processing",
         "Computer Vision"
-      ]
+      ],
+      "email_source_url": "https://directory.engineering.upenn.edu/mark-yatskar/"
     },
     {
       "id": "mingmin-zhao",
@@ -656,7 +673,7 @@
       "lab": null,
       "name": "Mingmin Zhao",
       "title": "Assistant Professor",
-      "email": null,
+      "email": "mingminz@seas.upenn.edu",
       "website_url": "https://www.cis.upenn.edu/people/faculty/",
       "linkedin_url": null,
       "biography": "Official Assistant Professor listing at the source university page.",
@@ -672,7 +689,8 @@
       "research_areas": [
         "Machine Learning",
         "AI Systems"
-      ]
+      ],
+      "email_source_url": "https://directory.engineering.upenn.edu/mingmin-zhao/"
     },
     {
       "id": "pratik-chaudhari",
@@ -681,7 +699,7 @@
       "lab": null,
       "name": "Pratik Chaudhari",
       "title": "Associate Professor",
-      "email": null,
+      "email": "pratikac@seas.upenn.edu",
       "website_url": "https://www.cis.upenn.edu/people/faculty/",
       "linkedin_url": null,
       "biography": "Official Associate Professor listing at the source university page.",
@@ -697,7 +715,8 @@
       "research_areas": [
         "Machine Learning",
         "Computer Vision"
-      ]
+      ],
+      "email_source_url": "https://directory.engineering.upenn.edu/pratik-chaudhari/"
     },
     {
       "id": "hamed-hassani",
@@ -706,7 +725,7 @@
       "lab": null,
       "name": "Hamed Hassani",
       "title": "Associate Professor",
-      "email": null,
+      "email": "hassani@seas.upenn.edu",
       "website_url": "https://www.cis.upenn.edu/people/faculty/",
       "linkedin_url": null,
       "biography": "Official Associate Professor listing at the source university page.",
@@ -721,7 +740,8 @@
       "source_url": "https://www.cis.upenn.edu/people/faculty/",
       "research_areas": [
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://directory.engineering.upenn.edu/hamed-hassani/"
     },
     {
       "id": "rene-vidal",
@@ -730,7 +750,7 @@
       "lab": "ideas",
       "name": "René Vidal",
       "title": "Rachleff University Professor; Director of the IDEAS Initiative",
-      "email": null,
+      "email": "vidalr@seas.upenn.edu",
       "website_url": "https://www.cis.upenn.edu/people/faculty/",
       "linkedin_url": null,
       "biography": "Official Rachleff University Professor; Director of the IDEAS Initiative listing at the source university page.",
@@ -747,7 +767,8 @@
         "Machine Learning",
         "Computer Vision",
         "Medical AI"
-      ]
+      ],
+      "email_source_url": "https://directory.engineering.upenn.edu/rene-vidal/"
     },
     {
       "id": "antonio-loquercio",
@@ -756,7 +777,7 @@
       "lab": null,
       "name": "Antonio Loquercio",
       "title": "Assistant Professor",
-      "email": null,
+      "email": "aloque@seas.upenn.edu",
       "website_url": "https://www.cis.upenn.edu/people/faculty/",
       "linkedin_url": null,
       "biography": "Official Assistant Professor listing at the source university page.",
@@ -772,7 +793,8 @@
       "research_areas": [
         "Robotics",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://directory.engineering.upenn.edu/antonio-loquercio/"
     },
     {
       "id": "nikolai-matni",
@@ -781,7 +803,7 @@
       "lab": null,
       "name": "Nikolai Matni",
       "title": "Associate Professor",
-      "email": null,
+      "email": "nmatni@seas.upenn.edu",
       "website_url": "https://www.cis.upenn.edu/people/faculty/",
       "linkedin_url": null,
       "biography": "Official Associate Professor listing at the source university page.",
@@ -797,7 +819,8 @@
       "research_areas": [
         "Robotics",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://directory.engineering.upenn.edu/nikolai-matni/"
     },
     {
       "id": "george-j-pappas",
@@ -879,7 +902,7 @@
       "lab": null,
       "name": "Nadia Figueroa",
       "title": "Shalini and Rajeev Misra Presidential Assistant Professor",
-      "email": null,
+      "email": "nadiafig@seas.upenn.edu",
       "website_url": "https://www.cis.upenn.edu/people/faculty/",
       "linkedin_url": null,
       "biography": "Official Shalini and Rajeev Misra Presidential Assistant Professor listing at the source university page.",
@@ -895,7 +918,8 @@
       "research_areas": [
         "Robotics",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://directory.engineering.upenn.edu/nadia-figueroa/"
     },
     {
       "id": "michael-posa",
@@ -904,7 +928,7 @@
       "lab": null,
       "name": "Michael Posa",
       "title": "Associate Professor",
-      "email": null,
+      "email": "posa@seas.upenn.edu",
       "website_url": "https://www.cis.upenn.edu/people/faculty/",
       "linkedin_url": null,
       "biography": "Official Associate Professor listing at the source university page.",
@@ -919,7 +943,8 @@
       "source_url": "https://www.cis.upenn.edu/people/faculty/",
       "research_areas": [
         "Robotics"
-      ]
+      ],
+      "email_source_url": "https://directory.engineering.upenn.edu/michael-posa/"
     },
     {
       "id": "cynthia-sung",
@@ -928,7 +953,7 @@
       "lab": null,
       "name": "Cynthia Sung",
       "title": "Associate Professor",
-      "email": null,
+      "email": "crsung@seas.upenn.edu",
       "website_url": "https://www.cis.upenn.edu/people/faculty/",
       "linkedin_url": null,
       "biography": "Official Associate Professor listing at the source university page.",
@@ -943,7 +968,8 @@
       "source_url": "https://www.cis.upenn.edu/people/faculty/",
       "research_areas": [
         "Robotics"
-      ]
+      ],
+      "email_source_url": "https://directory.engineering.upenn.edu/cynthia-sung/"
     },
     {
       "id": "konrad-paul-kording",
@@ -952,7 +978,7 @@
       "lab": null,
       "name": "Konrad Paul Kording",
       "title": "Nathan Francis Mossell University Professor",
-      "email": null,
+      "email": "kording@upenn.edu",
       "website_url": "https://www.cis.upenn.edu/people/faculty/",
       "linkedin_url": null,
       "biography": "Official Nathan Francis Mossell University Professor listing at the source university page.",
@@ -968,7 +994,8 @@
       "research_areas": [
         "Biomedical AI",
         "Computational Biology"
-      ]
+      ],
+      "email_source_url": "https://directory.engineering.upenn.edu/konrad-paul-kording/"
     },
     {
       "id": "christos-davatzikos",
@@ -977,7 +1004,7 @@
       "lab": null,
       "name": "Christos Davatzikos",
       "title": "Wallace T. Miller, Sr, Professor; Director, Center for Biomedical Image Computing and Analytics",
-      "email": null,
+      "email": "christos.davatzikos@pennmedicine.upenn.edu",
       "website_url": "https://www.cis.upenn.edu/people/faculty/",
       "linkedin_url": null,
       "biography": "Official Wallace T. Miller, Sr, Professor; Director, Center for Biomedical Image Computing and Analytics listing at the source university page.",
@@ -993,7 +1020,8 @@
       "research_areas": [
         "Medical AI",
         "Computer Vision"
-      ]
+      ],
+      "email_source_url": "https://directory.engineering.upenn.edu/christos-davatzikos/"
     },
     {
       "id": "weijie-su",

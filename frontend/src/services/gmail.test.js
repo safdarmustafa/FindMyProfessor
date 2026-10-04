@@ -56,3 +56,13 @@ describe('gmail service', () => {
     expect(getPendingIntent()).toBeNull();
   });
 });
+
+describe('gmailConnectUrl uses the current stored profile id', () => {
+  it('prefers the stored (possibly corrected) id over a stale argument', async () => {
+    const { setProfileId } = await import('./api.js');
+    const { gmailConnectUrl } = await import('./gmail.js');
+    setProfileId('fresh-id');
+    expect(gmailConnectUrl('stale-id')).toContain('profile_id=fresh-id');
+    localStorage.clear();
+  });
+});

@@ -234,7 +234,7 @@ def gmail_status(
 ):
     """Return safe connection status. Never returns tokens."""
     status = gmail_service.get_status(profile_id)
-    return {"connected": status.connected, "email": status.email}
+    return {"connected": status.connected, "email": status.email, "needs_reconnect": getattr(status, "needs_reconnect", False)}
 
 
 # ---------------------------------------------------------------------------

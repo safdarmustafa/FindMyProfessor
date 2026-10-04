@@ -333,7 +333,7 @@
       "lab": null,
       "name": "Sara Beery",
       "title": "Assistant Professor, AI+D",
-      "email": null,
+      "email": "beery@mit.edu",
       "website_url": "https://www.eecs.mit.edu/role/faculty-aid/",
       "linkedin_url": null,
       "biography": "Official MIT EECS AI+D faculty directory lists Sara Beery as Assistant Professor, AI+D. The directory entry did not publish an email address.",
@@ -348,7 +348,8 @@
       "source_url": "https://www.eecs.mit.edu/role/faculty-aid/",
       "research_areas": [
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://www.eecs.mit.edu/people/sara-beery/"
     },
     {
       "id": "guy-bresler",
@@ -478,7 +479,7 @@
       "lab": null,
       "name": "Gabriele Farina",
       "title": "Assistant Professor, AI+D",
-      "email": null,
+      "email": "gfarina@mit.edu",
       "website_url": "https://www.eecs.mit.edu/role/faculty-aid/",
       "linkedin_url": null,
       "biography": "Official MIT EECS AI+D faculty directory lists Gabriele Farina as Assistant Professor, AI+D. The directory entry did not publish an email address.",
@@ -493,7 +494,8 @@
       "source_url": "https://www.eecs.mit.edu/role/faculty-aid/",
       "research_areas": [
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://www.eecs.mit.edu/people/gabriele-farina/"
     },
     {
       "id": "marzyeh-ghassemi",
@@ -502,7 +504,7 @@
       "lab": null,
       "name": "Marzyeh Ghassemi",
       "title": "Associate Professor, AI+D",
-      "email": null,
+      "email": "mghassem@mit.edu",
       "website_url": "https://www.eecs.mit.edu/role/faculty-aid/",
       "linkedin_url": null,
       "biography": "Official MIT EECS AI+D faculty directory lists Marzyeh Ghassemi as Associate Professor, AI+D. The directory entry did not publish an email address.",
@@ -518,7 +520,8 @@
       "research_areas": [
         "Medical AI",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://www.eecs.mit.edu/people/marzyeh-ghassemi/"
     },
     {
       "id": "polina-golland",
@@ -552,7 +555,7 @@
       "lab": null,
       "name": "Kaiming He",
       "title": "Associate Professor, AI+D",
-      "email": null,
+      "email": "kaiming@mit.edu",
       "website_url": "https://www.eecs.mit.edu/role/faculty-aid/",
       "linkedin_url": null,
       "biography": "Official MIT EECS AI+D faculty directory lists Kaiming He as Associate Professor, AI+D. The directory entry did not publish an email address.",
@@ -568,7 +571,8 @@
       "research_areas": [
         "Machine Learning",
         "Computer Vision"
-      ]
+      ],
+      "email_source_url": "https://www.eecs.mit.edu/people/kaiming-he/"
     },
     {
       "id": "yunha-hwang",
@@ -677,7 +681,7 @@
       "lab": null,
       "name": "Omar Khattab",
       "title": "Assistant Professor, AI+D and CS",
-      "email": null,
+      "email": "okhattab@mit.edu",
       "website_url": "https://www.eecs.mit.edu/role/faculty-aid/",
       "linkedin_url": null,
       "biography": "Official MIT EECS AI+D faculty directory lists Omar Khattab as Assistant Professor, AI+D and CS. The directory entry did not publish an email address.",
@@ -693,7 +697,8 @@
       "research_areas": [
         "Machine Learning",
         "Natural Language Processing"
-      ]
+      ],
+      "email_source_url": "https://www.eecs.mit.edu/people/omar-khattab/"
     },
     {
       "id": "tim-kraska",
@@ -726,7 +731,7 @@
       "lab": null,
       "name": "Paul Liang",
       "title": "Assistant Professor, AI+D, shared appointment with Media Arts and Sciences",
-      "email": null,
+      "email": "ppliang@mit.edu",
       "website_url": "https://www.eecs.mit.edu/role/faculty-aid/",
       "linkedin_url": null,
       "biography": "Official MIT EECS AI+D faculty directory lists Paul Liang as Assistant Professor, AI+D, shared appointment with Media Arts and Sciences. The directory entry did not publish an email address.",
@@ -742,7 +747,8 @@
       "research_areas": [
         "Machine Learning",
         "Natural Language Processing"
-      ]
+      ],
+      "email_source_url": "https://www.eecs.mit.edu/people/paul-liang/"
     },
     {
       "id": "tomas-lozano-perez",
@@ -943,7 +949,7 @@
       "lab": null,
       "name": "Vincent Sitzmann",
       "title": "Associate Professor, AI+D",
-      "email": null,
+      "email": "sitzmann@mit.edu",
       "website_url": "https://www.eecs.mit.edu/role/faculty-aid/",
       "linkedin_url": null,
       "biography": "Official MIT EECS AI+D faculty directory lists Vincent Sitzmann as Associate Professor, AI+D. The directory entry did not publish an email address.",
@@ -959,7 +965,8 @@
       "research_areas": [
         "Machine Learning",
         "Computer Vision"
-      ]
+      ],
+      "email_source_url": "https://www.eecs.mit.edu/people/vincent-sitzmann/"
     },
     {
       "id": "paris-smaragdis",
@@ -1141,7 +1148,7 @@
       "lab": null,
       "name": "Ashia Wilson",
       "title": "Associate Professor, AI+D",
-      "email": null,
+      "email": "ashia07@mit.edu",
       "website_url": "https://www.eecs.mit.edu/role/faculty-aid/",
       "linkedin_url": null,
       "biography": "Official MIT EECS AI+D faculty directory lists Ashia Wilson as Associate Professor, AI+D. The directory entry did not publish an email address.",
@@ -1156,7 +1163,8 @@
       "source_url": "https://www.eecs.mit.edu/role/faculty-aid/",
       "research_areas": [
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://www.eecs.mit.edu/people/ashia-wilson/"
     },
     {
       "id": "gregory-wornell",
@@ -1189,7 +1197,7 @@
       "lab": null,
       "name": "Nidhi Seethapathi",
       "title": "Assistant Professor, shared appointment in BCS, AI+D",
-      "email": null,
+      "email": "nidhise@mit.edu",
       "website_url": "https://www.eecs.mit.edu/role/faculty-aid/",
       "linkedin_url": null,
       "biography": "Official MIT EECS AI+D faculty directory lists Nidhi Seethapathi as Assistant Professor, shared appointment in BCS, AI+D. The directory entry did not publish an email address.",
@@ -1204,7 +1212,8 @@
       "source_url": "https://www.eecs.mit.edu/role/faculty-aid/",
       "research_areas": [
         "Medical AI"
-      ]
+      ],
+      "email_source_url": "https://www.eecs.mit.edu/people/seethapathi-assistant-professor/"
     },
     {
       "id": "mina-konakovic-lukovic",
@@ -1213,7 +1222,7 @@
       "lab": null,
       "name": "Mina Konakovic Lukovic",
       "title": "Assistant Professor, AI+D",
-      "email": null,
+      "email": "minakl@mit.edu",
       "website_url": "https://www.eecs.mit.edu/role/faculty-aid/",
       "linkedin_url": null,
       "biography": "Official MIT EECS AI+D faculty directory lists Mina Konakovic Lukovic as Assistant Professor, AI+D. The directory entry did not publish an email address.",
@@ -1228,7 +1237,8 @@
       "source_url": "https://www.eecs.mit.edu/role/faculty-aid/",
       "research_areas": [
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://www.eecs.mit.edu/people/mina-konakovic-lukovic/"
     }
   ]
 }

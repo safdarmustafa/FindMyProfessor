@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import EmailCompose from './EmailCompose.jsx';
@@ -267,6 +267,106 @@ describe('Email compose page', () => {
     renderCompose();
     await generateDraftInUi(user);
     expect(await screen.findByRole('option', { name: /Resume.pdf/ })).toBeInTheDocument();
+  });
+
+  it('never offers a CV whose file is missing, and preselects the active one', async () => {
+    const user = userEvent.setup();
+    outreach.listCvVersions.mockResolvedValue([
+      { cv_version_id: 'cv-gone', display_name: 'Old.pdf', is_default: false, confirmed: true, file_available: false },
+      { cv_version_id: 'cv-1', display_name: 'Resume.pdf', is_default: true, confirmed: true, file_available: true },
+    ]);
+    renderCompose();
+    await generateDraftInUi(user);
+    expect(await screen.findByRole('option', { name: /Resume.pdf \(active\)/ })).toBeInTheDocument();
+    expect(screen.queryByRole('option', { name: /Old.pdf/ })).not.toBeInTheDocument();
+    expect(screen.getByRole('combobox')).toHaveValue('cv-1');
+  });
+
+  it('points to the My CV page when no stored CV can be attached', async () => {
+    const user = userEvent.setup();
+    outreach.listCvVersions.mockResolvedValue([
+      { cv_version_id: 'cv-gone', display_name: 'Old.pdf', is_default: true, confirmed: true, file_available: false },
+    ]);
+    renderCompose();
+    await generateDraftInUi(user);
+    expect(await screen.findByText(/no longer stored on the server/)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Upload your CV on the My CV page/ })).toHaveAttribute('href', '/onboarding');
+  });
+
+  it('tells the student up front when the professor has no listed email, and offers copy instead of send', async () => {
+    const user = userEvent.setup();
+    matching.fetchProfessor.mockResolvedValue({ ...professorDetail, email: null, website_url: 'https://example.edu/jane' });
+    const writeText = vi.fn(() => Promise.resolve());
+    Object.defineProperty(navigator, 'clipboard', { value: { writeText }, configurable: true });
+
+    renderCompose();
+    expect(await screen.findByText(/No email address is listed for Jane Smith/)).toBeInTheDocument();
+    expect(screen.getAllByRole('link', { name: /faculty page/ })[0]).toHaveAttribute('href', 'https://example.edu/jane');
+
+    await generateDraftInUi(user);
+    expect(screen.queryByRole('button', { name: /Preview Email/ })).not.toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /Copy email/ }));
+    expect(writeText).toHaveBeenCalledWith(expect.stringContaining(`Subject: ${draftResponse.subject}`));
+    expect(await screen.findByRole('button', { name: /Copied to clipboard/ })).toBeInTheDocument();
+  });
+
+  it('keeps Preview & Send for professors with a listed email', async () => {
+    const user = userEvent.setup();
+    renderCompose();
+    await generateDraftInUi(user);
+    expect(screen.queryByText(/No email address is listed/)).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Preview Email/ })).toBeInTheDocument();
+  });
+
+  it('refreshes Gmail status when sending fails because the connection must be renewed', async () => {
+    const user = userEvent.setup();
+    const refetch = vi.fn();
+    useGmailStatus.mockReturnValue({ status: { connected: true, email: 'me@gmail.com' }, loading: false, error: null, refetch });
+    const err = Object.assign(new Error('Your Gmail connection needs to be renewed. Please reconnect Gmail and try sending again.'), { status: 401 });
+    outreach.sendDraft.mockRejectedValue(err);
+    renderCompose();
+    await generateDraftInUi(user);
+    await user.click(await screen.findByRole('button', { name: /Attach CV/i }));
+    await user.click(screen.getByRole('button', { name: /Preview Email/i }));
+    const send = await screen.findByRole('button', { name: /Send/i, hidden: false });
+    await user.click(send);
+    expect(await screen.findByText(/needs to be renewed/)).toBeInTheDocument();
+    expect(refetch).toHaveBeenCalled();
+  });
+
+  it('confirms a successful send with a professional confirmation screen and next steps', async () => {
+    const user = userEvent.setup();
+    outreach.sendDraft.mockResolvedValue({ draft_id: 'draft-1', status: 'sent', sent_at: '2026-10-04T18:00:00Z', message: 'sent' });
+    renderCompose();
+    await generateDraftInUi(user);
+    await user.click(screen.getByRole('button', { name: /Preview Email/i }));
+    await screen.findByText('Email Preview');
+    await user.click(screen.getByRole('button', { name: /Send Email/i }));
+
+    const dialog = await screen.findByRole('dialog', { name: 'Email sent successfully' });
+    expect(dialog).toHaveTextContent('Your outreach email to Jane Smith has been sent from your Gmail account.');
+    expect(dialog).not.toHaveTextContent(/congratulations/i);
+    expect(dialog).toHaveTextContent('jane@stanford.edu');
+    expect(dialog).toHaveTextContent('Resume.pdf attached');
+    expect(within(dialog).getByRole('link', { name: 'View in Outreach History' })).toHaveAttribute('href', '/outreach/history');
+    expect(within(dialog).getByRole('link', { name: 'Find more professors' })).toHaveAttribute('href', '/matches');
+
+    await user.click(within(dialog).getByRole('button', { name: 'Close' }));
+    expect(screen.queryByRole('dialog', { name: 'Email sent successfully' })).not.toBeInTheDocument();
+    expect(screen.getByText('Email sent successfully')).toBeInTheDocument();
+  });
+
+  it('closes the send confirmation with the Escape key', async () => {
+    const user = userEvent.setup();
+    outreach.sendDraft.mockResolvedValue({ draft_id: 'draft-1', status: 'sent', sent_at: '2026-10-04T18:00:00Z', message: 'sent' });
+    renderCompose();
+    await generateDraftInUi(user);
+    await user.click(screen.getByRole('button', { name: /Preview Email/i }));
+    await screen.findByText('Email Preview');
+    await user.click(screen.getByRole('button', { name: /Send Email/i }));
+    await screen.findByRole('dialog', { name: 'Email sent successfully' });
+    await user.keyboard('{Escape}');
+    expect(screen.queryByRole('dialog', { name: 'Email sent successfully' })).not.toBeInTheDocument();
   });
 
   it('shows a clear error instead of silently failing when CV attachment fails', async () => {

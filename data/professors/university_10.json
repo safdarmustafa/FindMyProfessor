@@ -83,7 +83,7 @@
       "lab": null,
       "name": "Olga Russakovsky",
       "title": "Associate Professor",
-      "email": null,
+      "email": "olgarus@cs.princeton.edu",
       "website_url": "https://www.cs.princeton.edu/people/profile/olgarus",
       "linkedin_url": null,
       "biography": "Official Princeton CS profile lists Olga Russakovsky as Associate Professor. The fetched contact block did not publish an email address.",
@@ -100,7 +100,8 @@
         "Computer Vision",
         "Machine Learning",
         "Trustworthy AI"
-      ]
+      ],
+      "email_source_url": "https://www.cs.princeton.edu/people/profile/olgarus"
     },
     {
       "id": "jia-deng",
@@ -109,7 +110,7 @@
       "lab": null,
       "name": "Jia Deng",
       "title": "Professor",
-      "email": null,
+      "email": "jiadeng@cs.princeton.edu",
       "website_url": "https://www.cs.princeton.edu/people/faculty",
       "linkedin_url": null,
       "biography": "Official Princeton CS faculty directory lists Jia Deng as Professor.",
@@ -125,7 +126,8 @@
       "research_areas": [
         "Computer Vision",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://www.cs.princeton.edu/people/profile/jiadeng"
     },
     {
       "id": "adji-bousso-dieng",
@@ -160,7 +162,7 @@
       "lab": null,
       "name": "Peter Henderson",
       "title": "Assistant Professor",
-      "email": null,
+      "email": "ph4162@cs.princeton.edu",
       "website_url": "https://www.cs.princeton.edu/people/faculty",
       "linkedin_url": null,
       "biography": "Official Princeton CS faculty directory lists Peter Henderson as Assistant Professor.",
@@ -177,7 +179,8 @@
         "Machine Learning",
         "Natural Language Processing",
         "Trustworthy AI"
-      ]
+      ],
+      "email_source_url": "https://www.cs.princeton.edu/people/profile/ph4162"
     },
     {
       "id": "manoel-horta-ribeiro",
@@ -211,7 +214,7 @@
       "lab": null,
       "name": "Brenden Lake",
       "title": "Associate Professor",
-      "email": null,
+      "email": "bl8144@cs.princeton.edu",
       "website_url": "https://www.cs.princeton.edu/people/faculty",
       "linkedin_url": null,
       "biography": "Official Princeton CS faculty directory lists Brenden Lake as Associate Professor.",
@@ -228,7 +231,8 @@
         "Machine Learning",
         "Computer Vision",
         "Natural Language Processing"
-      ]
+      ],
+      "email_source_url": "https://www.cs.princeton.edu/people/profile/bl8144"
     },
     {
       "id": "lydia-liu",
@@ -237,7 +241,7 @@
       "lab": null,
       "name": "Lydia Liu",
       "title": "Assistant Professor",
-      "email": null,
+      "email": "ltliu@cs.princeton.edu",
       "website_url": "https://www.cs.princeton.edu/people/faculty",
       "linkedin_url": null,
       "biography": "Official Princeton CS faculty directory lists Lydia Liu as Assistant Professor.",
@@ -253,7 +257,8 @@
       "research_areas": [
         "Machine Learning",
         "Trustworthy AI"
-      ]
+      ],
+      "email_source_url": "https://www.cs.princeton.edu/people/profile/ltliu"
     },
     {
       "id": "zhuang-liu",
@@ -262,7 +267,7 @@
       "lab": null,
       "name": "Zhuang Liu",
       "title": "Assistant Professor",
-      "email": null,
+      "email": "zhuangl@cs.princeton.edu",
       "website_url": "https://www.cs.princeton.edu/people/faculty",
       "linkedin_url": null,
       "biography": "Official Princeton CS faculty directory lists Zhuang Liu as Assistant Professor.",
@@ -279,7 +284,8 @@
         "Machine Learning",
         "Computer Vision",
         "Natural Language Processing"
-      ]
+      ],
+      "email_source_url": "https://www.cs.princeton.edu/people/profile/zhuangl"
     },
     {
       "id": "karthik-narasimhan",
@@ -288,7 +294,7 @@
       "lab": null,
       "name": "Karthik Narasimhan",
       "title": "Associate Professor",
-      "email": null,
+      "email": "karthikn@cs.princeton.edu",
       "website_url": "https://www.cs.princeton.edu/people/faculty",
       "linkedin_url": null,
       "biography": "Official Princeton CS faculty directory lists Karthik Narasimhan as Associate Professor.",
@@ -304,7 +310,8 @@
       "research_areas": [
         "Natural Language Processing",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://www.cs.princeton.edu/people/profile/karthikn"
     },
     {
       "id": "sebastian-seung",
@@ -313,7 +320,7 @@
       "lab": null,
       "name": "Sebastian Seung",
       "title": "Professor of Computer Science and Princeton Neurosciences Institute",
-      "email": null,
+      "email": "sseung@princeton.edu",
       "website_url": "https://www.cs.princeton.edu/people/faculty",
       "linkedin_url": null,
       "biography": "Official Princeton CS faculty directory lists Sebastian Seung as Professor of Computer Science and Princeton Neurosciences Institute.",
@@ -329,7 +336,8 @@
       "research_areas": [
         "Machine Learning",
         "AI for Science"
-      ]
+      ],
+      "email_source_url": "https://www.cs.princeton.edu/people/profile/sseung"
     },
     {
       "id": "ellen-zhong",
@@ -338,7 +346,7 @@
       "lab": null,
       "name": "Ellen Zhong",
       "title": "Assistant Professor",
-      "email": null,
+      "email": "zhonge@cs.princeton.edu",
       "website_url": "https://www.cs.princeton.edu/people/faculty",
       "linkedin_url": null,
       "biography": "Official Princeton CS faculty directory lists Ellen Zhong as Assistant Professor.",
@@ -354,7 +362,8 @@
       "research_areas": [
         "Machine Learning",
         "AI for Science"
-      ]
+      ],
+      "email_source_url": "https://www.cs.princeton.edu/people/profile/zhonge"
     },
     {
       "id": "szymon-rusinkiewicz",
@@ -388,7 +397,7 @@
       "lab": null,
       "name": "Felix Heide",
       "title": "Assistant Professor",
-      "email": null,
+      "email": "fheide@cs.princeton.edu",
       "website_url": "https://www.cs.princeton.edu/people/faculty",
       "linkedin_url": null,
       "biography": "Official Princeton CS faculty directory lists Felix Heide as Assistant Professor.",
@@ -404,7 +413,8 @@
       "research_areas": [
         "Computer Vision",
         "Robotics"
-      ]
+      ],
+      "email_source_url": "https://www.cs.princeton.edu/people/profile/fheide"
     },
     {
       "id": "benjamin-eysenbach",
@@ -413,7 +423,7 @@
       "lab": null,
       "name": "Benjamin Eysenbach",
       "title": "Assistant Professor",
-      "email": null,
+      "email": "eysenbach@cs.princeton.edu",
       "website_url": "https://www.cs.princeton.edu/people/faculty",
       "linkedin_url": null,
       "biography": "Official Princeton CS faculty directory lists Benjamin Eysenbach as Assistant Professor.",
@@ -428,7 +438,8 @@
       "source_url": "https://www.cs.princeton.edu/people/faculty",
       "research_areas": [
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://www.cs.princeton.edu/people/profile/eysenbach"
     },
     {
       "id": "sanjeev-arora",
@@ -437,7 +448,7 @@
       "lab": null,
       "name": "Sanjeev Arora",
       "title": "Charles C. Fitzmorris Professor",
-      "email": null,
+      "email": "arora@cs.princeton.edu",
       "website_url": "https://www.cs.princeton.edu/people/faculty",
       "linkedin_url": null,
       "biography": "Official Princeton CS faculty directory lists Sanjeev Arora as Charles C. Fitzmorris Professor.",
@@ -452,7 +463,8 @@
       "source_url": "https://www.cs.princeton.edu/people/faculty",
       "research_areas": [
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://www.cs.princeton.edu/people/profile/arora"
     }
   ]
 }

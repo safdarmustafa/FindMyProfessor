@@ -1,32 +1,41 @@
 from __future__ import annotations
 
 import re
+from functools import lru_cache
 
 from app.matching.models import MatchEvidence, dedupe_evidence
-from app.matching.normalize import catalog_index, is_generic_area, normalize_label
+from app.matching.normalize import is_generic_area
+from app.matching.taxonomy import label_patterns
 
 
 def labels_in_text(text: str | None, catalog_names: list[str]) -> list[str]:
+    """Catalog labels mentioned in `text`, by name or by a known alias.
+
+    Ordered by where they first appear, so the student's own emphasis is kept.
+    """
     if not text or not text.strip():
         return []
-    catalog = catalog_index(catalog_names)
-    found: list[str] = []
-    seen: set[str] = set()
-    for canonical in sorted(catalog.values(), key=lambda name: len(name), reverse=True):
-        if not _label_occurs(text, canonical):
-            continue
-        key = normalize_label(canonical)
-        if key in seen:
-            continue
-        seen.add(key)
-        found.append(canonical)
-    return found
+    return list(_labels_in_text(text, tuple(catalog_names)))
+
+
+@lru_cache(maxsize=4096)
+def _labels_in_text(text: str, catalog_names: tuple[str, ...]) -> tuple[str, ...]:
+    hits: list[tuple[int, int, str]] = []
+    for name, pattern in label_patterns(catalog_names):
+        match = pattern.search(text)
+        if match:
+            hits.append((match.start(), -len(name), name))
+    hits.sort()
+    return tuple(name for _, _, name in hits)
 
 
 def excerpt_for_label(text: str | None, label: str, max_len: int = 180) -> str | None:
     if not text or not label:
         return None
     match = _label_search(text, label)
+    if not match:
+        pattern = dict(label_patterns((label,))).get(label)
+        match = pattern.search(text) if pattern else None
     if not match:
         return None
     start = max(0, match.start() - 40)
@@ -40,10 +49,6 @@ def excerpt_for_label(text: str | None, label: str, max_len: int = 180) -> str |
     if len(snippet) > max_len:
         snippet = snippet[: max_len - 1].rstrip() + "…"
     return snippet
-
-
-def _label_occurs(text: str, label: str) -> bool:
-    return _label_search(text, label) is not None
 
 
 def _label_search(text: str, label: str) -> re.Match[str] | None:

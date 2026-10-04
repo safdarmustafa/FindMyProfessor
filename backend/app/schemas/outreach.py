@@ -62,6 +62,7 @@ class CvVersionMeta(BaseModel):
     created_at: str | None = None
     is_default: bool = False
     confirmed: bool = False
+    file_available: bool = True
 
 
 class AttachCvRequest(BaseModel):

@@ -25,6 +25,18 @@ def _gmail_oauth_test_mode():
     gmail_oauth.disable_test_mode()
 
 
+@pytest.fixture(autouse=True)
+def _local_cv_storage(monkeypatch):
+    """
+    Keep tests on the local-disk CV backend even when a developer's .env sets
+    SUPABASE_CV_BUCKET, so the suite never touches real Supabase Storage.
+    Bucket-specific tests opt back in explicitly (tests/test_cv_storage.py).
+    """
+    from app.cv import storage
+
+    monkeypatch.setattr(storage, "SUPABASE_CV_BUCKET", None)
+
+
 PROFILE_ID = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
 PROFESSOR_ID = "11111111-1111-1111-1111-111111111111"
 DRAFT_ID = "draft-test-1"

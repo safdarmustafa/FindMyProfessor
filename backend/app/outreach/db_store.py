@@ -175,13 +175,13 @@ def _profile_id_of(record: Any) -> str:
 
 def atomically_set_sending(draft_id: str, profile_id: str) -> bool:
     """
-    Atomically transition a draft from 'ready' to 'sending'.
+    Atomically transition a draft from 'ready' (or 'failed', for a retry) to 'sending'.
     Returns True if the transition succeeded (only one caller wins).
     Returns False if the draft was not in 'ready' state.
     """
     if _test_store is not None:
         record = _test_store.get(draft_id)
-        if not record or record.generation_status != "ready":
+        if not record or record.generation_status not in ("ready", "failed"):
             return False
         record.generation_status = "sending"
         return True
@@ -191,6 +191,6 @@ def atomically_set_sending(draft_id: str, profile_id: str) -> bool:
         .update({"status": "sending", "updated_at": datetime.now(timezone.utc).isoformat()})
         .eq("id", draft_id)
         .eq("profile_id", profile_id)
-        .eq("status", "ready")
+        .in_("status", ["ready", "failed"])  # a failed attempt never reached Gmail, so retrying is safe
     ).data or []
     return len(result) > 0

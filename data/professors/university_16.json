@@ -7,7 +7,7 @@
       "lab": null,
       "name": "Mohamed Abdelfattah",
       "title": "Assistant Professor of Electrical and Computer Engineering",
-      "email": null,
+      "email": "mohamed@cornell.edu",
       "website_url": "https://www.cs.cornell.edu/research/machine-learning",
       "linkedin_url": null,
       "biography": "Official Cornell CS machine-learning faculty page lists Mohamed Abdelfattah as Assistant Professor of Electrical and Computer Engineering at Cornell Tech.",
@@ -24,7 +24,8 @@
         "Efficient AI",
         "Machine Learning",
         "Deep Learning"
-      ]
+      ],
+      "email_source_url": "https://www.cs.cornell.edu/people/mohamed-abdelfattah"
     },
     {
       "id": "yoav-artzi",
@@ -33,7 +34,7 @@
       "lab": null,
       "name": "Yoav Artzi",
       "title": "Associate Professor of Computer Science",
-      "email": null,
+      "email": "yoav@cs.cornell.edu",
       "website_url": "https://www.cs.cornell.edu/research/machine-learning",
       "linkedin_url": null,
       "biography": "Official Cornell CS machine-learning faculty page lists Yoav Artzi as Associate Professor of Computer Science at Cornell Tech.",
@@ -49,7 +50,8 @@
       "research_areas": [
         "Natural Language Processing",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://www.cs.cornell.edu/people/yoav-artzi"
     },
     {
       "id": "kavita-bala",
@@ -58,7 +60,7 @@
       "lab": null,
       "name": "Kavita Bala",
       "title": "Provost, Professor of Computer Science",
-      "email": null,
+      "email": "kavitabala@cornell.edu",
       "website_url": "https://www.cs.cornell.edu/research/artificial-intelligence",
       "linkedin_url": null,
       "biography": "Official Cornell AI and ML faculty pages list Kavita Bala as Provost and Professor of Computer Science.",
@@ -74,7 +76,8 @@
       "research_areas": [
         "Computer Vision",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://www.cs.cornell.edu/people/kavita-bala"
     },
     {
       "id": "tapomayukh-bhattacharjee",
@@ -108,7 +111,7 @@
       "lab": null,
       "name": "David Bindel",
       "title": "Professor of Computer Science",
-      "email": null,
+      "email": "bindel@cornell.edu",
       "website_url": "https://www.cs.cornell.edu/research/machine-learning",
       "linkedin_url": null,
       "biography": "Official Cornell CS machine-learning faculty page lists David Bindel as Professor of Computer Science.",
@@ -123,7 +126,8 @@
       "source_url": "https://www.cs.cornell.edu/research/machine-learning",
       "research_areas": [
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://www.cs.cornell.edu/people/david-bindel"
     },
     {
       "id": "florentina-bunea",
@@ -132,7 +136,7 @@
       "lab": null,
       "name": "Florentina Bunea",
       "title": "Professor of Statistics and Data Science",
-      "email": null,
+      "email": "fb238@cornell.edu",
       "website_url": "https://www.cs.cornell.edu/research/machine-learning",
       "linkedin_url": null,
       "biography": "Official Cornell CS machine-learning faculty page lists Florentina Bunea as Professor of Statistics and Data Science.",
@@ -148,7 +152,8 @@
       "research_areas": [
         "Machine Learning",
         "Data Science"
-      ]
+      ],
+      "email_source_url": "https://www.cs.cornell.edu/people/florentina-bunea"
     },
     {
       "id": "diana-cai",
@@ -181,7 +186,7 @@
       "lab": null,
       "name": "Preston Culbertson",
       "title": "Assistant Professor of Computer Science",
-      "email": null,
+      "email": "pculbertson@cornell.edu",
       "website_url": "https://www.cs.cornell.edu/research/machine-learning",
       "linkedin_url": null,
       "biography": "Official Cornell ML faculty page lists Preston Culbertson as Assistant Professor of Computer Science.",
@@ -198,7 +203,8 @@
         "Robotics",
         "Machine Learning",
         "Computer Vision"
-      ]
+      ],
+      "email_source_url": "https://pculbertson.github.io"
     },
     {
       "id": "cristian-danescu-niculescu-mizil",
@@ -282,7 +288,7 @@
       "lab": null,
       "name": "Ahmed El Alaoui",
       "title": "Assistant Professor of Statistics and Data Science",
-      "email": null,
+      "email": "elalaoui@cornell.edu",
       "website_url": "https://www.cs.cornell.edu/research/machine-learning",
       "linkedin_url": null,
       "biography": "Official Cornell ML faculty page lists Ahmed El Alaoui as Assistant Professor of Statistics and Data Science.",
@@ -298,7 +304,8 @@
       "research_areas": [
         "Machine Learning",
         "Data Science"
-      ]
+      ],
+      "email_source_url": "https://elalaoui.stat.cornell.edu"
     },
     {
       "id": "kevin-ellis",
@@ -307,7 +314,7 @@
       "lab": null,
       "name": "Kevin Ellis",
       "title": "Assistant Professor of Computer Science",
-      "email": null,
+      "email": "kellis@cornell.edu",
       "website_url": "https://www.cs.cornell.edu/research/artificial-intelligence",
       "linkedin_url": null,
       "biography": "Official Cornell AI/ML faculty pages list Kevin Ellis as Assistant Professor of Computer Science.",
@@ -323,7 +330,8 @@
       "research_areas": [
         "Artificial Intelligence",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://www.cs.cornell.edu/people/kevin-ellis"
     },
     {
       "id": "kuan-fang",
@@ -358,7 +366,7 @@
       "lab": null,
       "name": "Sainyam Galhotra",
       "title": "Assistant Professor of Computer Science",
-      "email": null,
+      "email": "sg@cs.cornell.edu",
       "website_url": "https://www.cs.cornell.edu/research/artificial-intelligence",
       "linkedin_url": null,
       "biography": "Official Cornell AI/ML faculty pages list Sainyam Galhotra as Assistant Professor of Computer Science.",
@@ -374,7 +382,8 @@
       "research_areas": [
         "Machine Learning",
         "Data Science"
-      ]
+      ],
+      "email_source_url": "https://www.cs.cornell.edu/people/sainyam-galhotra"
     },
     {
       "id": "bharath-hariharan",
@@ -433,7 +442,7 @@
       "lab": null,
       "name": "Thorsten Joachims",
       "title": "Jacob Gould Schurman Professor of Computer Science and Information Science",
-      "email": null,
+      "email": "tj@cs.cornell.edu",
       "website_url": "https://www.cs.cornell.edu/research/machine-learning",
       "linkedin_url": null,
       "biography": "Official Cornell ML faculty page lists Thorsten Joachims as Director, Cornell AI Initiative, and Vice Provost for AI Strategy.",
@@ -450,7 +459,8 @@
         "Machine Learning",
         "Information Retrieval",
         "Artificial Intelligence"
-      ]
+      ],
+      "email_source_url": "https://www.cs.cornell.edu/people/thorsten-joachims"
     },
     {
       "id": "carla-gomes",
@@ -509,7 +519,7 @@
       "lab": null,
       "name": "Lillian Lee",
       "title": "Charles Roy Davis Professor of Computer Science",
-      "email": null,
+      "email": "llee@cs.cornell.edu",
       "website_url": "https://www.cs.cornell.edu/research/artificial-intelligence",
       "linkedin_url": null,
       "biography": "Official Cornell AI faculty page lists Lillian Lee as Charles Roy Davis Professor of Computer Science.",
@@ -525,7 +535,8 @@
       "research_areas": [
         "Natural Language Processing",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://www.cs.cornell.edu/research/artificial-intelligence"
     },
     {
       "id": "kristina-monakhova",

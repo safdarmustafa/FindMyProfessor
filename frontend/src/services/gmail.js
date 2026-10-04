@@ -1,4 +1,4 @@
-import { apiFetch, apiUrl } from './api.js';
+import { apiFetch, apiUrl, getProfileId } from './api.js';
 
 export async function getGmailStatus() {
   return apiFetch('/gmail/status');
@@ -9,7 +9,10 @@ export async function disconnectGmail() {
 }
 
 export function gmailConnectUrl(profileId, returnTo) {
-  let url = apiUrl('/gmail/connect?profile_id=' + encodeURIComponent(profileId));
+  // Prefer the stored id at click time: it may have been corrected by the
+  // backend (see syncProfileId in api.js) after the page first rendered.
+  const id = getProfileId() || profileId;
+  let url = apiUrl('/gmail/connect?profile_id=' + encodeURIComponent(id));
   if (returnTo) {
     url += '&return_to=' + encodeURIComponent(returnTo);
   }

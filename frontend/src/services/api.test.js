@@ -85,3 +85,42 @@ describe('profile id helpers', () => {
     expect(getProfileId()).toBe('abc');
   });
 });
+
+describe('apiFetch keeps the stored profile id in step with the backend', () => {
+  beforeEach(() => {
+    localStorage.clear();
+    vi.stubGlobal('fetch', vi.fn());
+  });
+
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  const withHeader = (value, ok = true, status = 200) => ({
+    ok,
+    status,
+    headers: new Headers(value === undefined ? {} : { 'X-Profile-Id': value }),
+    json: async () => (ok ? {} : { detail: 'No profile found for this account yet. Upload a CV first.' }),
+  });
+
+  it('replaces a stale stored id with the one the backend resolved', async () => {
+    setProfileId('stale-id');
+    fetch.mockResolvedValue(withHeader('real-id'));
+    await apiFetch('/profile');
+    expect(getProfileId()).toBe('real-id');
+  });
+
+  it('clears the stored id when the account has no profile yet, even on an error', async () => {
+    setProfileId('someone-elses-id');
+    fetch.mockResolvedValue(withHeader('', false, 404));
+    await expect(apiFetch('/profile')).rejects.toThrow('Upload a CV first');
+    expect(getProfileId()).toBeNull();
+  });
+
+  it('leaves the stored id alone when the backend sends no header', async () => {
+    setProfileId('p1');
+    fetch.mockResolvedValue(withHeader(undefined));
+    await apiFetch('/universities');
+    expect(getProfileId()).toBe('p1');
+  });
+});

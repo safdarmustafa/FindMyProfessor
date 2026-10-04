@@ -46,6 +46,7 @@ app = FastAPI(
     title="FindMyProfessor API",
     description="Research discovery and outreach platform",
     version="0.1.0",
+    docs_url=None,
 )
 
 app.add_middleware(
@@ -54,6 +55,8 @@ app.add_middleware(
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    # Lets the browser read the authoritative profile id (app/auth.py).
+    expose_headers=["X-Profile-Id"],
 )
 
 app.include_router(universities.router)

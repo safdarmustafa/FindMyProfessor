@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 from app.cv.extraction.schema import ExtractedStudentProfile
 
@@ -28,6 +28,8 @@ class MatchContext:
     shared_interest_areas: list[str]     # from explicit research_interests
     artifact_evidence: list[ArtifactEvidence]  # projects / publications
     corroborated_areas: list[str]        # professor summary confirmed these
+    # (student area, professor area) close neighbours — not shared areas
+    related_areas: list[tuple[str, str]] = field(default_factory=list)
 
 
 @dataclass(frozen=True)

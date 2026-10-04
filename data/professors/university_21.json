@@ -106,7 +106,7 @@
       "lab": null,
       "name": "Finale Doshi-Velez",
       "title": "Herchel Smith Professor of Computer Science",
-      "email": null,
+      "email": "finale@seas.harvard.edu",
       "website_url": "https://seas.harvard.edu/person/finale-doshi-velez",
       "linkedin_url": null,
       "biography": "Official SEAS person page lists Finale Doshi-Velez as Herchel Smith Professor of Computer Science with research areas Machine Learning and Artificial Intelligence. The fetched contact block did not publish an email address.",
@@ -124,7 +124,8 @@
         "Trustworthy AI",
         "Medical AI",
         "Reinforcement Learning"
-      ]
+      ],
+      "email_source_url": "https://seas.harvard.edu/person/finale-doshi-velez"
     },
     {
       "id": "sham-kakade",
@@ -133,7 +134,7 @@
       "lab": "kempner",
       "name": "Sham Kakade",
       "title": "Rampell Family Professor of Computer Science and Professor of Statistics",
-      "email": null,
+      "email": "sham@seas.harvard.edu",
       "website_url": "https://seas.harvard.edu/person/sham-kakade",
       "linkedin_url": null,
       "biography": "Official SEAS person page lists Sham Kakade as Rampell Family Professor of Computer Science and Professor of Statistics and Co-director of the Kempner Institute. The fetched contact block did not publish an email address.",
@@ -149,7 +150,8 @@
       "research_areas": [
         "Machine Learning",
         "Artificial Intelligence"
-      ]
+      ],
+      "email_source_url": "https://seas.harvard.edu/person/sham-kakade"
     },
     {
       "id": "david-parkes",
@@ -158,7 +160,7 @@
       "lab": "econcs",
       "name": "David Parkes",
       "title": "John A. Paulson Dean of SEAS",
-      "email": null,
+      "email": "parkes@eecs.harvard.edu",
       "website_url": "https://seas.harvard.edu/person/david-parkes",
       "linkedin_url": null,
       "biography": "Official SEAS person page lists David Parkes as Dean with research areas Economics and Computation and Machine Learning / Artificial Intelligence. Lab listed: EconCS. The fetched contact block did not publish an email address.",
@@ -174,7 +176,8 @@
       "research_areas": [
         "Artificial Intelligence",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://seas.harvard.edu/person/david-parkes"
     },
     {
       "id": "elena-leah-glassman",
@@ -183,7 +186,7 @@
       "lab": null,
       "name": "Elena Leah Glassman",
       "title": "Assistant Professor of Computer Science",
-      "email": null,
+      "email": "glassman@seas.harvard.edu",
       "website_url": "https://seas.harvard.edu/person/elena-glassman",
       "linkedin_url": null,
       "biography": "Official SEAS person page lists Elena Leah Glassman as Assistant Professor of Computer Science. Related news tags include AI / Machine Learning. The fetched contact block did not publish an email address.",
@@ -198,7 +201,8 @@
       "source_url": "https://seas.harvard.edu/person/elena-glassman",
       "research_areas": [
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://seas.harvard.edu/person/elena-glassman"
     },
     {
       "id": "boaz-barak",
@@ -207,7 +211,7 @@
       "lab": null,
       "name": "Boaz Barak",
       "title": "Catalyst Professor of Computer Science",
-      "email": null,
+      "email": "boaz@seas.harvard.edu",
       "website_url": "https://seas.harvard.edu/faculty",
       "linkedin_url": null,
       "biography": "Official SEAS faculty directory lists Boaz Barak as Catalyst Professor of Computer Science.",
@@ -222,7 +226,8 @@
       "source_url": "https://seas.harvard.edu/faculty",
       "research_areas": [
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://seas.harvard.edu/person/boaz-barak"
     },
     {
       "id": "flavio-p-calmon",
@@ -231,7 +236,7 @@
       "lab": null,
       "name": "Flavio P. Calmon",
       "title": "Thomas D. Cabot Associate Professor of Electrical Engineering",
-      "email": null,
+      "email": "fcalmon@fas.harvard.edu",
       "website_url": "https://seas.harvard.edu/faculty",
       "linkedin_url": null,
       "biography": "Official SEAS faculty directory lists Flavio P. Calmon as Thomas D. Cabot Associate Professor of Electrical Engineering among SEAS faculty.",
@@ -247,7 +252,8 @@
       "research_areas": [
         "Machine Learning",
         "Trustworthy AI"
-      ]
+      ],
+      "email_source_url": "https://seas.harvard.edu/person/flavio-calmon"
     },
     {
       "id": "demba-ba",
@@ -256,7 +262,7 @@
       "lab": null,
       "name": "Demba Ba",
       "title": "Gordon McKay Professor of Electrical Engineering",
-      "email": null,
+      "email": "demba@seas.harvard.edu",
       "website_url": "https://seas.harvard.edu/faculty",
       "linkedin_url": null,
       "biography": "Official SEAS faculty directory lists Demba Ba as Gordon McKay Professor of Electrical Engineering.",
@@ -272,7 +278,8 @@
       "research_areas": [
         "Machine Learning",
         "AI for Science"
-      ]
+      ],
+      "email_source_url": "https://seas.harvard.edu/person/demba-ba"
     },
     {
       "id": "anurag-anshu",
@@ -281,7 +288,7 @@
       "lab": null,
       "name": "Anurag Anshu",
       "title": "Associate Professor of Computer Science",
-      "email": null,
+      "email": "anuraganshu@seas.harvard.edu",
       "website_url": "https://seas.harvard.edu/faculty",
       "linkedin_url": null,
       "biography": "Official SEAS faculty directory lists Anurag Anshu as Associate Professor of Computer Science.",
@@ -296,7 +303,8 @@
       "source_url": "https://seas.harvard.edu/faculty",
       "research_areas": [
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://seas.harvard.edu/person/anurag-anshu"
     }
   ]
 }

@@ -59,7 +59,7 @@
       "lab": "nusail",
       "name": "Lee Wee Sun",
       "title": "Professor",
-      "email": null,
+      "email": "dcsleews@nus.edu.sg",
       "website_url": "https://www.comp.nus.edu.sg/cs/people/leews/",
       "linkedin_url": null,
       "biography": "Official Professor listing at the source university page.",
@@ -75,7 +75,8 @@
       "research_areas": [
         "Machine Learning",
         "Artificial Intelligence"
-      ]
+      ],
+      "email_source_url": "https://www.comp.nus.edu.sg/~leews"
     },
     {
       "id": "reza-shokri",
@@ -109,7 +110,7 @@
       "lab": "nusail",
       "name": "Angela Yao",
       "title": "Dean's Chair Associate Professor",
-      "email": null,
+      "email": "ayao@comp.nus.edu.sg",
       "website_url": "https://www.comp.nus.edu.sg/cs/people/ayao/",
       "linkedin_url": null,
       "biography": "Official Dean's Chair Associate Professor listing at the source university page.",
@@ -126,7 +127,8 @@
         "Computer Vision",
         "Deep Learning",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://www.comp.nus.edu.sg/~ayao"
     },
     {
       "id": "xavier-bresson",
@@ -185,7 +187,7 @@
       "lab": "nusail",
       "name": "Bryan Hooi",
       "title": "Assistant Professor",
-      "email": null,
+      "email": "bhooi@comp.nus.edu.sg",
       "website_url": "https://www.comp.nus.edu.sg/cs/people/bhooi/",
       "linkedin_url": null,
       "biography": "Official Assistant Professor listing at the source university page.",
@@ -201,7 +203,8 @@
       "research_areas": [
         "Machine Learning",
         "Biomedical AI"
-      ]
+      ],
+      "email_source_url": "https://bhooi.github.io"
     },
     {
       "id": "leong-tze-yun",
@@ -210,7 +213,7 @@
       "lab": "nusail",
       "name": "Leong Tze Yun",
       "title": "Professor (Practice Track)",
-      "email": null,
+      "email": "leongty@nus.edu.sg",
       "website_url": "https://www.comp.nus.edu.sg/cs/people/leongty/",
       "linkedin_url": null,
       "biography": "Official Professor (Practice Track) listing at the source university page.",
@@ -227,7 +230,8 @@
         "Responsible AI",
         "Reinforcement Learning",
         "Biomedical AI"
-      ]
+      ],
+      "email_source_url": "https://www.comp.nus.edu.sg/~leongty"
     },
     {
       "id": "wynne-hsu",
@@ -236,7 +240,7 @@
       "lab": "nusail",
       "name": "Wynne Hsu",
       "title": "Provost's Chair Professor; Director, Institute of Data Science",
-      "email": null,
+      "email": "whsu@comp.nus.edu.sg",
       "website_url": "https://www.comp.nus.edu.sg/cs/people/whsu/",
       "linkedin_url": null,
       "biography": "Official Provost's Chair Professor; Director, Institute of Data Science listing at the source university page.",
@@ -253,7 +257,8 @@
         "Machine Learning",
         "Healthcare AI",
         "Deep Learning"
-      ]
+      ],
+      "email_source_url": "https://www.comp.nus.edu.sg/~whsu"
     },
     {
       "id": "anthony-tung",
@@ -262,7 +267,7 @@
       "lab": "nusail",
       "name": "Anthony Tung",
       "title": "Professor",
-      "email": null,
+      "email": "atung@comp.nus.edu.sg",
       "website_url": "https://www.comp.nus.edu.sg/cs/people/atung/",
       "linkedin_url": null,
       "biography": "Official Professor listing at the source university page.",
@@ -278,7 +283,8 @@
       "research_areas": [
         "Data Science",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://www.comp.nus.edu.sg/~atung"
     },
     {
       "id": "arnab-bhattacharyya",
@@ -439,7 +445,7 @@
       "lab": "nusail",
       "name": "Lee Mong Li",
       "title": "Faculty, NUS AI Lab",
-      "email": null,
+      "email": "leeml@comp.nus.edu.sg",
       "website_url": "https://nusail.comp.nus.edu.sg/people/",
       "linkedin_url": null,
       "biography": "Official Faculty, NUS AI Lab listing at the source university page.",
@@ -456,7 +462,8 @@
         "Deep Learning",
         "Healthcare AI",
         "Data Science"
-      ]
+      ],
+      "email_source_url": "https://www.comp.nus.edu.sg/~leeml/"
     },
     {
       "id": "low-kian-hsiang",
@@ -564,7 +571,7 @@
       "lab": "nusail",
       "name": "Shao Lin",
       "title": "Faculty, NUS AI Lab",
-      "email": null,
+      "email": "linshao@nus.edu.sg",
       "website_url": "https://nusail.comp.nus.edu.sg/people/",
       "linkedin_url": null,
       "biography": "Official Faculty, NUS AI Lab listing at the source university page.",
@@ -580,7 +587,8 @@
       "research_areas": [
         "Robotics",
         "Reinforcement Learning"
-      ]
+      ],
+      "email_source_url": "https://linsats.github.io"
     },
     {
       "id": "harold-soh",
@@ -589,7 +597,7 @@
       "lab": "nusail",
       "name": "Harold Soh",
       "title": "Associate Director, NUS AI Lab",
-      "email": null,
+      "email": "harold@comp.nus.edu.sg",
       "website_url": "https://nusail.comp.nus.edu.sg/people/",
       "linkedin_url": null,
       "biography": "Official Associate Director, NUS AI Lab listing at the source university page.",
@@ -606,7 +614,8 @@
         "Robotics",
         "Generative AI",
         "Human-Centered AI"
-      ]
+      ],
+      "email_source_url": "http://www.haroldsoh.com/contact/"
     },
     {
       "id": "terence-sim",
@@ -615,7 +624,7 @@
       "lab": "nusail",
       "name": "Terence Sim",
       "title": "Faculty, NUS AI Lab",
-      "email": null,
+      "email": "tsim@comp.nus.edu.sg",
       "website_url": "https://nusail.comp.nus.edu.sg/people/",
       "linkedin_url": null,
       "biography": "Official Faculty, NUS AI Lab listing at the source university page.",
@@ -631,7 +640,8 @@
       "research_areas": [
         "Computer Vision",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://www.comp.nus.edu.sg/~tsim"
     },
     {
       "id": "vaibhav-rajan",
@@ -665,7 +675,7 @@
       "lab": "nusail",
       "name": "Huang Zhiyong",
       "title": "Faculty, NUS AI Lab",
-      "email": null,
+      "email": "dcshuang@nus.edu.sg",
       "website_url": "https://nusail.comp.nus.edu.sg/people/",
       "linkedin_url": null,
       "biography": "Official Faculty, NUS AI Lab listing at the source university page.",
@@ -681,7 +691,8 @@
       "research_areas": [
         "Human-Centered AI",
         "Robotics"
-      ]
+      ],
+      "email_source_url": "https://www.comp.nus.edu.sg/~huangzy/review/selectedPapers.htm"
     },
     {
       "id": "yeo-wee-kiang",
@@ -764,7 +775,7 @@
       "lab": "nusail",
       "name": "Akshay Narayan",
       "title": "Faculty, NUS AI Lab",
-      "email": null,
+      "email": "anarayan@comp.nus.edu.sg",
       "website_url": "https://nusail.comp.nus.edu.sg/people/",
       "linkedin_url": null,
       "biography": "Official Faculty, NUS AI Lab listing at the source university page.",
@@ -780,7 +791,8 @@
       "research_areas": [
         "Reinforcement Learning",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://www.comp.nus.edu.sg/~anarayan"
     },
     {
       "id": "qiao-dandan",
@@ -863,7 +875,7 @@
       "lab": "nusail",
       "name": "Roland Yap",
       "title": "Faculty, NUS AI Lab",
-      "email": null,
+      "email": "dcsyaphc@nus.edu.sg",
       "website_url": "https://nusail.comp.nus.edu.sg/people/",
       "linkedin_url": null,
       "biography": "Official Faculty, NUS AI Lab listing at the source university page.",
@@ -878,7 +890,8 @@
       "source_url": "https://nusail.comp.nus.edu.sg/people/",
       "research_areas": [
         "Artificial Intelligence"
-      ]
+      ],
+      "email_source_url": "https://www.comp.nus.edu.sg/~ryap"
     }
   ]
 }

@@ -147,6 +147,17 @@ export default function ProfessorCard({ match, showWhy = false }) {
             ✓ Email
           </span>
         )}
+        {!hasEmail && (
+          <span style={{
+            background: 'var(--bg)', color: 'var(--muted)',
+            border: '1px solid var(--line)',
+            borderRadius: 'var(--r-xs)',
+            fontSize: '.72rem', fontWeight: 600,
+            padding: '.15rem .5rem',
+          }}>
+            No email listed
+          </span>
+        )}
         {opportunities.length > 0 && (
           <span style={{
             background: 'var(--accent-bg)', color: 'var(--accent)',

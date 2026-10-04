@@ -46,3 +46,18 @@ describe('GmailWidget', () => {
     expect(screen.queryByText('Network error.')).not.toBeInTheDocument();
   });
 });
+
+describe('GmailWidget when the stored connection is unusable', () => {
+  it('asks the student to reconnect instead of claiming Gmail is connected', () => {
+    useGmailStatus.mockReturnValue({
+      status: { connected: false, email: null, needs_reconnect: true },
+      loading: false,
+      error: null,
+      refetch: vi.fn(),
+    });
+    render(<GmailWidget professorId="p1" returnPath="/outreach/compose/p1" />);
+    expect(screen.getByText('Your Gmail connection needs to be renewed')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Reconnect Gmail' })).toBeInTheDocument();
+    expect(screen.queryByText(/Gmail connected/)).not.toBeInTheDocument();
+  });
+});

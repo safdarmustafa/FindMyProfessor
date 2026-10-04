@@ -7,7 +7,7 @@
       "lab": "iml",
       "name": "Amos Storkey",
       "title": "Faculty, IML Machine Learning",
-      "email": null,
+      "email": "a.storkey@ed.ac.uk",
       "website_url": "https://informatics.ed.ac.uk/iml/research/machine-learning",
       "linkedin_url": null,
       "biography": "Official Faculty, IML Machine Learning listing at the source university page.",
@@ -23,7 +23,8 @@
       "research_areas": [
         "Deep Learning",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://people.inf.ed.ac.uk/Amos_Storkey.html"
     },
     {
       "id": "iain-murray",
@@ -32,7 +33,7 @@
       "lab": "iml",
       "name": "Iain Murray",
       "title": "Faculty, IML Machine Learning",
-      "email": null,
+      "email": "i.murray@ed.ac.uk",
       "website_url": "https://informatics.ed.ac.uk/iml/research/machine-learning",
       "linkedin_url": null,
       "biography": "Official Faculty, IML Machine Learning listing at the source university page.",
@@ -48,7 +49,8 @@
       "research_areas": [
         "Machine Learning",
         "AI for Science"
-      ]
+      ],
+      "email_source_url": "https://people.inf.ed.ac.uk/Iain_Murray.html"
     },
     {
       "id": "siddharth-narayanaswamy",
@@ -83,7 +85,7 @@
       "lab": "iml",
       "name": "Nigel Goddard",
       "title": "Faculty, IML Machine Learning",
-      "email": null,
+      "email": "nigel.goddard@ed.ac.uk",
       "website_url": "https://informatics.ed.ac.uk/iml/research/machine-learning",
       "linkedin_url": null,
       "biography": "Official Faculty, IML Machine Learning listing at the source university page.",
@@ -98,7 +100,8 @@
       "source_url": "https://informatics.ed.ac.uk/iml/research/machine-learning",
       "research_areas": [
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://people.inf.ed.ac.uk/Nigel_Goddard.html"
     },
     {
       "id": "chris-bishop",
@@ -131,7 +134,7 @@
       "lab": "iml",
       "name": "Michael Gutmann",
       "title": "Faculty, IML Machine Learning",
-      "email": null,
+      "email": "michael.gutmann@ed.ac.uk",
       "website_url": "https://informatics.ed.ac.uk/iml/research/machine-learning",
       "linkedin_url": null,
       "biography": "Official Faculty, IML Machine Learning listing at the source university page.",
@@ -148,7 +151,8 @@
         "Deep Learning",
         "Computational Biology",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://people.inf.ed.ac.uk/Michael_Gutmann.html"
     },
     {
       "id": "arno-onken",
@@ -157,7 +161,7 @@
       "lab": "iml",
       "name": "Arno Onken",
       "title": "Faculty, IML Machine Learning",
-      "email": null,
+      "email": "aonken@inf.ed.ac.uk",
       "website_url": "https://informatics.ed.ac.uk/iml/research/machine-learning",
       "linkedin_url": null,
       "biography": "Official Faculty, IML Machine Learning listing at the source university page.",
@@ -173,7 +177,8 @@
       "research_areas": [
         "Machine Learning",
         "Computational Biology"
-      ]
+      ],
+      "email_source_url": "https://people.inf.ed.ac.uk/Arno_Onken.html"
     },
     {
       "id": "ava-khamseh",
@@ -182,7 +187,7 @@
       "lab": "iml",
       "name": "Ava Khamseh",
       "title": "Faculty, IML Machine Learning",
-      "email": null,
+      "email": "ava.khamseh@ed.ac.uk",
       "website_url": "https://informatics.ed.ac.uk/iml/research/machine-learning",
       "linkedin_url": null,
       "biography": "Official Faculty, IML Machine Learning listing at the source university page.",
@@ -198,7 +203,8 @@
       "research_areas": [
         "Machine Learning",
         "Biomedical AI"
-      ]
+      ],
+      "email_source_url": "http://www.inf.ed.ac.uk/people/staff/Ava_Khamseh.html"
     },
     {
       "id": "oisin-mac-aodha",
@@ -207,7 +213,7 @@
       "lab": "iml",
       "name": "Oisin Mac Aodha",
       "title": "Faculty, IML Machine Learning",
-      "email": null,
+      "email": "oisin.macaodha@ed.ac.uk",
       "website_url": "https://informatics.ed.ac.uk/iml/research/machine-learning",
       "linkedin_url": null,
       "biography": "Official Faculty, IML Machine Learning listing at the source university page.",
@@ -224,7 +230,8 @@
         "Computer Vision",
         "Deep Learning",
         "Human-Centered AI"
-      ]
+      ],
+      "email_source_url": "http://www.inf.ed.ac.uk/people/staff/Oisin_Mac_Aodha.html"
     },
     {
       "id": "nikolay-malkin",
@@ -259,7 +266,7 @@
       "lab": "iml",
       "name": "Antonio Vergari",
       "title": "Faculty, IML Machine Learning",
-      "email": null,
+      "email": "avergari@ed.ac.uk",
       "website_url": "https://informatics.ed.ac.uk/iml/research/machine-learning",
       "linkedin_url": null,
       "biography": "Official Faculty, IML Machine Learning listing at the source university page.",
@@ -275,7 +282,8 @@
       "research_areas": [
         "Machine Learning",
         "Trustworthy AI"
-      ]
+      ],
+      "email_source_url": "https://people.inf.ed.ac.uk/Antonio_Vergari.html"
     },
     {
       "id": "chris-williams",
@@ -310,7 +318,7 @@
       "lab": "iml",
       "name": "Viacheslav Borovitskiy",
       "title": "Faculty, IML Machine Learning",
-      "email": null,
+      "email": "vborovit@ed.ac.uk",
       "website_url": "https://informatics.ed.ac.uk/iml/research/machine-learning",
       "linkedin_url": null,
       "biography": "Official Faculty, IML Machine Learning listing at the source university page.",
@@ -325,7 +333,8 @@
       "source_url": "https://informatics.ed.ac.uk/iml/research/machine-learning",
       "research_areas": [
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://people.inf.ed.ac.uk/Viacheslav_Borovitskiy.html"
     },
     {
       "id": "mirella-lapata",
@@ -360,7 +369,7 @@
       "lab": "ilcc",
       "name": "Shay Cohen",
       "title": "Faculty, ILCC",
-      "email": null,
+      "email": "scohen@inf.ed.ac.uk",
       "website_url": "https://informatics.ed.ac.uk/ilcc/research/natural-language-processing-and-computational-linguistics",
       "linkedin_url": null,
       "biography": "Official Faculty, ILCC listing at the source university page.",
@@ -375,7 +384,8 @@
       "source_url": "https://informatics.ed.ac.uk/ilcc/research/natural-language-processing-and-computational-linguistics",
       "research_areas": [
         "Natural Language Processing"
-      ]
+      ],
+      "email_source_url": "https://people.inf.ed.ac.uk/Shay_Cohen.html"
     },
     {
       "id": "ivan-titov",
@@ -384,7 +394,7 @@
       "lab": "ilcc",
       "name": "Ivan Titov",
       "title": "Faculty, ILCC; UKRI CDT in NLP Director",
-      "email": null,
+      "email": "ititov@inf.ed.ac.uk",
       "website_url": "https://informatics.ed.ac.uk/ilcc/research/natural-language-processing-and-computational-linguistics",
       "linkedin_url": null,
       "biography": "Official Faculty, ILCC; UKRI CDT in NLP Director listing at the source university page.",
@@ -400,7 +410,8 @@
       "research_areas": [
         "Natural Language Processing",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "http://ivan-titov.org/"
     },
     {
       "id": "philipp-koehn",
@@ -457,7 +468,7 @@
       "lab": "ilcc",
       "name": "Sharon Goldwater",
       "title": "Faculty, ILCC",
-      "email": null,
+      "email": "sgwater@inf.ed.ac.uk",
       "website_url": "https://informatics.ed.ac.uk/ilcc/research/natural-language-processing-and-computational-linguistics",
       "linkedin_url": null,
       "biography": "Official Faculty, ILCC listing at the source university page.",
@@ -473,7 +484,8 @@
       "research_areas": [
         "Natural Language Processing",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "http://www.inf.ed.ac.uk/people/staff/Sharon_Goldwater.html"
     },
     {
       "id": "adam-lopez",
@@ -482,7 +494,7 @@
       "lab": "ilcc",
       "name": "Adam Lopez",
       "title": "Faculty, ILCC",
-      "email": null,
+      "email": "alopez@inf.ed.ac.uk",
       "website_url": "https://informatics.ed.ac.uk/ilcc/research/natural-language-processing-and-computational-linguistics",
       "linkedin_url": null,
       "biography": "Official Faculty, ILCC listing at the source university page.",
@@ -497,7 +509,8 @@
       "source_url": "https://informatics.ed.ac.uk/ilcc/research/natural-language-processing-and-computational-linguistics",
       "research_areas": [
         "Natural Language Processing"
-      ]
+      ],
+      "email_source_url": "https://www.inf.ed.ac.uk/people/staff/Adam_Lopez.html"
     },
     {
       "id": "frank-keller",
@@ -506,7 +519,7 @@
       "lab": "ilcc",
       "name": "Frank Keller",
       "title": "Faculty; UKRI CDT in NLP Training Coordinator",
-      "email": null,
+      "email": "frank.keller@ed.ac.uk",
       "website_url": "https://informatics.ed.ac.uk/ukri-cdt-in-natural-language-processing/people/management-team",
       "linkedin_url": null,
       "biography": "Official Faculty; UKRI CDT in NLP Training Coordinator listing at the source university page.",
@@ -522,7 +535,8 @@
       "research_areas": [
         "Natural Language Processing",
         "Responsible AI"
-      ]
+      ],
+      "email_source_url": "https://people.inf.ed.ac.uk/Frank_Keller.html"
     },
     {
       "id": "hakan-bilen",
@@ -531,7 +545,7 @@
       "lab": "ipab",
       "name": "Hakan Bilen",
       "title": "Academic Staff, IPAB",
-      "email": null,
+      "email": "h.bilen@ed.ac.uk",
       "website_url": "https://informatics.ed.ac.uk/ipab/people2",
       "linkedin_url": null,
       "biography": "Official Academic Staff, IPAB listing at the source university page.",
@@ -548,7 +562,8 @@
         "Computer Vision",
         "Deep Learning",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://people.inf.ed.ac.uk/Hakan_Bilen.html"
     },
     {
       "id": "eleonora-d-arnese",
@@ -557,7 +572,7 @@
       "lab": "ipab",
       "name": "Eleonora D'Arnese",
       "title": "Academic Staff, IPAB",
-      "email": null,
+      "email": "eleonora.darnese@ed.ac.uk",
       "website_url": "https://informatics.ed.ac.uk/ipab/people2",
       "linkedin_url": null,
       "biography": "Official Academic Staff, IPAB listing at the source university page.",
@@ -574,7 +589,8 @@
         "Medical AI",
         "Computer Vision",
         "Deep Learning"
-      ]
+      ],
+      "email_source_url": "https://people.inf.ed.ac.uk/Eleonora_D'Arnese.html"
     },
     {
       "id": "bob-fisher",
@@ -583,7 +599,7 @@
       "lab": "ipab",
       "name": "Bob Fisher",
       "title": "Academic Staff, IPAB",
-      "email": null,
+      "email": "r.b.fisher@ed.ac.uk",
       "website_url": "https://informatics.ed.ac.uk/ipab/people2",
       "linkedin_url": null,
       "biography": "Official Academic Staff, IPAB listing at the source university page.",
@@ -598,7 +614,8 @@
       "source_url": "https://informatics.ed.ac.uk/ipab/people2",
       "research_areas": [
         "Computer Vision"
-      ]
+      ],
+      "email_source_url": "https://people.inf.ed.ac.uk/Bob_Fisher.html"
     },
     {
       "id": "michael-herrmann",
@@ -607,7 +624,7 @@
       "lab": "ipab",
       "name": "Michael Herrmann",
       "title": "Academic Staff, IPAB",
-      "email": null,
+      "email": "michael.herrmann@ed.ac.uk",
       "website_url": "https://informatics.ed.ac.uk/ipab/people2",
       "linkedin_url": null,
       "biography": "Official Academic Staff, IPAB listing at the source university page.",
@@ -622,7 +639,8 @@
       "source_url": "https://informatics.ed.ac.uk/ipab/people2",
       "research_areas": [
         "Robotics"
-      ]
+      ],
+      "email_source_url": "https://people.inf.ed.ac.uk/Michael_Herrmann.html"
     },
     {
       "id": "timothy-hospedales",
@@ -631,7 +649,7 @@
       "lab": "ipab",
       "name": "Timothy Hospedales",
       "title": "Academic Staff, IPAB",
-      "email": null,
+      "email": "t.hospedales@ed.ac.uk",
       "website_url": "https://informatics.ed.ac.uk/ipab/people2",
       "linkedin_url": null,
       "biography": "Official Academic Staff, IPAB listing at the source university page.",
@@ -648,7 +666,8 @@
         "Computer Vision",
         "Deep Learning",
         "Reinforcement Learning"
-      ]
+      ],
+      "email_source_url": "http://homepages.inf.ed.ac.uk/thospeda/"
     },
     {
       "id": "craig-innes",
@@ -657,7 +676,7 @@
       "lab": "ipab",
       "name": "Craig Innes",
       "title": "Academic Staff, IPAB",
-      "email": null,
+      "email": "craig.innes@ed.ac.uk",
       "website_url": "https://informatics.ed.ac.uk/ipab/people2",
       "linkedin_url": null,
       "biography": "Official Academic Staff, IPAB listing at the source university page.",
@@ -673,7 +692,8 @@
       "research_areas": [
         "Robotics",
         "Trustworthy AI"
-      ]
+      ],
+      "email_source_url": "https://www.inf.ed.ac.uk/people/staff/Craig_Innes.html"
     },
     {
       "id": "mohsen-khadem",
@@ -682,7 +702,7 @@
       "lab": "ipab",
       "name": "Mohsen Khadem",
       "title": "Academic Staff, IPAB",
-      "email": null,
+      "email": "mohsen.khadem@ed.ac.uk",
       "website_url": "https://informatics.ed.ac.uk/ipab/people2",
       "linkedin_url": null,
       "biography": "Official Academic Staff, IPAB listing at the source university page.",
@@ -698,7 +718,8 @@
       "research_areas": [
         "Robotics",
         "Medical AI"
-      ]
+      ],
+      "email_source_url": "https://homepages.inf.ed.ac.uk/skhadem/"
     },
     {
       "id": "changjian-li",
@@ -707,7 +728,7 @@
       "lab": "ipab",
       "name": "Changjian Li",
       "title": "Academic Staff, IPAB",
-      "email": null,
+      "email": "changjian.li@ed.ac.uk",
       "website_url": "https://informatics.ed.ac.uk/ipab/people2",
       "linkedin_url": null,
       "biography": "Official Academic Staff, IPAB listing at the source university page.",
@@ -723,7 +744,8 @@
       "research_areas": [
         "Computer Vision",
         "Medical AI"
-      ]
+      ],
+      "email_source_url": "https://enigma-li.github.io/"
     },
     {
       "id": "michael-mistry",
@@ -732,7 +754,7 @@
       "lab": "ipab",
       "name": "Michael Mistry",
       "title": "Academic Staff, IPAB",
-      "email": null,
+      "email": "michael.mistry@ed.ac.uk",
       "website_url": "https://informatics.ed.ac.uk/ipab/people2",
       "linkedin_url": null,
       "biography": "Official Academic Staff, IPAB listing at the source university page.",
@@ -747,7 +769,8 @@
       "source_url": "https://informatics.ed.ac.uk/ipab/people2",
       "research_areas": [
         "Robotics"
-      ]
+      ],
+      "email_source_url": "http://www.inf.ed.ac.uk/people/staff/Michael_Mistry.html"
     },
     {
       "id": "subramanian-ramamoorthy",
@@ -782,7 +805,7 @@
       "lab": "ipab",
       "name": "Laura Sevilla-Lara",
       "title": "Academic Staff, IPAB",
-      "email": null,
+      "email": "lsevilla@ed.ac.uk",
       "website_url": "https://informatics.ed.ac.uk/ipab/people2",
       "linkedin_url": null,
       "biography": "Official Academic Staff, IPAB listing at the source university page.",
@@ -798,7 +821,8 @@
       "research_areas": [
         "Computer Vision",
         "Deep Learning"
-      ]
+      ],
+      "email_source_url": "https://laurasevilla.me/"
     },
     {
       "id": "steve-tonneau",
@@ -807,7 +831,7 @@
       "lab": "ipab",
       "name": "Steve Tonneau",
       "title": "Academic Staff, IPAB",
-      "email": null,
+      "email": "stonneau@exseed.ed.ac.uk",
       "website_url": "https://informatics.ed.ac.uk/ipab/people2",
       "linkedin_url": null,
       "biography": "Official Academic Staff, IPAB listing at the source university page.",
@@ -822,7 +846,8 @@
       "source_url": "https://informatics.ed.ac.uk/ipab/people2",
       "research_areas": [
         "Robotics"
-      ]
+      ],
+      "email_source_url": "https://people.inf.ed.ac.uk/Steve_Tonneau.html"
     },
     {
       "id": "sethu-vijayakumar",
@@ -831,7 +856,7 @@
       "lab": "ipab",
       "name": "Sethu Vijayakumar",
       "title": "Academic Staff, IPAB",
-      "email": null,
+      "email": "sethu.vijayakumar@ed.ac.uk",
       "website_url": "https://informatics.ed.ac.uk/ipab/people2",
       "linkedin_url": null,
       "biography": "Official Academic Staff, IPAB listing at the source university page.",
@@ -847,7 +872,8 @@
       "research_areas": [
         "Robotics",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://people.inf.ed.ac.uk/Sethu_Vijayakumar.html"
     },
     {
       "id": "barbara-webb",
@@ -856,7 +882,7 @@
       "lab": "ipab",
       "name": "Barbara Webb",
       "title": "Academic Staff, IPAB",
-      "email": null,
+      "email": "b.webb@ed.ac.uk",
       "website_url": "https://informatics.ed.ac.uk/ipab/people2",
       "linkedin_url": null,
       "biography": "Official Academic Staff, IPAB listing at the source university page.",
@@ -871,7 +897,8 @@
       "source_url": "https://informatics.ed.ac.uk/ipab/people2",
       "research_areas": [
         "Robotics"
-      ]
+      ],
+      "email_source_url": "https://people.inf.ed.ac.uk/Barbara_Webb.html"
     },
     {
       "id": "liang-zhao",
@@ -880,7 +907,7 @@
       "lab": "ipab",
       "name": "Liang Zhao",
       "title": "Academic Staff, IPAB",
-      "email": null,
+      "email": "liang.zhao@ed.ac.uk",
       "website_url": "https://informatics.ed.ac.uk/ipab/people2",
       "linkedin_url": null,
       "biography": "Official Academic Staff, IPAB listing at the source university page.",
@@ -896,7 +923,8 @@
       "research_areas": [
         "Robotics",
         "Medical AI"
-      ]
+      ],
+      "email_source_url": "https://people.inf.ed.ac.uk/Liang_Zhao.html"
     },
     {
       "id": "mohan-sridharan",
@@ -905,7 +933,7 @@
       "lab": "ipab",
       "name": "Mohan Sridharan",
       "title": "Director of IPAB",
-      "email": null,
+      "email": "m.sridharan@ed.ac.uk",
       "website_url": "https://informatics.ed.ac.uk/ipab/people2",
       "linkedin_url": null,
       "biography": "Official Director of IPAB listing at the source university page.",
@@ -921,7 +949,8 @@
       "research_areas": [
         "Robotics",
         "Artificial Intelligence"
-      ]
+      ],
+      "email_source_url": "https://homepages.inf.ed.ac.uk/msridhar/"
     }
   ]
 }

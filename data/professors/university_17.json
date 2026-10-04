@@ -7,7 +7,7 @@
       "lab": "agi-lab",
       "name": "Quanquan Gu",
       "title": "Faculty",
-      "email": null,
+      "email": "qgu@cs.ucla.edu",
       "website_url": "https://www.cs.ucla.edu/research-labs/",
       "linkedin_url": null,
       "biography": "Official UCLA CS Research Labs page associates Quanquan Gu with Artificial General Intelligence Lab.",
@@ -23,7 +23,8 @@
       "research_areas": [
         "Machine Learning",
         "Artificial Intelligence"
-      ]
+      ],
+      "email_source_url": "https://samueli.ucla.edu/people/quanquan-gu/"
     },
     {
       "id": "adnan-darwiche",
@@ -32,7 +33,7 @@
       "lab": "automated-reasoning",
       "name": "Adnan Darwiche",
       "title": "Professor",
-      "email": null,
+      "email": "darwiche@cs.ucla.edu",
       "website_url": "https://www.cs.ucla.edu/research-labs/",
       "linkedin_url": null,
       "biography": "Official UCLA CS Research Labs page associates Adnan Darwiche with Automated Reasoning Group.",
@@ -48,7 +49,8 @@
       "research_areas": [
         "Artificial Intelligence",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://samueli.ucla.edu/people/adnan-darwiche/"
     },
     {
       "id": "judea-pearl",
@@ -57,7 +59,7 @@
       "lab": "cognitive-systems",
       "name": "Judea Pearl",
       "title": "Professor",
-      "email": null,
+      "email": "judea@cs.ucla.edu",
       "website_url": "https://www.cs.ucla.edu/research-labs/",
       "linkedin_url": null,
       "biography": "Official UCLA CS Research Labs page associates Judea Pearl with Cognitive Systems Laboratory.",
@@ -72,7 +74,8 @@
       "source_url": "https://www.cs.ucla.edu/research-labs/",
       "research_areas": [
         "Artificial Intelligence"
-      ]
+      ],
+      "email_source_url": "https://samueli.ucla.edu/people/judea-pearl/"
     },
     {
       "id": "cho-jui-hsieh",
@@ -107,7 +110,7 @@
       "lab": "plus-lab",
       "name": "Nanyun Peng",
       "title": "Faculty",
-      "email": null,
+      "email": "violetpeng@cs.ucla.edu",
       "website_url": "https://www.cs.ucla.edu/research-labs/",
       "linkedin_url": null,
       "biography": "Official UCLA CS Research Labs page associates Nanyun Peng with Language Understanding & Synthesis Lab.",
@@ -123,7 +126,8 @@
       "research_areas": [
         "Natural Language Processing",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://samueli.ucla.edu/people/nanyun-peng/"
     },
     {
       "id": "baharan-mirzasoleiman",
@@ -132,7 +136,7 @@
       "lab": "bigml",
       "name": "Baharan Mirzasoleiman",
       "title": "Faculty",
-      "email": null,
+      "email": "baharan@cs.ucla.edu",
       "website_url": "https://www.cs.ucla.edu/research-labs/",
       "linkedin_url": null,
       "biography": "Official UCLA CS Research Labs page associates Baharan Mirzasoleiman with Large-scale Machine Learning Group.",
@@ -147,7 +151,8 @@
       "source_url": "https://www.cs.ucla.edu/research-labs/",
       "research_areas": [
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://samueli.ucla.edu/people/baharan-mirzasoleiman/"
     },
     {
       "id": "aditya-grover",
@@ -183,7 +188,7 @@
       "lab": "ml-genomics",
       "name": "Sriram Sankararaman",
       "title": "Faculty",
-      "email": null,
+      "email": "sriram@cs.ucla.edu",
       "website_url": "https://www.cs.ucla.edu/research-labs/",
       "linkedin_url": null,
       "biography": "Official UCLA CS Research Labs page associates Sriram Sankararaman with Machine Learning and Genomics Lab.",
@@ -199,7 +204,8 @@
       "research_areas": [
         "Machine Learning",
         "AI for Science"
-      ]
+      ],
+      "email_source_url": "https://samueli.ucla.edu/people/sriram-sankararaman/"
     },
     {
       "id": "saadia-gabriel",
@@ -233,7 +239,7 @@
       "lab": "ucla-nlp",
       "name": "Kai-Wei Chang",
       "title": "Faculty",
-      "email": null,
+      "email": "kwchang@cs.ucla.edu",
       "website_url": "https://www.cs.ucla.edu/research-labs/",
       "linkedin_url": null,
       "biography": "Official UCLA CS Research Labs page associates Kai-Wei Chang with Natural Language Processing Group.",
@@ -249,7 +255,8 @@
       "research_areas": [
         "Natural Language Processing",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://samueli.ucla.edu/people/kai-wei-chang/"
     },
     {
       "id": "yuchen-cui",
@@ -258,7 +265,7 @@
       "lab": "robot-intelligence",
       "name": "Yuchen Cui",
       "title": "Faculty",
-      "email": null,
+      "email": "yuchencui@cs.ucla.edu",
       "website_url": "https://www.cs.ucla.edu/research-labs/",
       "linkedin_url": null,
       "biography": "Official UCLA CS Research Labs page associates Yuchen Cui with Robot Intelligence Lab.",
@@ -274,7 +281,8 @@
       "research_areas": [
         "Robotics",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://samueli.ucla.edu/people/yuchen-cui/"
     },
     {
       "id": "wei-wang",
@@ -283,7 +291,7 @@
       "lab": "scai",
       "name": "Wei Wang",
       "title": "Leonard Kleinrock Professor of Computer Science",
-      "email": null,
+      "email": "weiwang@cs.ucla.edu",
       "website_url": "https://www.cs.ucla.edu/research-labs/",
       "linkedin_url": null,
       "biography": "Official UCLA CS Research Labs page associates Wei Wang with Scalable Analytics Institute.",
@@ -299,7 +307,8 @@
       "research_areas": [
         "Data Science",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://samueli.ucla.edu/people/wei-wang/"
     },
     {
       "id": "yizhou-sun",
@@ -308,7 +317,7 @@
       "lab": "scai",
       "name": "Yizhou Sun",
       "title": "Faculty",
-      "email": null,
+      "email": "yzsun@cs.ucla.edu",
       "website_url": "https://www.cs.ucla.edu/research-labs/",
       "linkedin_url": null,
       "biography": "Official UCLA CS Research Labs page associates Yizhou Sun with Scalable Analytics Institute.",
@@ -324,7 +333,8 @@
       "research_areas": [
         "Machine Learning",
         "Data Science"
-      ]
+      ],
+      "email_source_url": "https://samueli.ucla.edu/people/yizhou-sun/"
     },
     {
       "id": "yuan-tian",
@@ -333,7 +343,7 @@
       "lab": "secai",
       "name": "Yuan Tian",
       "title": "Faculty",
-      "email": null,
+      "email": "yuant@ucla.edu",
       "website_url": "https://www.cs.ucla.edu/research-labs/",
       "linkedin_url": null,
       "biography": "Official UCLA CS Research Labs page associates Yuan Tian with Security+AI Lab.",
@@ -349,7 +359,8 @@
       "research_areas": [
         "Trustworthy AI",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://samueli.ucla.edu/people/yuan-tian/"
     },
     {
       "id": "harry-xu",
@@ -358,7 +369,7 @@
       "lab": "solar",
       "name": "Harry Xu",
       "title": "Faculty",
-      "email": null,
+      "email": "harryxu@cs.ucla.edu",
       "website_url": "https://www.cs.ucla.edu/research-labs/",
       "linkedin_url": null,
       "biography": "Official UCLA CS Research Labs page associates Harry Xu with Software Systems Laboratory for Data Analytics and Machine Learning.",
@@ -374,7 +385,8 @@
       "research_areas": [
         "Efficient AI",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://samueli.ucla.edu/people/harry-xu/"
     },
     {
       "id": "guy-van-den-broeck",
@@ -408,7 +420,7 @@
       "lab": "vail",
       "name": "Bolei Zhou",
       "title": "Faculty",
-      "email": null,
+      "email": "bolei@cs.ucla.edu",
       "website_url": "https://www.cs.ucla.edu/research-labs/",
       "linkedin_url": null,
       "biography": "Official UCLA CS Research Labs page associates Bolei Zhou with Vision and Autonomy Intelligence Lab.",
@@ -424,7 +436,8 @@
       "research_areas": [
         "Computer Vision",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://samueli.ucla.edu/people/bolei-zhou/"
     },
     {
       "id": "stefano-soatto",
@@ -433,7 +446,7 @@
       "lab": "vision-lab",
       "name": "Stefano Soatto",
       "title": "Faculty",
-      "email": null,
+      "email": "soatto@cs.ucla.edu",
       "website_url": "https://www.cs.ucla.edu/research-labs/",
       "linkedin_url": null,
       "biography": "Official UCLA CS Research Labs page associates Stefano Soatto with Vision Laboratory.",
@@ -449,7 +462,8 @@
       "research_areas": [
         "Computer Vision",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://samueli.ucla.edu/people/stefano-soatto/"
     },
     {
       "id": "yuzhe-yang",
@@ -458,7 +472,7 @@
       "lab": "health-intelligence",
       "name": "Yuzhe Yang",
       "title": "Faculty",
-      "email": null,
+      "email": "yuzhey@ucla.edu",
       "website_url": "https://www.cs.ucla.edu/research-labs/",
       "linkedin_url": null,
       "biography": "Official UCLA CS Research Labs page associates Yuzhe Yang with Health Intelligence Lab.",
@@ -474,7 +488,8 @@
       "research_areas": [
         "Medical AI",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://samueli.ucla.edu/people/yuzhe-yang/"
     },
     {
       "id": "demetri-terzopoulos",
@@ -483,7 +498,7 @@
       "lab": "graphics-vision",
       "name": "Demetri Terzopoulos",
       "title": "Faculty",
-      "email": null,
+      "email": "dt@cs.ucla.edu",
       "website_url": "https://www.cs.ucla.edu/research-labs/",
       "linkedin_url": null,
       "biography": "Official UCLA CS Research Labs page associates Demetri Terzopoulos with Computer Graphics & Vision Laboratory.",
@@ -498,7 +513,8 @@
       "source_url": "https://www.cs.ucla.edu/research-labs/",
       "research_areas": [
         "Computer Vision"
-      ]
+      ],
+      "email_source_url": "https://samueli.ucla.edu/people/demetri-terzopoulos/"
     }
   ]
 }

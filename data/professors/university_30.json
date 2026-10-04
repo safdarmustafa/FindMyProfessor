@@ -7,7 +7,7 @@
       "lab": null,
       "name": "Sharon Li",
       "title": "Associate Professor",
-      "email": null,
+      "email": "sharonli@cs.wisc.edu",
       "website_url": "https://pages.cs.wisc.edu/~sharonli/index.html",
       "linkedin_url": null,
       "biography": "Official Associate Professor listing at the source university page.",
@@ -24,7 +24,8 @@
         "Trustworthy AI",
         "Large Language Models",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "http://yixuanli.net/"
     },
     {
       "id": "yong-jae-lee",
@@ -33,7 +34,7 @@
       "lab": "waiv",
       "name": "Yong Jae Lee",
       "title": "Professor",
-      "email": null,
+      "email": "yongjaelee@cs.wisc.edu",
       "website_url": "https://pages.cs.wisc.edu/~yongjaelee/",
       "linkedin_url": null,
       "biography": "Official Professor listing at the source university page.",
@@ -51,7 +52,8 @@
         "Machine Learning",
         "Robotics",
         "Multimodal AI"
-      ]
+      ],
+      "email_source_url": "https://pages.cs.wisc.edu/~yongjaelee/"
     },
     {
       "id": "josiah-hanna",
@@ -60,7 +62,7 @@
       "lab": "pal",
       "name": "Josiah Hanna",
       "title": "Assistant Professor",
-      "email": null,
+      "email": "jphanna@cs.wisc.edu",
       "website_url": "https://pages.cs.wisc.edu/~jphanna/",
       "linkedin_url": null,
       "biography": "Official Assistant Professor listing at the source university page.",
@@ -76,7 +78,8 @@
       "research_areas": [
         "Reinforcement Learning",
         "Robotics"
-      ]
+      ],
+      "email_source_url": "https://pages.cs.wisc.edu/~jphanna/index.html"
     },
     {
       "id": "xiaojin-zhu",
@@ -85,7 +88,7 @@
       "lab": null,
       "name": "Xiaojin Zhu",
       "title": "Vilas Distinguished Achievement Professor",
-      "email": null,
+      "email": "jerryzhu@cs.wisc.edu",
       "website_url": "https://pages.cs.wisc.edu/~jerryzhu/",
       "linkedin_url": null,
       "biography": "Official Vilas Distinguished Achievement Professor listing at the source university page.",
@@ -100,7 +103,8 @@
       "source_url": "https://pages.cs.wisc.edu/~jerryzhu/",
       "research_areas": [
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://pages.cs.wisc.edu/~jerryzhu/"
     },
     {
       "id": "ilias-diakonikolas",
@@ -109,7 +113,7 @@
       "lab": null,
       "name": "Ilias Diakonikolas",
       "title": "Professor",
-      "email": null,
+      "email": "ilias@cs.wisc.edu",
       "website_url": "https://www.cs.wisc.edu/2019/12/17/cs-department-welcomes-ilias-diakonikolas-assistant-professor-in-algorithms-and-machine-learning/",
       "linkedin_url": null,
       "biography": "Official Professor listing at the source university page.",
@@ -124,7 +128,8 @@
       "source_url": "https://www.cs.wisc.edu/2019/12/17/cs-department-welcomes-ilias-diakonikolas-assistant-professor-in-algorithms-and-machine-learning/",
       "research_areas": [
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://www.cs.wisc.edu/staff/diakonikolas-ilias/"
     },
     {
       "id": "dimitris-papailiopoulos",
@@ -133,7 +138,7 @@
       "lab": null,
       "name": "Dimitris Papailiopoulos",
       "title": "Faculty, Computer Sciences",
-      "email": null,
+      "email": "dimitris@ece.wisc.edu",
       "website_url": "https://www.cs.wisc.edu/2023/12/06/uw-computer-sciences-impact-at-neurips-2023/",
       "linkedin_url": null,
       "biography": "Official Faculty, Computer Sciences listing at the source university page.",
@@ -149,7 +154,8 @@
       "research_areas": [
         "Machine Learning",
         "AI Systems"
-      ]
+      ],
+      "email_source_url": "https://www.cs.wisc.edu/staff/papailiopoulos-dimitris/"
     },
     {
       "id": "jelena-diakonikolas",
@@ -183,7 +189,7 @@
       "lab": null,
       "name": "Shivaram Venkataraman",
       "title": "Faculty, Computer Sciences",
-      "email": null,
+      "email": "shivaram@cs.wisc.edu",
       "website_url": "https://www.cs.wisc.edu/computer-sciences-weekly-good-news/",
       "linkedin_url": null,
       "biography": "Official Faculty, Computer Sciences listing at the source university page.",
@@ -199,7 +205,8 @@
       "research_areas": [
         "AI Systems",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://www.cs.wisc.edu/staff/venkataraman-shivaram/"
     },
     {
       "id": "mohit-gupta",
@@ -208,7 +215,7 @@
       "lab": null,
       "name": "Mohit Gupta",
       "title": "Faculty, Computer Sciences",
-      "email": null,
+      "email": "mohitg@cs.wisc.edu",
       "website_url": "https://www.cs.wisc.edu/computer-sciences-weekly-good-news/",
       "linkedin_url": null,
       "biography": "Official Faculty, Computer Sciences listing at the source university page.",
@@ -223,7 +230,8 @@
       "source_url": "https://www.cs.wisc.edu/computer-sciences-weekly-good-news/",
       "research_areas": [
         "Computer Vision"
-      ]
+      ],
+      "email_source_url": "https://www.cs.wisc.edu/staff/gupta-mohit/"
     },
     {
       "id": "yingyu-liang",
@@ -256,7 +264,7 @@
       "lab": null,
       "name": "Kangwook Lee",
       "title": "Affiliate Professor, Computer Sciences",
-      "email": null,
+      "email": "kangwook.lee@wisc.edu",
       "website_url": "https://www.cs.wisc.edu/computer-sciences-weekly-good-news/",
       "linkedin_url": null,
       "biography": "Official Affiliate Professor, Computer Sciences listing at the source university page.",
@@ -271,7 +279,8 @@
       "source_url": "https://www.cs.wisc.edu/computer-sciences-weekly-good-news/",
       "research_areas": [
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://www.cs.wisc.edu/staff/lee-kangwook/"
     }
   ]
 }

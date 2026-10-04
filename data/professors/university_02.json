@@ -112,7 +112,7 @@
       "lab": null,
       "name": "Francesco Orabona",
       "title": "Associate Professor of Computer Science",
-      "email": null,
+      "email": "francesco.orabona@kaust.edu.sa",
       "website_url": "https://www.kaust.edu.sa/en/study/faculty/francesco-orabona",
       "linkedin_url": null,
       "biography": "Official KAUST profile states that Professor Orabona joined KAUST from Boston University's Department of Electrical and Computer Engineering and is a leading researcher in parameter-free online optimization. He has served as an area chair for NeurIPS, ICML, COLT and ICLR.",
@@ -127,7 +127,8 @@
       "source_url": "https://www.kaust.edu.sa/en/study/faculty/francesco-orabona",
       "research_areas": [
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://www.kaust.edu.sa/en/study/faculty/francesco-orabona"
     },
     {
       "id": "peter-wonka",
@@ -136,7 +137,7 @@
       "lab": null,
       "name": "Peter Wonka",
       "title": "Professor of Computer Science",
-      "email": null,
+      "email": "peter.wonka@kaust.edu.sa",
       "website_url": "https://www.kaust.edu.sa/en/study/faculty/peter-wonka",
       "linkedin_url": null,
       "biography": "Official KAUST profile states that Professor Wonka joined KAUST in 2011 and is a Full Professor of Computer Science. He has held roles as CS Program Chair and Interim Director of the Visual Computing Center, and is listed as affiliated with the Center of Excellence for Generative AI.",
@@ -153,7 +154,8 @@
         "Computer Vision",
         "Machine Learning",
         "Foundation Models"
-      ]
+      ],
+      "email_source_url": "http://peterwonka.net/"
     },
     {
       "id": "robert-hoehndorf",
@@ -162,7 +164,7 @@
       "lab": "borg",
       "name": "Robert Hoehndorf",
       "title": "Associate Professor of Computer Science",
-      "email": null,
+      "email": "robert.hoehndorf@kaust.edu.sa",
       "website_url": "https://www.kaust.edu.sa/en/study/faculty/robert-hoehndorf",
       "linkedin_url": null,
       "biography": "Official KAUST profile identifies Associate Professor Hoehndorf as principal investigator of the Bio-Ontology Research Group (BORG). He joined KAUST in 2014 after research positions at Aberystwyth University, the University of Cambridge and the European Bioinformatics Institute.",
@@ -178,7 +180,8 @@
       "research_areas": [
         "Machine Learning",
         "Medical AI"
-      ]
+      ],
+      "email_source_url": "https://www.kaust.edu.sa/en/study/faculty/robert-hoehndorf"
     },
     {
       "id": "bernard-ghanem",
@@ -187,7 +190,7 @@
       "lab": "ivul",
       "name": "Bernard Ghanem",
       "title": "Professor of Electrical and Computer Engineering; Chair, Center of Excellence for Generative AI",
-      "email": null,
+      "email": "bernard.ghanem@kaust.edu.sa",
       "website_url": "https://www.kaust.edu.sa/en/study/faculty/bernard-ghanem",
       "linkedin_url": null,
       "biography": "Official KAUST profile states that Professor Ghanem is Chair of the KAUST Center of Excellence for Generative AI, a professor of Electrical and Computer Engineering, and principal investigator of the Image and Video Understanding Lab. Official program affiliations include ECE and Computer Science.",
@@ -205,7 +208,8 @@
         "Machine Learning",
         "Trustworthy AI",
         "Foundation Models"
-      ]
+      ],
+      "email_source_url": "https://www.bernardghanem.com/"
     },
     {
       "id": "dominik-michels",
@@ -214,7 +218,7 @@
       "lab": "computational-sciences-group",
       "name": "Dominik L. Michels",
       "title": "Associate Professor of Computer Science",
-      "email": null,
+      "email": "dominik.michels@kaust.edu.sa",
       "website_url": "https://www.kaust.edu.sa/en/study/faculty/dominik-michels",
       "linkedin_url": null,
       "biography": "Official KAUST profile states that Professor Michels founded the Computational Sciences Group at KAUST after postdoctoral work at Caltech and a period in the Computer Science Department at Stanford University. He joined KAUST in 2016.",
@@ -230,7 +234,8 @@
       "research_areas": [
         "Machine Learning",
         "Computer Science"
-      ]
+      ],
+      "email_source_url": "https://www.kaust.edu.sa/en/study/faculty/dominik-michels"
     },
     {
       "id": "wolfgang-heidrich",
@@ -239,7 +244,7 @@
       "lab": "computational-imaging-group",
       "name": "Wolfgang Heidrich",
       "title": "Professor of Computer Science and Electrical and Computer Engineering",
-      "email": null,
+      "email": "wolfgang.heidrich@kaust.edu.sa",
       "website_url": "https://www.kaust.edu.sa/en/study/faculty/wolfgang-heidrich",
       "linkedin_url": null,
       "biography": "Official KAUST profile states that Professor Heidrich is a professor of Computer Science and Electrical and Computer Engineering, a member of the KAUST Visual Computing Center, and served as its director from 2014 to 2021. He is listed as affiliated with the Center of Excellence for Generative AI.",
@@ -255,7 +260,8 @@
       "research_areas": [
         "Computer Vision",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://www.kaust.edu.sa/en/study/faculty/wolfgang-heidrich"
     },
     {
       "id": "di-wang",
@@ -264,7 +270,7 @@
       "lab": null,
       "name": "Di Wang",
       "title": "Assistant Professor of Computer Science",
-      "email": null,
+      "email": "di.wang@kaust.edu.sa",
       "website_url": "https://www.kaust.edu.sa/en/study/faculty/di-wang",
       "linkedin_url": null,
       "biography": "Official KAUST profile lists Di Wang as Assistant Professor of Computer Science and adjunct professor of Statistics, affiliated with the Center of Excellence for Generative AI. Official page names Privacy Awareness, Responsibility and Trustworthy Lab; a dedicated official lab URL was not used as affiliation in this pass, so lab is null.",
@@ -281,7 +287,8 @@
         "Trustworthy AI",
         "Machine Learning",
         "Foundation Models"
-      ]
+      ],
+      "email_source_url": "https://www.kaust.edu.sa/en/study/faculty/di-wang"
     },
     {
       "id": "marco-canini",
@@ -290,7 +297,7 @@
       "lab": "sands",
       "name": "Marco Canini",
       "title": "Professor of Computer Science",
-      "email": null,
+      "email": "marco@kaust.edu.sa",
       "website_url": "https://www.kaust.edu.sa/en/study/faculty/marcocanini",
       "linkedin_url": null,
       "biography": "Official KAUST profile lists Marco Canini as Professor of Computer Science. Official research interests name Software-Defined Advanced Networked and Distributed Systems (SANDS). The fetched official faculty page did not publish an email address.",
@@ -307,7 +314,8 @@
         "Machine Learning",
         "Efficient AI",
         "Computer Science"
-      ]
+      ],
+      "email_source_url": "https://www.kaust.edu.sa/en/study/faculty/marcocanini"
     },
     {
       "id": "ali-shoker",
@@ -316,7 +324,7 @@
       "lab": null,
       "name": "Ali Shoker",
       "title": "Research Associate Professor of Computer Science",
-      "email": null,
+      "email": "ali.shoker@kaust.edu.sa",
       "website_url": "https://www.kaust.edu.sa/en/study/faculty/ali-shoker",
       "linkedin_url": null,
       "biography": "Official KAUST profile lists Ali Shoker as Research Associate Professor leading the Cyber Security and Resilience Technology (CyberSaR) Lab. Official keyword tags include trustworthy AI. A dedicated CyberSaR website URL was not independently confirmed, so lab is null.",
@@ -331,7 +339,8 @@
       "source_url": "https://www.kaust.edu.sa/en/study/faculty/ali-shoker",
       "research_areas": [
         "Trustworthy AI"
-      ]
+      ],
+      "email_source_url": "https://www.kaust.edu.sa/en/study/faculty/ali-shoker"
     }
   ]
 }

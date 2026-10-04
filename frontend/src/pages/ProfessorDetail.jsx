@@ -92,7 +92,7 @@ export default function ProfessorDetail() {
   const dept       = nestedName(prof.department) || prof.dept || '';
   const university = nestedName(prof.university) || prof.university_name || prof.institution || '';
   const lab        = nestedName(prof.lab) || prof.laboratory || '';
-  const website    = prof.website || prof.faculty_url || prof.url || '';
+  const website    = prof.website_url || prof.website || prof.faculty_url || prof.source_url || prof.url || '';
   const areas      = prof.research_areas || prof.research_interests || [];
   const email      = prof.email || '';
 
@@ -278,7 +278,7 @@ export default function ProfessorDetail() {
             gap: '.4rem',
           }}
         >
-          Prepare Personalized Email →
+          {email ? 'Prepare Personalized Email →' : 'Prepare Email (no address listed) →'}
         </Link>
       </div>
     </AppShell>

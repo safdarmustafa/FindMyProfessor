@@ -24,9 +24,13 @@ X-Profile-Id is not removed. When no Authorization header is present at
 all, behavior is unchanged from before this change (trust X-Profile-Id) —
 this keeps any caller that has not yet been updated to send a Supabase
 session working exactly as it did. What changes is: once a caller DOES
-present a valid Supabase session, X-Profile-Id can never be used to access
-a profile other than the one that session is linked to — an authenticated
-user presenting someone else's X-Profile-Id gets 403, not silent access.
+present a valid Supabase session, the session alone decides the profile:
+X-Profile-Id is only a hint and can never be used to access a profile other
+than the one that session is linked to. A stale or foreign X-Profile-Id (an
+old id left in the browser, a different account signed in on the same
+machine) is ignored rather than rejected, and every authenticated response
+carries the authoritative id back in an X-Profile-Id response header so the
+client can correct what it has stored.
 This is a deliberate, incremental step; see the audit report for the
 remaining gap (a caller presenting no Authorization header at all is still
 trusted on X-Profile-Id alone) and what closing it fully would require.
@@ -35,7 +39,7 @@ trusted on X-Profile-Id alone) and what closing it fully would require.
 import logging
 from dataclasses import dataclass
 
-from fastapi import Header, HTTPException
+from fastapi import Header, HTTPException, Response
 
 from app.services.query import execute, is_missing_column_error
 from app.supabase_client import supabase
@@ -153,9 +157,13 @@ def _claim_profile(profile_id: str, user_id: str) -> None:
     )
 
 
+PROFILE_ID_HEADER = "X-Profile-Id"
+
+
 def resolve_identity(
     authorization: str | None = Header(default=None),
     x_profile_id: str | None = Header(default=None, alias="X-Profile-Id"),
+    response: Response = None,  # injected by FastAPI; None on direct calls
 ) -> Identity:
     """
     FastAPI dependency resolving "who is making this request" without
@@ -163,6 +171,13 @@ def resolve_identity(
     upload) that are allowed to create a brand new profile. Most endpoints
     should depend on require_profile_id below instead.
     """
+    identity = _resolve(authorization, x_profile_id)
+    if response is not None and identity.authenticated and identity.profile_id:
+        response.headers[PROFILE_ID_HEADER] = identity.profile_id
+    return identity
+
+
+def _resolve(authorization: str | None, x_profile_id: str | None) -> Identity:
     user_id = get_authenticated_user_id(authorization)
     if not user_id:
         # No verifiable session presented — legacy/anonymous path, unchanged.
@@ -170,26 +185,21 @@ def resolve_identity(
 
     linked_id = _find_linked_profile_id(user_id)
     if linked_id:
+        # The session is authoritative. A different X-Profile-Id is a stale
+        # client-side value, never a way into another profile.
         if x_profile_id and x_profile_id != linked_id:
-            raise HTTPException(
-                status_code=403,
-                detail="X-Profile-Id does not match the authenticated account.",
-            )
+            logger.info("Ignoring stale X-Profile-Id for an authenticated request.")
         return Identity(profile_id=linked_id, user_id=user_id, authenticated=True)
 
     if not x_profile_id:
         return Identity(profile_id=None, user_id=user_id, authenticated=True)
 
     state = _profile_link_state(x_profile_id)
-    if state is None:
-        # X-Profile-Id doesn't correspond to any real profile — let the
-        # caller create one for this authenticated user if that's valid here.
+    if state is None or state == "linked":
+        # Unknown id, or one already owned by another account: treat this user
+        # as having no profile yet. They can create their own; they never get
+        # access to (or claim) someone else's.
         return Identity(profile_id=None, user_id=user_id, authenticated=True)
-    if state == "linked":
-        raise HTTPException(
-            status_code=403,
-            detail="X-Profile-Id belongs to a different account.",
-        )
     # Unlinked and it exists: this is a returning user whose profile
     # predates their first authenticated session — claim it for them once.
     _claim_profile(x_profile_id, user_id)
@@ -199,22 +209,25 @@ def resolve_identity(
 def require_profile_id(
     authorization: str | None = Header(default=None),
     x_profile_id: str | None = Header(default=None, alias="X-Profile-Id"),
+    response: Response = None,  # injected by FastAPI; None on direct calls
 ) -> str:
     """
     FastAPI dependency for endpoints that require an existing profile.
     Returns the authoritative profile_id, or raises:
       - 401 if there is no session and no X-Profile-Id at all.
-      - 403 if a session is presented and X-Profile-Id names a profile that
-        isn't (and can't be claimed as) the authenticated user's own.
-      - 404 if the user is authenticated but has no profile yet.
+      - 404 if the user is authenticated but has no profile yet (including
+        when X-Profile-Id names a profile owned by someone else).
+    With a session, X-Profile-Id never selects a profile the session doesn't own.
     """
-    identity = resolve_identity(authorization, x_profile_id)
+    identity = resolve_identity(authorization, x_profile_id, response)
     if identity.profile_id:
         return identity.profile_id
     if identity.authenticated:
+        # Empty header value tells the client to drop any stored profile id.
         raise HTTPException(
             status_code=404,
             detail="No profile found for this account yet. Upload a CV first.",
+            headers={PROFILE_ID_HEADER: ""},
         )
     raise HTTPException(
         status_code=401,

@@ -1,7 +1,6 @@
 import { useEffect, useState, useCallback } from 'react';
 import { supabase } from '../lib/supabase.js';
-
-const PROFILE_KEY = 'fmp_profile_id';
+import { clearProfileId } from '../services/api.js';
 
 export function useAuth() {
   const [user, setUser] = useState(null);
@@ -18,7 +17,10 @@ export function useAuth() {
       })
       .catch(() => { if (mounted) setLoading(false); });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      // Signed out anywhere (another tab, expired session): the stored
+      // profile id belongs to that old session, so drop it.
+      if (event === 'SIGNED_OUT') clearProfileId();
       if (!mounted) return;
       setUser(session?.user || null);
     });
@@ -31,7 +33,7 @@ export function useAuth() {
 
   const signOut = useCallback(async () => {
     try { await supabase.auth.signOut(); } catch {}
-    try { localStorage.removeItem(PROFILE_KEY); } catch {}
+    clearProfileId();
     setUser(null);
   }, []);
 

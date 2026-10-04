@@ -2,7 +2,10 @@ import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import AppShell from '../components/AppShell/AppShell.jsx';
 import Spinner from '../components/Spinner.jsx';
-import { uploadCV, fetchProfile, updateProfile, confirmProfile } from '../services/profile.js';
+import CvLibrary from '../components/CvLibrary/CvLibrary.jsx';
+import {
+  uploadCV, fetchProfile, updateProfile, confirmProfile, listCVs, setActiveCV, deleteCV,
+} from '../services/profile.js';
 import { getProfileId, setProfileId } from '../services/api.js';
 
 const STEPS = ['Upload CV', 'Review Profile', 'Confirm'];
@@ -58,22 +61,139 @@ function StepIndicator({ step }) {
 }
 
 /* ── Helpers ──────────────────────────────────────────── */
+// The form edits exactly the backend's ExtractedStudentProfile shape
+// (app/cv/extraction/schema.py). Anything the form doesn't show — e.g.
+// certifications, experience years — is carried over from the parsed profile
+// unchanged, so saving never silently drops data.
+const SKILL_CATEGORIES = ['language', 'framework', 'ml_tool', 'database', 'cloud', 'other'];
+
 function parseList(text) {
   if (!text) return [];
   return text.split('\n').map(s => s.trim()).filter(Boolean);
 }
 
 function parseSkills(text) {
-  if (!text) return [];
   return parseList(text).map(line => {
-    const parts = line.split('|');
-    return { name: parts[0]?.trim(), category: parts[1]?.trim() || 'general' };
-  });
+    const [name, category] = line.split('|').map(p => p.trim());
+    const cat = (category || '').toLowerCase().replace(/[\s-]+/g, '_');
+    return { name, category: SKILL_CATEGORIES.includes(cat) ? cat : 'other' };
+  }).filter(s => s.name);
 }
 
-function tryParseJSON(text) {
-  if (!text || !text.trim()) return [];
-  try { return JSON.parse(text); } catch { return text; }
+function parseTags(text) {
+  return (text || '').split(',').map(t => t.trim()).filter(Boolean);
+}
+
+function toYear(value) {
+  const n = parseInt(String(value || '').trim(), 10);
+  return Number.isFinite(n) && n > 1900 && n < 2100 ? n : null;
+}
+
+function clean(value) {
+  const v = typeof value === 'string' ? value.trim() : value;
+  return v === '' || v === undefined ? null : v;
+}
+
+/* ── Editable list of cards (projects, publications, experience) ── */
+function ItemListEditor({ title, items, fields, onChange, addLabel, emptyItem }) {
+  const update = (index, key, value) =>
+    onChange(items.map((item, i) => (i === index ? { ...item, [key]: value } : item)));
+  const remove = (index) => onChange(items.filter((_, i) => i !== index));
+  const add = () => onChange([...items, { ...emptyItem }]);
+
+  return (
+    <fieldset style={{ border: '1px solid var(--line)', borderRadius: 'var(--r-md)', padding: '1.1rem' }}>
+      <legend style={{ fontWeight: 700, color: 'var(--navy)', fontSize: '.8125rem', padding: '0 .4rem' }}>{title}</legend>
+      {items.length === 0 && (
+        <p style={{ color: 'var(--muted)', fontSize: '.8125rem', margin: '0 0 .75rem' }}>Nothing found on your CV. Add one below if needed.</p>
+      )}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '.9rem' }}>
+        {items.map((item, index) => (
+          <div key={index} style={{ border: '1px solid var(--line)', borderRadius: 'var(--r-md)', padding: '.85rem', background: 'var(--bg)' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '.6rem' }}>
+              {fields.map(({ key, label, type, options, span }) => (
+                <div key={key} className="form-group" style={{ gridColumn: span === 'full' ? '1 / -1' : 'auto', margin: 0 }}>
+                  <label className="form-label">{label}</label>
+                  {type === 'textarea' ? (
+                    <textarea className="form-textarea" rows={3} value={item[key] ?? ''} onChange={e => update(index, key, e.target.value)} />
+                  ) : type === 'select' ? (
+                    <select className="form-input" value={item[key] ?? ''} onChange={e => update(index, key, e.target.value)}>
+                      {options.map(([value, text]) => <option key={value} value={value}>{text}</option>)}
+                    </select>
+                  ) : (
+                    <input className="form-input" value={item[key] ?? ''} onChange={e => update(index, key, e.target.value)} />
+                  )}
+                </div>
+              ))}
+            </div>
+            <button type="button" onClick={() => remove(index)} style={{
+              marginTop: '.6rem', background: 'none', border: 'none', color: 'var(--red, #b42318)',
+              fontSize: '.78rem', cursor: 'pointer', padding: 0,
+            }}>
+              Remove
+            </button>
+          </div>
+        ))}
+      </div>
+      <button type="button" onClick={add} style={{
+        marginTop: '.85rem', padding: '.45rem .9rem', background: 'var(--card)', color: 'var(--navy)',
+        border: '1px dashed var(--line)', borderRadius: 'var(--r-md)', fontSize: '.8125rem', cursor: 'pointer',
+      }}>
+        + {addLabel}
+      </button>
+    </fieldset>
+  );
+}
+
+const PROJECT_FIELDS = [
+  { key: 'title', label: 'Title', span: 'full' },
+  { key: 'description', label: 'What you did', type: 'textarea', span: 'full' },
+  { key: 'technologies', label: 'Technologies (comma separated)', span: 'full' },
+];
+const PUBLICATION_FIELDS = [
+  { key: 'title', label: 'Title', span: 'full' },
+  { key: 'venue', label: 'Venue (conference / journal)', span: 'full' },
+  { key: 'year', label: 'Year' },
+  { key: 'publication_type', label: 'Status', type: 'select', options: [
+    ['', '—'], ['published', 'Published'], ['accepted', 'Accepted'], ['under review', 'Under review'], ['preprint', 'Preprint'],
+  ] },
+  { key: 'authors', label: 'Authors', span: 'full' },
+];
+const EXPERIENCE_FIELDS = [
+  { key: 'role', label: 'Role' },
+  { key: 'organization', label: 'Organization' },
+  { key: 'kind', label: 'Type', type: 'select', options: [
+    ['', '—'], ['research', 'Research'], ['internship', 'Internship'], ['work', 'Work'], ['other', 'Other'],
+  ] },
+  { key: 'years', label: 'Years (e.g. 2025 – 2026)' },
+  { key: 'description', label: 'Description', type: 'textarea', span: 'full' },
+];
+
+function projectToForm(p) {
+  return { ...p, title: p.title || '', description: p.description || '', technologies: (p.technologies || []).join(', ') };
+}
+function publicationToForm(p) {
+  return { ...p, title: p.title || '', venue: p.venue || '', year: p.year ?? '', authors: p.authors || '', publication_type: p.publication_type || '' };
+}
+function experienceToForm(e) {
+  const years = [e.start_year, e.end_year].filter(Boolean).join(' – ');
+  return { ...e, role: e.role || '', organization: e.organization || '', kind: e.kind || '', description: e.description || '', years };
+}
+function projectFromForm(p) {
+  return { title: (p.title || '').trim(), description: clean(p.description), technologies: parseTags(p.technologies), research_relevance: clean(p.research_relevance) };
+}
+function publicationFromForm(p) {
+  return { title: (p.title || '').trim(), venue: clean(p.venue), year: toYear(p.year), authors: clean(p.authors), publication_type: clean(p.publication_type) };
+}
+function experienceFromForm(e) {
+  const years = String(e.years || '').match(/(19|20)\d{2}/g) || [];
+  return {
+    role: clean(e.role), organization: clean(e.organization),
+    kind: ['internship', 'research', 'work', 'other'].includes(e.kind) ? e.kind : null,
+    description: clean(e.description),
+    start_year: years[0] ? Number(years[0]) : null,
+    end_year: years[1] ? Number(years[1]) : null,
+  };
 }
 
 /* ── Main component ───────────────────────────────────── */
@@ -95,77 +215,160 @@ export default function Onboarding() {
     name: '', email: '', phone: '',
     degree: '', field: '', institution: '', country: '', grad_year: '', semester: '',
     research_interests: '', signals: '', skills: '',
-    projects: '', publications: '', experience: '',
+    projects: [], publications: [], experience: [],
   });
+  // The parsed profile as the backend returned it; fields the form doesn't
+  // edit are carried over from here on save.
+  const [original, setOriginal] = useState({});
   const [saving, setSaving] = useState(false);
 
   // Step 3
   const [confirming, setConfirming] = useState(false);
   const [confirmed, setConfirmed] = useState(false);
 
+  // CV library
+  const [versions, setVersions] = useState([]);
+  const [versionsLoading, setVersionsLoading] = useState(false);
+  const [cvBusyId, setCvBusyId] = useState(null);
+  const [cvError, setCvError] = useState(null);
+  const stepCardRef = useRef(null);
+
+  // Show the active CV's profile at the right step. With no CV at all the
+  // backend still returns an empty profile, so key off cv_id, not the profile.
+  function applyProfile(data) {
+    setProfile(data && data.cv_id ? data : null);
+    setConfirmed(Boolean(data?.cv_id && data.confirmed));
+    if (!data || !data.cv_id) {
+      setStep(1);
+      return;
+    }
+    if (data.extracted_profile) populateForm(data.extracted_profile);
+    setStep(data.confirmed ? 3 : 2);
+  }
+
+  async function refreshVersions() {
+    setVersionsLoading(true);
+    try {
+      setVersions(await listCVs());
+    } catch {
+      setVersions([]);
+    } finally {
+      setVersionsLoading(false);
+    }
+  }
+
+  async function refreshAll() {
+    const [data] = await Promise.all([fetchProfile().catch(() => null), refreshVersions()]);
+    applyProfile(data);
+  }
+
   useEffect(() => {
-    const profileId = getProfileId();
-    if (!profileId) return;
+    if (!getProfileId()) return;
     setLoading(true);
-    fetchProfile()
-      .then(data => {
-        setProfile(data);
-        if (data.extracted_profile) {
-          populateForm(data.extracted_profile);
-        }
-        if (data.confirmed) {
-          setStep(3);
-          setConfirmed(true);
-        } else if (data.extracted_profile) {
-          setStep(2);
-        }
-      })
-      .catch(() => {})
-      .finally(() => setLoading(false));
+    refreshAll().finally(() => setLoading(false));
   }, []);
 
+  function startNewUpload() {
+    setSelectedFile(null);
+    setError(null);
+    setStep(1);
+    stepCardRef.current?.scrollIntoView?.({ behavior: 'smooth', block: 'start' });
+  }
+
+  async function handleMakeActive(cvId) {
+    setCvBusyId(cvId);
+    setCvError(null);
+    try {
+      setVersions(await setActiveCV(cvId));
+      applyProfile(await fetchProfile());
+    } catch (e) {
+      setCvError(e.message || 'Could not switch the active CV. Please try again.');
+    } finally {
+      setCvBusyId(null);
+    }
+  }
+
+  async function handleRemoveMissing(cvIds) {
+    setCvBusyId('bulk');
+    setCvError(null);
+    try {
+      let latest = versions;
+      for (const id of cvIds) latest = await deleteCV(id);
+      setVersions(latest);
+      applyProfile(await fetchProfile().catch(() => null));
+    } catch (e) {
+      setCvError(e.message || 'Could not remove every missing CV. Please try again.');
+      refreshVersions();
+    } finally {
+      setCvBusyId(null);
+    }
+  }
+
+  async function handleDeleteCv(cvId) {
+    setCvBusyId(cvId);
+    setCvError(null);
+    try {
+      setVersions(await deleteCV(cvId));
+      applyProfile(await fetchProfile().catch(() => null));
+    } catch (e) {
+      setCvError(e.message || 'Could not delete this CV. Please try again.');
+    } finally {
+      setCvBusyId(null);
+    }
+  }
+
   function populateForm(ep) {
-    const identity = ep.identity || ep;
+    const identity = ep.identity || {};
     const education = (ep.education || [])[0] || {};
-    const research = ep.research || {};
+    // Older payloads nested interests under `research`; accept both.
+    const interests = ep.research_interests || ep.research?.interests || [];
+    const signals = ep.research_signals || ep.research?.signals || [];
+    setOriginal(ep);
     setFormData({
       name: identity.name || '',
       email: identity.email || '',
       phone: identity.phone || '',
       degree: education.degree || '',
-      field: education.field || '',
+      field: education.field_of_study || education.field || '',
       institution: education.institution || '',
       country: education.country || '',
-      grad_year: education.grad_year || education.year || '',
-      semester: education.semester || '',
-      research_interests: (research.interests || []).join('\n'),
-      signals: (research.signals || []).join('\n'),
-      skills: (ep.skills || []).map(s => typeof s === 'string' ? s : `${s.name} | ${s.category || 'general'}`).join('\n'),
-      projects: ep.projects ? JSON.stringify(ep.projects, null, 2) : '',
-      publications: ep.publications ? JSON.stringify(ep.publications, null, 2) : '',
-      experience: ep.experience ? JSON.stringify(ep.experience, null, 2) : '',
+      grad_year: education.graduation_year ?? education.grad_year ?? '',
+      semester: education.current_semester || education.semester || '',
+      research_interests: interests.join('\n'),
+      signals: signals.join('\n'),
+      skills: (ep.skills || []).map(s => typeof s === 'string' ? s : `${s.name} | ${s.category || 'other'}`).join('\n'),
+      projects: (Array.isArray(ep.projects) ? ep.projects : []).map(projectToForm),
+      publications: (Array.isArray(ep.publications) ? ep.publications : []).map(publicationToForm),
+      experience: (Array.isArray(ep.experience) ? ep.experience : []).map(experienceToForm),
     });
   }
 
   function collectProfile() {
+    const firstEducation = (original.education || [])[0] || {};
+    const hasEducation = [formData.degree, formData.field, formData.institution, formData.country, formData.grad_year, formData.semester]
+      .some(v => String(v ?? '').trim());
     return {
-      identity: { name: formData.name, email: formData.email, phone: formData.phone },
-      education: [{
-        degree: formData.degree,
-        field: formData.field,
-        institution: formData.institution,
-        country: formData.country,
-        grad_year: formData.grad_year,
-        semester: formData.semester,
-      }],
-      research: {
-        interests: parseList(formData.research_interests),
-        signals: parseList(formData.signals),
-      },
+      ...original,
+      identity: { name: clean(formData.name), email: clean(formData.email), phone: clean(formData.phone) },
+      education: [
+        ...(hasEducation ? [{
+          ...firstEducation,
+          degree: clean(formData.degree),
+          field_of_study: clean(formData.field),
+          institution: clean(formData.institution),
+          country: clean(formData.country),
+          graduation_year: toYear(formData.grad_year),
+          current_semester: clean(String(formData.semester ?? '')),
+        }] : []),
+        ...(original.education || []).slice(1),
+      ],
+      research_interests: parseList(formData.research_interests),
+      research_signals: parseList(formData.signals),
       skills: parseSkills(formData.skills),
-      projects: tryParseJSON(formData.projects),
-      publications: tryParseJSON(formData.publications),
-      experience: tryParseJSON(formData.experience),
+      projects: formData.projects.map(projectFromForm).filter(p => p.title),
+      publications: formData.publications.map(publicationFromForm).filter(p => p.title),
+      experience: formData.experience.map(experienceFromForm).filter(e => e.role || e.organization || e.description),
+      certifications: original.certifications || [],
     };
   }
 
@@ -192,8 +395,11 @@ export default function Onboarding() {
       const data = await uploadCV(selectedFile);
       if (data.profile_id) setProfileId(data.profile_id);
       setProfile(data);
+      setConfirmed(false);
+      setSelectedFile(null);
       if (data.extracted_profile) populateForm(data.extracted_profile);
       setStep(2);
+      refreshVersions();
     } catch (e) {
       setError(e.message || 'Upload failed. Please try again.');
     } finally {
@@ -207,7 +413,9 @@ export default function Onboarding() {
     try {
       const ep = collectProfile();
       await updateProfile(ep);
+      setConfirmed(false);
       setStep(3);
+      refreshVersions();
     } catch (e) {
       setError(e.message || 'Save failed. Please try again.');
     } finally {
@@ -221,6 +429,7 @@ export default function Onboarding() {
     try {
       await confirmProfile();
       setConfirmed(true);
+      refreshVersions();
     } catch (e) {
       setError(e.message || 'Confirmation failed. Please try again.');
     } finally {
@@ -251,8 +460,21 @@ export default function Onboarding() {
             </p>
           </div>
 
+          {(versions.length > 0 || versionsLoading) && (
+            <CvLibrary
+              versions={versions}
+              loading={versionsLoading}
+              busyId={cvBusyId}
+              error={cvError}
+              onUploadNew={startNewUpload}
+              onMakeActive={handleMakeActive}
+              onDelete={handleDeleteCv}
+              onRemoveMissing={handleRemoveMissing}
+            />
+          )}
+
           {/* White card wrapper */}
-          <div style={{
+          <div ref={stepCardRef} style={{
             background: 'var(--card)',
             border: '1px solid var(--line)',
             borderRadius: 'var(--r-xl)',
@@ -376,7 +598,7 @@ export default function Onboarding() {
 
                 {profile && profile.extracted_profile && (
                   <button
-                    onClick={() => setStep(2)}
+                    onClick={() => { setSelectedFile(null); setStep(confirmed ? 3 : 2); }}
                     style={{
                       width: '100%',
                       marginTop: '.65rem',
@@ -390,7 +612,7 @@ export default function Onboarding() {
                       cursor: 'pointer',
                     }}
                   >
-                    Continue with existing profile →
+                    Keep my current CV →
                   </button>
                 )}
               </>
@@ -454,25 +676,41 @@ export default function Onboarding() {
                         <textarea className="form-textarea" value={formData.research_interests} onChange={ff('research_interests')} placeholder={"Computer Vision\nDeep Learning\nNatural Language Processing"} rows={4} />
                       </div>
                       <div className="form-group">
-                        <label className="form-label">Research signals <span style={{ color: 'var(--muted)', fontWeight: 400 }}>(one per line)</span></label>
-                        <textarea className="form-textarea" value={formData.signals} onChange={ff('signals')} placeholder="Published paper on transformer architectures" rows={3} />
+                        <label className="form-label">Areas evidenced by your work <span style={{ color: 'var(--muted)', fontWeight: 400 }}>(one per line)</span></label>
+                        <textarea className="form-textarea" value={formData.signals} onChange={ff('signals')} placeholder={"Medical AI\nEdge AI"} rows={3} />
                       </div>
                       <div className="form-group">
-                        <label className="form-label">Skills <span style={{ color: 'var(--muted)', fontWeight: 400 }}>(format: Python | language)</span></label>
-                        <textarea className="form-textarea" value={formData.skills} onChange={ff('skills')} placeholder={"Python | language\nPyTorch | framework\nResearch | methodology"} rows={4} />
+                        <label className="form-label">Skills <span style={{ color: 'var(--muted)', fontWeight: 400 }}>(one per line; optional type after "|": language, framework, ml_tool, database, cloud, other)</span></label>
+                        <textarea className="form-textarea" value={formData.skills} onChange={ff('skills')} placeholder={"Python | language\nPyTorch | ml_tool\nPostgreSQL | database"} rows={4} />
                       </div>
                     </div>
                   </fieldset>
 
                   {/* Projects / Pubs / Experience */}
-                  {[
-                    ['projects','Projects (JSON)'], ['publications','Publications (JSON)'], ['experience','Experience (JSON)'],
-                  ].map(([k, lbl]) => (
-                    <div key={k} className="form-group">
-                      <label className="form-label">{lbl}</label>
-                      <textarea className="form-textarea" value={formData[k]} onChange={ff(k)} rows={4} style={{ fontFamily: 'monospace', fontSize: '.8125rem' }} />
-                    </div>
-                  ))}
+                  <ItemListEditor
+                    title="Publications"
+                    items={formData.publications}
+                    fields={PUBLICATION_FIELDS}
+                    onChange={list => setFormData(d => ({ ...d, publications: list }))}
+                    addLabel="Add publication"
+                    emptyItem={{ title: '', venue: '', year: '', authors: '', publication_type: '' }}
+                  />
+                  <ItemListEditor
+                    title="Experience"
+                    items={formData.experience}
+                    fields={EXPERIENCE_FIELDS}
+                    onChange={list => setFormData(d => ({ ...d, experience: list }))}
+                    addLabel="Add experience"
+                    emptyItem={{ role: '', organization: '', kind: '', years: '', description: '' }}
+                  />
+                  <ItemListEditor
+                    title="Projects"
+                    items={formData.projects}
+                    fields={PROJECT_FIELDS}
+                    onChange={list => setFormData(d => ({ ...d, projects: list }))}
+                    addLabel="Add project"
+                    emptyItem={{ title: '', description: '', technologies: '' }}
+                  />
                 </div>
 
                 <div style={{ display: 'flex', gap: '.75rem', marginTop: '1.75rem' }}>
@@ -551,6 +789,22 @@ export default function Onboarding() {
                     >
                       Find Matching Professors →
                     </Link>
+                    <div style={{ display: 'flex', gap: '.6rem', justifyContent: 'center', marginTop: '1rem', flexWrap: 'wrap' }}>
+                      <button type="button" onClick={() => setStep(2)} style={{
+                        padding: '.55rem 1rem', background: 'var(--card)', color: 'var(--ink)',
+                        border: '1px solid var(--line)', borderRadius: 'var(--r-md)', fontSize: '.8125rem',
+                        fontWeight: 500, cursor: 'pointer',
+                      }}>
+                        Edit profile
+                      </button>
+                      <button type="button" onClick={startNewUpload} style={{
+                        padding: '.55rem 1rem', background: 'var(--card)', color: 'var(--ink)',
+                        border: '1px solid var(--line)', borderRadius: 'var(--r-md)', fontSize: '.8125rem',
+                        fontWeight: 500, cursor: 'pointer',
+                      }}>
+                        Upload a new CV
+                      </button>
+                    </div>
                   </>
                 ) : (
                   <>

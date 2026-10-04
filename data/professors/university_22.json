@@ -31,7 +31,7 @@
       "lab": null,
       "name": "Amir Bar",
       "title": "Amir Bar Assistant Professor",
-      "email": null,
+      "email": "a.bar@imperial.ac.uk",
       "website_url": "https://www.imperial.ac.uk/computing/people/academic-staff/",
       "linkedin_url": null,
       "biography": "Official Imperial College Department of Computing academic staff page lists Dr Amir Bar Assistant Professor.",
@@ -47,7 +47,8 @@
       "research_areas": [
         "Computer Vision",
         "Deep Learning"
-      ]
+      ],
+      "email_source_url": "https://www.imperial.ac.uk/computing/people/academic-staff/"
     },
     {
       "id": "wenjia-bai",
@@ -56,7 +57,7 @@
       "lab": null,
       "name": "Wenjia Bai",
       "title": "Wenjia Bai Associate Professor in Artificial Intelligence in Medicine",
-      "email": null,
+      "email": "w.bai@imperial.ac.uk",
       "website_url": "https://www.imperial.ac.uk/computing/people/academic-staff/",
       "linkedin_url": null,
       "biography": "Official Imperial College Department of Computing academic staff page lists Dr Wenjia Bai Associate Professor in Artificial Intelligence in Medicine.",
@@ -74,7 +75,8 @@
         "Data Science",
         "Machine Learning",
         "Artificial Intelligence"
-      ]
+      ],
+      "email_source_url": "https://www.doc.ic.ac.uk/~wbai/"
     },
     {
       "id": "francesco-belardinelli",
@@ -109,7 +111,7 @@
       "lab": null,
       "name": "Tolga Birdal",
       "title": "Tolga Birdal Assistant Professor",
-      "email": null,
+      "email": "t.birdal@imperial.ac.uk",
       "website_url": "https://www.imperial.ac.uk/computing/people/academic-staff/",
       "linkedin_url": null,
       "biography": "Official Imperial College Department of Computing academic staff page lists Dr Tolga Birdal Assistant Professor.",
@@ -125,7 +127,8 @@
       "research_areas": [
         "Computer Vision",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://profiles.imperial.ac.uk/t.birdal"
     },
     {
       "id": "roberto-bondesan",
@@ -134,7 +137,7 @@
       "lab": null,
       "name": "Roberto Bondesan",
       "title": "Roberto Bondesan Associate Professor in Quantum Computing",
-      "email": null,
+      "email": "r.bondesan@imperial.ac.uk",
       "website_url": "https://www.imperial.ac.uk/computing/people/academic-staff/",
       "linkedin_url": null,
       "biography": "Official Imperial College Department of Computing academic staff page lists Dr Roberto Bondesan Associate Professor in Quantum Computing.",
@@ -149,7 +152,8 @@
       "source_url": "https://www.imperial.ac.uk/computing/people/academic-staff/",
       "research_areas": [
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://profiles.imperial.ac.uk/r.bondesan"
     },
     {
       "id": "oana-maria-camburu",
@@ -158,7 +162,7 @@
       "lab": null,
       "name": "Oana-Maria Camburu",
       "title": "Oana-Maria Camburu Assistant Professor in Machine Learning",
-      "email": null,
+      "email": "o.camburu@imperial.ac.uk",
       "website_url": "https://www.imperial.ac.uk/computing/people/academic-staff/",
       "linkedin_url": null,
       "biography": "Official Imperial College Department of Computing academic staff page lists Dr Oana-Maria Camburu Assistant Professor in Machine Learning.",
@@ -178,7 +182,8 @@
         "Multimodal Learning",
         "Machine Learning",
         "Artificial Intelligence"
-      ]
+      ],
+      "email_source_url": "https://www.imperial.ac.uk/computing/people/academic-staff/"
     },
     {
       "id": "antoine-cully",
@@ -238,7 +243,7 @@
       "lab": null,
       "name": "Yves-Alexandre de Montjoye",
       "title": "Yves-Alexandre de Montjoye Professor of Applied Mathematics and Computer Science",
-      "email": null,
+      "email": "demontjoye@imperial.ac.uk",
       "website_url": "https://www.imperial.ac.uk/computing/people/academic-staff/",
       "linkedin_url": null,
       "biography": "Official Imperial College Department of Computing academic staff page lists Professor Yves-Alexandre de Montjoye Professor of Applied Mathematics and Computer Science.",
@@ -256,7 +261,8 @@
         "Data Science",
         "Machine Learning",
         "Artificial Intelligence"
-      ]
+      ],
+      "email_source_url": "https://www.imperial.ac.uk/computing/people/academic-staff/"
     },
     {
       "id": "jiankang-deng",
@@ -292,7 +298,7 @@
       "lab": null,
       "name": "Edoardo Maria Ponti",
       "title": "Edoardo Maria Ponti Associate Professor",
-      "email": null,
+      "email": "e.ponti@imperial.ac.uk",
       "website_url": "https://www.imperial.ac.uk/computing/people/academic-staff/",
       "linkedin_url": null,
       "biography": "Official Imperial College Department of Computing academic staff page lists Dr Edoardo Maria Ponti Associate Professor.",
@@ -310,7 +316,8 @@
         "Natural Language Processing",
         "Efficient AI",
         "Multimodal Learning"
-      ]
+      ],
+      "email_source_url": "https://www.imperial.ac.uk/computing/people/academic-staff/"
     },
     {
       "id": "aldo-faisal",
@@ -345,7 +352,7 @@
       "lab": null,
       "name": "Hongxiang Fan",
       "title": "Hongxiang Fan Assistant Professor in Computing",
-      "email": null,
+      "email": "hongxiang.fan@imperial.ac.uk",
       "website_url": "https://www.imperial.ac.uk/computing/people/academic-staff/",
       "linkedin_url": null,
       "biography": "Official Imperial College Department of Computing academic staff page lists Dr Hongxiang Fan Assistant Professor in Computing.",
@@ -360,7 +367,8 @@
       "source_url": "https://www.imperial.ac.uk/computing/people/academic-staff/",
       "research_areas": [
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://profiles.imperial.ac.uk/hongxiang.fan"
     },
     {
       "id": "ben-glocker",
@@ -419,7 +427,7 @@
       "lab": null,
       "name": "Joey Bose",
       "title": "Joey Bose Assistant Professor of Computing",
-      "email": null,
+      "email": "joey.bose@imperial.ac.uk",
       "website_url": "https://www.imperial.ac.uk/computing/people/academic-staff/",
       "linkedin_url": null,
       "biography": "Official Imperial College Department of Computing academic staff page lists Dr Joey Bose Assistant Professor of Computing.",
@@ -437,7 +445,8 @@
         "Deep Learning",
         "AI for Science",
         "Artificial Intelligence"
-      ]
+      ],
+      "email_source_url": "https://joeybose.github.io/"
     },
     {
       "id": "edward-johns",
@@ -446,7 +455,7 @@
       "lab": null,
       "name": "Edward Johns",
       "title": "Edward Johns Associate Professor of Robot Learning",
-      "email": null,
+      "email": "e.johns@imperial.ac.uk",
       "website_url": "https://www.imperial.ac.uk/computing/people/academic-staff/",
       "linkedin_url": null,
       "biography": "Official Imperial College Department of Computing academic staff page lists Dr Edward Johns Associate Professor of Robot Learning.",
@@ -464,7 +473,8 @@
         "Robotics",
         "Deep Learning",
         "Reinforcement Learning"
-      ]
+      ],
+      "email_source_url": "https://profiles.imperial.ac.uk/e.johns"
     },
     {
       "id": "bernhard-kainz",
@@ -523,7 +533,7 @@
       "lab": null,
       "name": "Yingzhen Li",
       "title": "Yingzhen Li Associate Professor in Machine Learning",
-      "email": null,
+      "email": "yingzhen.li@imperial.ac.uk",
       "website_url": "https://www.imperial.ac.uk/computing/people/academic-staff/",
       "linkedin_url": null,
       "biography": "Official Imperial College Department of Computing academic staff page lists Dr Yingzhen Li Associate Professor in Machine Learning.",
@@ -540,7 +550,8 @@
         "Foundation Models",
         "Machine Learning",
         "Artificial Intelligence"
-      ]
+      ],
+      "email_source_url": "https://profiles.imperial.ac.uk/yingzhen.li"
     },
     {
       "id": "alessio-lomuscio",
@@ -574,7 +585,7 @@
       "lab": null,
       "name": "Pedro Mediano",
       "title": "Pedro Mediano Associate Professor in Neural Computation",
-      "email": null,
+      "email": "pmediano@imperial.ac.uk",
       "website_url": "https://www.imperial.ac.uk/computing/people/academic-staff/",
       "linkedin_url": null,
       "biography": "Official Imperial College Department of Computing academic staff page lists Dr Pedro Mediano Associate Professor in Neural Computation.",
@@ -589,7 +600,8 @@
       "source_url": "https://www.imperial.ac.uk/computing/people/academic-staff/",
       "research_areas": [
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://pmediano.gitlab.io/"
     },
     {
       "id": "dario-paccagnan",
@@ -598,7 +610,7 @@
       "lab": null,
       "name": "Dario Paccagnan",
       "title": "Dario Paccagnan Associate Professor",
-      "email": null,
+      "email": "d.paccagnan@imperial.ac.uk",
       "website_url": "https://www.imperial.ac.uk/computing/people/academic-staff/",
       "linkedin_url": null,
       "biography": "Official Imperial College Department of Computing academic staff page lists Dr Dario Paccagnan Associate Professor.",
@@ -613,7 +625,8 @@
       "source_url": "https://www.imperial.ac.uk/computing/people/academic-staff/",
       "research_areas": [
         "AI Agents"
-      ]
+      ],
+      "email_source_url": "https://www.imperial.ac.uk/computing/people/academic-staff/"
     },
     {
       "id": "maja-pantic",
@@ -672,7 +685,7 @@
       "lab": null,
       "name": "Marek Rei",
       "title": "Marek Rei Senior Lecturer in Machine Learning and NLP",
-      "email": null,
+      "email": "marek.rei@imperial.ac.uk",
       "website_url": "https://www.imperial.ac.uk/computing/people/academic-staff/",
       "linkedin_url": null,
       "biography": "Official Imperial College Department of Computing academic staff page lists Dr Marek Rei Senior Lecturer in Machine Learning and NLP.",
@@ -689,7 +702,8 @@
         "Natural Language Processing",
         "Medical AI",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://profiles.imperial.ac.uk/marek.rei"
     },
     {
       "id": "islem-rekik",
@@ -698,7 +712,7 @@
       "lab": null,
       "name": "Islem Rekik",
       "title": "Islem Rekik Associate Professor in Computing",
-      "email": null,
+      "email": "i.rekik@imperial.ac.uk",
       "website_url": "https://www.imperial.ac.uk/computing/people/academic-staff/",
       "linkedin_url": null,
       "biography": "Official Imperial College Department of Computing academic staff page lists Dr Islem Rekik Associate Professor in Computing.",
@@ -715,7 +729,8 @@
         "Deep Learning",
         "Machine Learning",
         "Artificial Intelligence"
-      ]
+      ],
+      "email_source_url": "https://basira-lab.com/"
     },
     {
       "id": "daniel-rueckert",
@@ -773,7 +788,7 @@
       "lab": null,
       "name": "Nicole Salomons",
       "title": "Nicole Salomons Assistant Professor in Computing",
-      "email": null,
+      "email": "n.salomons@imperial.ac.uk",
       "website_url": "https://www.imperial.ac.uk/computing/people/academic-staff/",
       "linkedin_url": null,
       "biography": "Official Imperial College Department of Computing academic staff page lists Dr Nicole Salomons Assistant Professor in Computing.",
@@ -789,7 +804,8 @@
       "research_areas": [
         "Robotics",
         "Artificial Intelligence"
-      ]
+      ],
+      "email_source_url": "https://www.imperial.ac.uk/computing/people/academic-staff/"
     },
     {
       "id": "bjoern-schuller",
@@ -824,7 +840,7 @@
       "lab": null,
       "name": "Lucia Specia",
       "title": "Lucia Specia Chair in Natural Language Processing",
-      "email": null,
+      "email": "l.specia@imperial.ac.uk",
       "website_url": "https://www.imperial.ac.uk/computing/people/academic-staff/",
       "linkedin_url": null,
       "biography": "Official Imperial College Department of Computing academic staff page lists Professor Lucia Specia Chair in Natural Language Processing.",
@@ -840,7 +856,8 @@
       "research_areas": [
         "Natural Language Processing",
         "Multimodal Learning"
-      ]
+      ],
+      "email_source_url": "https://profiles.imperial.ac.uk/l.specia"
     },
     {
       "id": "stephen-james",
@@ -849,7 +866,7 @@
       "lab": null,
       "name": "Stephen James",
       "title": "Stephen James Assistant Professor",
-      "email": null,
+      "email": "stephen.james12@imperial.ac.uk",
       "website_url": "https://www.imperial.ac.uk/computing/people/academic-staff/",
       "linkedin_url": null,
       "biography": "Official Imperial College Department of Computing academic staff page lists Dr Stephen James Assistant Professor.",
@@ -866,7 +883,8 @@
         "Robotics",
         "Reinforcement Learning",
         "Artificial Intelligence"
-      ]
+      ],
+      "email_source_url": "https://www.imperial.ac.uk/computing/people/academic-staff/"
     },
     {
       "id": "francesca-toni",
@@ -900,7 +918,7 @@
       "lab": null,
       "name": "Calvin Tsay",
       "title": "Calvin Tsay Associate Professor in Computing",
-      "email": null,
+      "email": "c.tsay@imperial.ac.uk",
       "website_url": "https://www.imperial.ac.uk/computing/people/academic-staff/",
       "linkedin_url": null,
       "biography": "Official Imperial College Department of Computing academic staff page lists Dr Calvin Tsay Associate Professor in Computing.",
@@ -915,7 +933,8 @@
       "source_url": "https://www.imperial.ac.uk/computing/people/academic-staff/",
       "research_areas": [
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://profiles.imperial.ac.uk/c.tsay"
     },
     {
       "id": "sebastian-uchitel",

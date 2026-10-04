@@ -103,7 +103,7 @@ export default function GmailWidget({ professorId, returnPath, draftId, onBefore
           disabled={connecting}
           style={{ background: 'none', border: 'none', cursor: connecting ? 'not-allowed' : 'pointer', color: 'rgba(255,255,255,.7)', fontSize: '.8125rem', padding: 0, textDecoration: 'underline' }}
         >
-          {connecting ? 'Connecting…' : 'Connect Gmail'}
+          {connecting ? 'Connecting…' : status?.needs_reconnect ? 'Reconnect Gmail' : 'Connect Gmail'}
         </button>
       </div>
     );
@@ -121,9 +121,13 @@ export default function GmailWidget({ professorId, returnPath, draftId, onBefore
       fontSize: '.875rem',
     }}>
       <span className="status-dot grey" />
-      <span style={{ color: 'var(--muted)', flex: 1 }}>Gmail not connected</span>
+      <span style={{ color: 'var(--muted)', flex: 1 }}>
+        {status?.needs_reconnect ? 'Your Gmail connection needs to be renewed' : 'Gmail not connected'}
+      </span>
       <button onClick={handleConnect} disabled={connecting} className="btn btn-primary btn-sm">
-        {connecting ? <><Spinner size={13} color="#fff" /> Connecting…</> : 'Connect Gmail'}
+        {connecting
+          ? <><Spinner size={13} color="#fff" /> Connecting…</>
+          : status?.needs_reconnect ? 'Reconnect Gmail' : 'Connect Gmail'}
       </button>
     </div>
   );

@@ -2,12 +2,19 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from app.cv.extraction.schema import ExtractedStudentProfile
+from app.cv.extraction.schema import ExtractedStudentProfile, ProjectExtract, PublicationExtract
 from app.matching.evidence import excerpt_for_label, labels_in_text, why_from_evidence
 from app.matching.models import MatchEvidence, dedupe_evidence
-from app.matching.normalize import catalog_index, normalize_label, scoring_labels
+from app.matching.normalize import (
+    canonical_catalog_name,
+    catalog_index,
+    is_generic_area,
+    normalize_label,
+    scoring_labels,
+)
+from app.matching.taxonomy import RELATED_CREDIT, related_labels
 
-MATCH_VERSION = "v1"
+MATCH_VERSION = "v2"
 
 WEIGHTS = {
     "interests": 0.55,
@@ -37,6 +44,9 @@ class ProfessorMatchResult:
     why: list[str]
     components: ComponentScores
     matched_areas: list[str]
+    # (student label, professor label) pairs that earned partial credit as
+    # close neighbours. Never part of research_overlap.
+    related_areas: list[tuple[str, str]] = field(default_factory=list)
 
 
 def priority_for_score(score: int) -> str:
@@ -62,9 +72,10 @@ def score_professor(
     catalog = catalog_index(catalog_names)
     professor_scoring = scoring_labels(professor_areas, catalog)
     professor_set = {normalize_label(name) for name in professor_scoring}
+    professor_by_key = {normalize_label(name): name for name in professor_scoring}
 
-    interest_labels = scoring_labels(student.research_interests, catalog)
-    signal_labels = scoring_labels(student.research_signals, catalog)
+    interest_labels = student_labels(student.research_interests, catalog_names)
+    signal_labels = student_labels(student.research_signals, catalog_names)
     artifact_hits = _artifact_hits(student, catalog_names)
     artifact_labels = scoring_labels([hit.area_name for hit in artifact_hits if hit.area_name], catalog)
 
@@ -76,6 +87,11 @@ def score_professor(
         _intersection(interest_labels, professor_set),
         _intersection(signal_labels, professor_set),
         _intersection(artifact_labels, professor_set),
+    )
+    related = _related_pairs(
+        _ordered_union(interest_labels, signal_labels, artifact_labels),
+        matched,
+        professor_by_key,
     )
 
     corroboration_score = None
@@ -103,15 +119,34 @@ def score_professor(
         research_summary=research_summary,
     )
     overlap = _ordered_union(matched)
+    why = why_from_evidence(evidence)
+    for student_area, professor_area in related:
+        why.append(f"{student_area} on your CV is closely related to this professor's work in {professor_area}.")
     return ProfessorMatchResult(
         score=score,
         priority=priority_for_score(score),
         research_overlap=overlap,
         evidence=evidence,
-        why=why_from_evidence(evidence),
+        why=why,
         components=components,
         matched_areas=matched,
+        related_areas=related,
     )
+
+
+def student_labels(values: list[str], catalog_names: list[str]) -> list[str]:
+    """Resolve free-text student areas to catalog labels.
+
+    An exact catalog name wins; otherwise the text is scanned for catalog
+    names and aliases, so "NLP" or "LLMs for legal text" still resolve.
+    Generic labels never count.
+    """
+    catalog = catalog_index(catalog_names)
+    resolved: list[str] = []
+    for value in values:
+        canonical = canonical_catalog_name(value, catalog)
+        resolved.extend([canonical] if canonical else labels_in_text(value, catalog_names))
+    return [name for name in _ordered_union(resolved) if not is_generic_area(name)]
 
 
 def combine_components(components: ComponentScores) -> int:
@@ -133,11 +168,37 @@ def combine_components(components: ComponentScores) -> int:
     return clamp_score(total)
 
 
-def _coverage_score(student_labels: list[str], professor_set: set[str]) -> float:
-    if not student_labels:
+def _coverage_score(labels: list[str], professor_set: set[str]) -> float:
+    """Share of the student's labels the professor covers.
+
+    An exact match counts fully; a close neighbour counts RELATED_CREDIT.
+    """
+    if not labels:
         return 0.0
-    matched = _intersection(student_labels, professor_set)
-    return 100.0 * len(matched) / len(student_labels)
+    credit = 0.0
+    for name in labels:
+        if normalize_label(name) in professor_set:
+            credit += 1.0
+        elif related_labels(name) & professor_set:
+            credit += RELATED_CREDIT
+    return 100.0 * credit / len(labels)
+
+
+def _related_pairs(
+    labels: list[str],
+    matched: list[str],
+    professor_by_key: dict[str, str],
+) -> list[tuple[str, str]]:
+    matched_keys = {normalize_label(name) for name in matched}
+    pairs: list[tuple[str, str]] = []
+    for name in labels:
+        if normalize_label(name) in matched_keys:
+            continue
+        for key in sorted(related_labels(name)):
+            if key in professor_by_key and key not in matched_keys:
+                pairs.append((name, professor_by_key[key]))
+                break
+    return pairs
 
 
 def _intersection(labels: list[str], professor_set: set[str]) -> list[str]:

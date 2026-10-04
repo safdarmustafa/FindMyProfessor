@@ -58,7 +58,7 @@
       "lab": null,
       "name": "Kamalika Chaudhuri",
       "title": "Primary Faculty, CSE Artificial Intelligence Group",
-      "email": null,
+      "email": "kamalika@cs.ucsd.edu",
       "website_url": "https://ai.ucsd.edu/faculty",
       "linkedin_url": null,
       "biography": "Official Primary Faculty, CSE Artificial Intelligence Group listing at the source university page.",
@@ -74,7 +74,8 @@
       "research_areas": [
         "Machine Learning",
         "Trustworthy AI"
-      ]
+      ],
+      "email_source_url": "https://cse.ucsd.edu/people/faculty-profiles/kamalika-chaudhuri"
     },
     {
       "id": "henrik-christensen",
@@ -108,7 +109,7 @@
       "lab": null,
       "name": "Gary Cottrell",
       "title": "Primary Faculty, CSE Artificial Intelligence Group",
-      "email": null,
+      "email": "gary@ucsd.edu",
       "website_url": "https://ai.ucsd.edu/faculty",
       "linkedin_url": null,
       "biography": "Official Primary Faculty, CSE Artificial Intelligence Group listing at the source university page.",
@@ -124,7 +125,8 @@
       "research_areas": [
         "Artificial Intelligence",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "https://cse.ucsd.edu/people/faculty-profiles/gary-cottrell"
     },
     {
       "id": "sanjoy-dasgupta",
@@ -133,7 +135,7 @@
       "lab": null,
       "name": "Sanjoy Dasgupta",
       "title": "Primary Faculty, CSE Artificial Intelligence Group",
-      "email": null,
+      "email": "dasgupta@eng.ucsd.edu",
       "website_url": "https://ai.ucsd.edu/faculty",
       "linkedin_url": null,
       "biography": "Official Primary Faculty, CSE Artificial Intelligence Group listing at the source university page.",
@@ -148,7 +150,8 @@
       "source_url": "https://ai.ucsd.edu/faculty",
       "research_areas": [
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "http://www.cs.ucsd.edu/~dasgupta"
     },
     {
       "id": "yoav-freund",
@@ -157,7 +160,7 @@
       "lab": null,
       "name": "Yoav Freund",
       "title": "Primary Faculty, CSE Artificial Intelligence Group",
-      "email": null,
+      "email": "yfreund@ucsd.edu",
       "website_url": "https://ai.ucsd.edu/faculty",
       "linkedin_url": null,
       "biography": "Official Primary Faculty, CSE Artificial Intelligence Group listing at the source university page.",
@@ -172,7 +175,8 @@
       "source_url": "https://ai.ucsd.edu/faculty",
       "research_areas": [
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "http://www.cs.ucsd.edu/~yfreund"
     },
     {
       "id": "sicun-gao",
@@ -181,7 +185,7 @@
       "lab": null,
       "name": "Sicun Gao",
       "title": "Primary Faculty, CSE Artificial Intelligence Group",
-      "email": null,
+      "email": "sicung@ucsd.edu",
       "website_url": "https://ai.ucsd.edu/faculty",
       "linkedin_url": null,
       "biography": "Official Primary Faculty, CSE Artificial Intelligence Group listing at the source university page.",
@@ -196,7 +200,8 @@
       "source_url": "https://ai.ucsd.edu/faculty",
       "research_areas": [
         "Artificial Intelligence"
-      ]
+      ],
+      "email_source_url": "https://cse.ucsd.edu/people/faculty-profiles/sicun-gao"
     },
     {
       "id": "julian-mcauley",
@@ -256,7 +261,7 @@
       "lab": null,
       "name": "Lianhui Qin",
       "title": "Primary Faculty, CSE Artificial Intelligence Group",
-      "email": null,
+      "email": "l6qin@ucsd.edu",
       "website_url": "https://ai.ucsd.edu/faculty",
       "linkedin_url": null,
       "biography": "Official Primary Faculty, CSE Artificial Intelligence Group listing at the source university page.",
@@ -272,7 +277,8 @@
       "research_areas": [
         "Natural Language Processing",
         "Large Language Models"
-      ]
+      ],
+      "email_source_url": "https://cse.ucsd.edu/people/faculty-profiles/lianhui-qin"
     },
     {
       "id": "laurel-riek",
@@ -381,7 +387,7 @@
       "lab": null,
       "name": "Manmohan Chandraker",
       "title": "Affiliated Faculty, CSE Artificial Intelligence Group",
-      "email": null,
+      "email": "mkchandraker@ucsd.edu",
       "website_url": "https://ai.ucsd.edu/faculty",
       "linkedin_url": null,
       "biography": "Official Affiliated Faculty, CSE Artificial Intelligence Group listing at the source university page.",
@@ -397,7 +403,8 @@
       "research_areas": [
         "Computer Vision",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "http://cseweb.ucsd.edu/~mkchandraker/"
     },
     {
       "id": "hao-su",
@@ -432,7 +439,7 @@
       "lab": "viscomp",
       "name": "Ravi Ramamoorthi",
       "title": "Affiliated Faculty, CSE Artificial Intelligence Group",
-      "email": null,
+      "email": "ravir@cs.ucsd.edu",
       "website_url": "https://ai.ucsd.edu/faculty",
       "linkedin_url": null,
       "biography": "Official Affiliated Faculty, CSE Artificial Intelligence Group listing at the source university page.",
@@ -448,7 +455,8 @@
       "research_areas": [
         "Computer Vision",
         "Machine Learning"
-      ]
+      ],
+      "email_source_url": "http://cseweb.ucsd.edu/~ravir/"
     },
     {
       "id": "arun-kumar",
@@ -457,7 +465,7 @@
       "lab": null,
       "name": "Arun Kumar",
       "title": "Affiliated Faculty, CSE Artificial Intelligence Group",
-      "email": null,
+      "email": "akk018@ucsd.edu",
       "website_url": "https://ai.ucsd.edu/faculty",
       "linkedin_url": null,
       "biography": "Official Affiliated Faculty, CSE Artificial Intelligence Group listing at the source university page.",
@@ -473,7 +481,8 @@
       "research_areas": [
         "Data Science",
         "AI Systems"
-      ]
+      ],
+      "email_source_url": "http://cseweb.ucsd.edu/~arunkk/"
     },
     {
       "id": "zhiting-hu",
@@ -482,7 +491,7 @@
       "lab": null,
       "name": "Zhiting Hu",
       "title": "Affiliated Faculty, CSE Artificial Intelligence Group",
-      "email": null,
+      "email": "zhh019@ucsd.edu",
       "website_url": "https://ai.ucsd.edu/faculty",
       "linkedin_url": null,
       "biography": "Official Affiliated Faculty, CSE Artificial Intelligence Group listing at the source university page.",
@@ -498,7 +507,8 @@
       "research_areas": [
         "Machine Learning",
         "Natural Language Processing"
-      ]
+      ],
+      "email_source_url": "http://zhiting.ucsd.edu/"
     },
     {
       "id": "david-kriegman",
@@ -507,7 +517,7 @@
       "lab": null,
       "name": "David Kriegman",
       "title": "Affiliated Faculty, CSE Artificial Intelligence Group",
-      "email": null,
+      "email": "kriegman@cs.ucsd.edu",
       "website_url": "https://ai.ucsd.edu/faculty",
       "linkedin_url": null,
       "biography": "Official Affiliated Faculty, CSE Artificial Intelligence Group listing at the source university page.",
@@ -522,7 +532,8 @@
       "source_url": "https://ai.ucsd.edu/faculty",
       "research_areas": [
         "Computer Vision"
-      ]
+      ],
+      "email_source_url": "https://cse.ucsd.edu/people/faculty-profiles/david-kriegman"
     },
     {
       "id": "alon-orlitsky",
@@ -531,7 +542,7 @@
       "lab": null,
       "name": "Alon Orlitsky",
       "title": "Affiliated Faculty, CSE Artificial Intelligence Group",
-      "email": null,
+      "email": "alon@ucsd.edu",
       "website_url": "https://ai.ucsd.edu/faculty",
       "linkedin_url": null,
       "biography": "Official Affiliated Faculty, CSE Artificial Intelligence Group listing at the source university page.",
@@ -547,7 +558,8 @@
       "research_areas": [
         "Machine Learning",
         "Data Science"
-      ]
+      ],
+      "email_source_url": "https://cse.ucsd.edu/people/faculty-profiles/alon-orlitsky"
     },
     {
       "id": "berk-ustun",
@@ -556,7 +568,7 @@
       "lab": null,
       "name": "Berk Ustun",
       "title": "Affiliated Faculty, CSE Artificial Intelligence Group",
-      "email": null,
+      "email": "berk@ucsd.edu",
       "website_url": "https://ai.ucsd.edu/faculty",
       "linkedin_url": null,
       "biography": "Official Affiliated Faculty, CSE Artificial Intelligence Group listing at the source university page.",
@@ -572,7 +584,8 @@
       "research_areas": [
         "Machine Learning",
         "Trustworthy AI"
-      ]
+      ],
+      "email_source_url": "https://cse.ucsd.edu/people/faculty-profiles/berk-ustun"
     },
     {
       "id": "shlomo-dubnov",
